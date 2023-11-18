@@ -56,7 +56,7 @@ if($_SESSION == null){
                                 <button type="submit" name="login" class="flex w-full justify-center rounded-full bg-gray-700 px-3 py-0.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-900">Sign in</button>
                             </div>
                             <div class="mt-2">
-                                <div  id="login-cancel" class="flex w-full justify-center rounded-full border-2 border-gray-700 px-3 py-0.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-300 hover:border-2 cursor-pointer">Cancel</div>
+                                <div  id="login-cancel" class="flex w-full justify-center rounded-full border border-gray-700 px-3 py-0.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-300 cursor-pointer">Cancel</div>
                             </div>
                         </form>
                     </div>
