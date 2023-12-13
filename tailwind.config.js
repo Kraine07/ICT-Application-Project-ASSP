@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     extend: {
       boxShadow:{
-        custom:'0px 0px 20px #00000088'
+        'custom':'0px 0px 20px #00000088',
+        'custom-sm':'0px 0px 12px #00000044'
       },
 
     },
