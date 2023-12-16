@@ -1,3 +1,4 @@
+// LANDING PAGE
 const loginFormButton = document.getElementById('login');
 const loginForm = document.getElementById('login-form');
 const loginCancel = document.getElementById('login-cancel');
@@ -18,3 +19,5 @@ window.onclick = function(event) {
         loginForm.classList.add("hidden");
     }
 }
+
+
