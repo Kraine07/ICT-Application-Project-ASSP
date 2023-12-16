@@ -24,7 +24,7 @@
                     <!-- Password input -->
                     <div class="mt-2">
                         <div class="">
-                            <input placeholder="Password (required)" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 outline-0 py-0.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-gray-700 sm:text-sm sm:leading-6">
+                            <input placeholder="Password (required)" id="password" name="password" type="password" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." required class="block w-full rounded-md border-0 outline-0 py-0.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-gray-700 sm:text-sm sm:leading-6">
                         </div>
                     </div>
 

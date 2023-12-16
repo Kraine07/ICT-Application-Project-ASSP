@@ -26,7 +26,7 @@ $results = $_SESSION['movie-search-results'];
         <button id="search-movie-btn" class="bg-green-300 px-12 py-2 mt-12 rounded-lg block">Find Movie</button>
     </div>
 
-    <div class="w-3/4 h-screen bg-slate-300">
+    <div class="w-3/4 h-screen bg-slate-300 overflow-auto">
 
     <?php
 

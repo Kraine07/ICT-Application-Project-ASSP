@@ -24,16 +24,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         $response = fetchData($search_movie);
 
-        if(!isset($response->{'success'})){  // check if api call was successful
-            $_SESSION['movie-search-results'] = $results = $response-> {'results'};
-
-            $_SESSION['screen'] = "list";
-
-            }
-        else{
-            showErrorMessage($response->{'status_message'},'index');
+        if($response == null){
+            showErrorMessage('No connection to source. Please try again or contact technical support.','index');
         }
+        else{
+            if(!isset($response->{'success'})){  // check if api call was successful
+                $_SESSION['movie-search-results'] = $results = $response-> {'results'};
 
+                $_SESSION['screen'] = "list";
+
+                }
+            else{
+                showErrorMessage($response->{'status_message'},'index');
+            }
+
+        }
     }
     elseif(isset($_POST['movie-id'])){
         $movie_id = $_POST['movie-id'];
@@ -77,7 +82,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $sql = "INSERT INTO {$movie_table} VALUES (?,?,?,?,?,?,?)";
 
         if($conn){
-            $result = mysqli_execute_query($conn,$sql,[
+            if($result = mysqli_execute_query($conn,$sql,[
                 $_SESSION['movie-id'],
                 $_SESSION['title'],
                 $_SESSION['plot'],
@@ -85,12 +90,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $_SESSION['poster'],
                 $_SESSION['trailer'],
                 $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
-            ]);
+            ])){
+                $sql = "INSERT INTO {$has_genre_table} VALUES (?,?)";
+                if($result = mysqli_execute_query($conn,$sql,[
+                    $_SESSION['movie-id'],
+                    $_SESSION['title'],
+                    $_SESSION['plot'],
+                    $_SESSION['duration'],
+                    $_SESSION['poster'],
+                    $_SESSION['trailer'],
+                    $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
+                ])){
+                    echo "Success";
+                }
+                else{
+                    echo "could not add genres";
+                }
+            }
+            else{
+                echo "could not add movie";
+            }
+            ;
 
         }
         else{
-            $_POST['movie-id'] = $_SESSION['movie-id'];
-            showErrorMessage('Database connection error. Please try again or contact technical support.','add-movie');
+            showErrorMessage('Database connection error. Please try again or contact technical support.','index');
         }
     }
 }

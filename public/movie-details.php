@@ -9,7 +9,7 @@
     $_SESSION['genres'] = $genres;
 ?>
 
-<div class="absolute w-screen h-screen  p-12 bg-slate-300">
+<div class="absolute w-5/6 h-5/6  p-12 bg-slate-300 shadow-custom-sm left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 " id="movie-details">
 
 
     <div class="flex justify-between">
@@ -18,7 +18,8 @@
         </div>
         <div class="w-3/5 text-slate-700">
             <div class="flex justify-between items-start mb-4">
-                <span class="text-4xl font-light"> <?php echo $title;?> </span>
+                <span class="text-2xl font-light"> <?php echo $title;?> </span>
+                <span class="px-6 py-1 bg-red-300 rounded-full text-xs cursor-pointer" id="close-movie-details">CLOSE</span>
             </div>
             <div class="flex  mt-2">
                 <?php
@@ -28,11 +29,11 @@
                 ?>
             </div>
 
-            <p class="my-6  text-sm"> <?php echo $plot; ?> </p>
+            <p class="my-6  text-xs"> <?php echo $plot; ?> </p>
 
             <div class="flex justify-start w-full h-1/3  my-4">
                 <div class="w-2/3 ">
-                    <iframe width="380" height="200" src=<?php echo $trailer; ?>></iframe>
+                    <iframe width="300" height="200" src=<?php echo $trailer; ?>></iframe>
                 </div>
                 <div class="flex flex-col justify-end w-1/4 h-full ml-8 ">
                     <div class="flex justify-between w-full">

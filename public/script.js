@@ -8,6 +8,9 @@ const loginCancel = document.getElementById('login-cancel');
 const searchMovieButton = document.getElementById('search-movie-btn');
 const searchMovieForm = document.getElementById('search-movie-form');
 
+const movieDetails = document.getElementById('movie-details');
+const closeMovieDetailsButton = document.getElementById('close-movie-details');
+
 
 var slideIndex = 1;
 var timer;
@@ -49,6 +52,12 @@ window.onclick = function(event) {
         searchMovieForm.classList.add("hidden");
     }
 }
+
+}
+else if(movieDetails != null){
+    closeMovieDetailsButton.addEventListener('click',()=>{
+        movieDetails.classList.add('hidden')
+    })
 
 }
 

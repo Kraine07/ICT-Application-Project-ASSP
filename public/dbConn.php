@@ -17,9 +17,9 @@
     $has_genre_table = 'has_genre';
     $is_scheduled_for_table = "is_scheduled_for";
 
-    // default admin password
-    $hPassword = hash("sha256","1234");
-    $screens = ['cinema 1','cinema 2','cinema 3','cinema 4'];
+    // default admin password (hashed)
+    $hPassword = hash("sha256","Admin123");
+
 
     // establish a database connection
     $conn = mysqli_connect($host,$user,$password);
@@ -31,8 +31,7 @@
         $result = mysqli_query($conn,$sql);
 
         if(mysqli_num_rows($result) < 1){
-            createDatabaseAndTables($conn,$database, $hPassword);
-            populateGenreTable($conn, $database);
+            setupDatabase($conn,$database, $hPassword);
         }
         else{
             $conn = mysqli_connect($host,$user,$password,$database);
@@ -40,7 +39,7 @@
     }
 
 
-    function populateGenreTable($conn, $db){
+    function populateGenreTable($conn, $database){
         require_once('api-handler.php');
         $genre_url = "https://api.themoviedb.org/3/genre/movie/list";
         $response = fetchData($genre_url);
@@ -49,13 +48,21 @@
         foreach($genres as $genre){
             $genre_id = $genre->{'id'};
             $genre_name = $genre->{'name'};
-            $sql = "INSERT INTO `{$db}`.`genre` VALUES ({$genre_id},'{$genre_name}')";
+            $sql = "INSERT INTO `{$database}`.`genre` VALUES ({$genre_id},'{$genre_name}')";
+            mysqli_query($conn, $sql);
+        }
+    }
+
+    function populateScreenTable($conn, $database){
+        $screens = ['cinema 1','cinema 2','cinema 3','cinema 4'];
+        foreach($screens as $screen){
+            $sql = "INSERT INTO `{$database}`.`screen` VALUES ('', '{$screen}')";
             mysqli_query($conn, $sql);
         }
     }
 
 
-    function createDatabaseAndTables($conn, $db, $password){
+    function setupDatabase($conn, $db, $password){
         $multi_sql = "
             CREATE DATABASE {$db};
 
@@ -65,9 +72,9 @@
 
             CREATE TABLE `{$db}`.`movie` (`movie_id` INT NOT NULL , `movie_title` VARCHAR(100) NOT NULL , `movie_plot` VARCHAR(500) NOT NULL , `movie_duration` INT NOT NULL , `movie_poster` VARCHAR(100) NOT NULL , `movie_trailer` VARCHAR(100) NOT NULL , `movie_rating` VARCHAR(10) NOT NULL , PRIMARY KEY (`movie_id`)) ENGINE = InnoDB;
 
-            CREATE TABLE `{$db}`.`screen` (`screen_id` INT NOT NULL , `screen_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`screen_id`)) ENGINE = InnoDB;
+            CREATE TABLE `{$db}`.`screen` (`screen_id` INT NOT NULL AUTO_INCREMENT, `screen_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`screen_id`)) ENGINE = InnoDB;
 
-            CREATE TABLE `{$db}`.`genre` (`genre_id` INT NOT NULL , `genre_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`genre_id`)) ENGINE = InnoDB;
+            CREATE TABLE `{$db}`.`genre` (`genre_id` INT NOT NULL AUTO_INCREMENT, `genre_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`genre_id`)) ENGINE = InnoDB;
 
             CREATE TABLE `{$db}`.`has_genre` (`movie` int(11) NOT null,`genre` int(11) NOT NULL, KEY `movie` (`movie`),  KEY `genre` (`genre`), CONSTRAINT `has_genre_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `has_genre_fk2` FOREIGN KEY (`genre`) REFERENCES `genre` (`genre_id`) ) ENGINE=INNODB;
 
@@ -76,5 +83,7 @@
         ";
         mysqli_multi_query($conn,$multi_sql);
         while(mysqli_next_result($conn));
+        populateGenreTable($conn, $db);
+        populateScreenTable($conn, $db);
     }
 ?>
