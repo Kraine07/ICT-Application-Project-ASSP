@@ -3,18 +3,43 @@
 session_start();
 // session_destroy();
 
-require_once('api-handler.php');
-require_once('error-handler.php');
-require_once('dbConn.php');
+
 
 // initialize session variables
 if($_SESSION == null){
+    $_SESSION['db-setup'] = false;
     $_SESSION['auth-user'] = false;
     $_SESSION['screen'] = "main";
-    $_SESSION['movie-search-results']=[];
+    $_SESSION['first-name'] = "";
+    $_SESSION['last-name'] = "";
+    $_SESSION['email'] = "";
+    $_SESSION['password'] = "";
+    $_SESSION['c-password'] = "";
+    $_SESSION['screen-1'] = "";
+    $_SESSION['screen-2'] = "";
+    $_SESSION['screen-3'] = "";
+    $_SESSION['screen-4'] = "";
+    $_SESSION['movie-search-results']="";
 
 }
 
+require_once('api-handler.php');
+require_once('error-handler.php');
+require_once('dbConn.php');
+require_once('redirect.php');
+
+// create database if it has not yet been created
+if($conn){
+    $sql = "SHOW DATABASES WHERE `database` = '{$database}'";
+    $result = mysqli_query($conn,$sql);
+
+    if(mysqli_num_rows($result) < 1){
+        redirect('setup.php');
+    }
+    else{
+        $_SESSION['db-setup'] = true;
+    }
+}
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){

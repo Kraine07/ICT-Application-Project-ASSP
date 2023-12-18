@@ -12,18 +12,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
         $hPassword = hash("sha256",$password);
-        login($email,$hPassword,$conn);
+        $cred = [$email,$hPassword];
+        login($cred,$conn,$database,$user_table);
     }
 }
 
 
 
 // handle login process
-function login($email,$password,$conn){
-    $sql = "SELECT * FROM `user` WHERE `email` = ? and `password` = ?";
+function login($credentials,$conn,$database,$user_table){
+
+    $sql = "SELECT * FROM `{$database}`.`{$user_table}` WHERE `email` = ? and `password` = ?";
 
     if($conn){ // check for database connection
-        $result = mysqli_execute_query($conn,$sql,[$email,$password]);
+        $result = mysqli_execute_query($conn,$sql,$credentials);
 
         if($result === false){ // check if query failed
             showErrorMessage('Something went wrong. Please try again or contact technical support.','index');
@@ -45,6 +47,7 @@ function login($email,$password,$conn){
                 //USER LOGGED IN
                 $_SESSION['auth-user'] = true;
                 redirect('index.php');
+
                 // RESET LOGIN ATTEMPTS
 
             }
