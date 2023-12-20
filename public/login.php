@@ -11,31 +11,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['login'])){
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
-
-        login($email,$password,$conn);
-        redirect('index.php');
+        $hPassword = hash("sha256",$password);
+        $cred = [$email,$hPassword];
+        login($cred,$conn,$database,$user_table);
     }
 }
 
 
 
 // handle login process
-function login($email,$password,$conn){
-    $sql = "SELECT * FROM `user` WHERE `email` = ? and `password` = ?";
+function login($credentials,$conn,$database,$user_table){
+
+    $sql = "SELECT * FROM `{$database}`.`{$user_table}` WHERE `email` = ? and `password` = ?";
 
     if($conn){ // check for database connection
-        resetErrorMessage();
-        $result = mysqli_execute_query($conn,$sql,[$email,$password]);
+        $result = mysqli_execute_query($conn,$sql,$credentials);
 
         if($result === false){ // check if query failed
-            showErrorMessage('Something went wrong. Please try again');
+            showErrorMessage('Something went wrong. Please try again or contact technical support.','index');
+            return false;
         }
         else{
-            resetErrorMessage();
             if(!mysqli_fetch_array($result)){
 
                 // DISPLAY 'USER NOT AUTHORIZED' MESSAGE
-                showErrorMessage('User not authorized');
+                showErrorMessage('User not authorized. Please try again.','index');
+                return false;
 
                 // DEPRECATE LOGIN ATTEMPTS
 
@@ -44,16 +45,14 @@ function login($email,$password,$conn){
             }else{
 
                 //USER LOGGED IN
-                resetErrorMessage();
-                redirect('admin-panel.php');
+                $_SESSION['auth-user'] = true;
+                redirect('index.php');
+
                 // RESET LOGIN ATTEMPTS
 
             }
 
         }
-    }
-    else{
-        showErrorMessage('Database connection error. Please try again or contact system administrator.');
     }
 
 
