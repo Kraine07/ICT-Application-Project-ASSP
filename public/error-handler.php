@@ -1,6 +1,6 @@
 <?php
 // turn off error reports
-// error_reporting(E_ERROR | E_PARSE);
+error_reporting(0);
 
 include('./partials/head.php');
 
@@ -18,11 +18,11 @@ function showErrorMessage($message, $redirect){
 
 }
 
-function handleError($errno, $errstr) {
-    // echo "<b>Error from custom:</b> [$errno] $errstr";
-    showErrorMessage($errstr,'index');
-    die();
-}
-set_error_handler('handleError');
+// function handleError($errno, $errstr) {
+//     // echo "<b>Error from custom:</b> [$errno] $errstr";
+//     showErrorMessage($errstr,'index');
+//     die();
+// }
+// set_error_handler('handleError');
 
 ?>

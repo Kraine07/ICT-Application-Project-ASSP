@@ -7,14 +7,16 @@ if(!isset($_SESSION)){
 
 require_once('./partials/head.php');
 require_once('dbConn.php');
+require_once('redirect.php');
 require_once('error-handler.php');
 
 
-
+if($_SESSION['db-setup'] == true){
+    redirect('index.php');
+}
 
 // when setup form is posted
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $_SESSION['db-setup'] = true;
 
     $_SESSION['first-name'] = trim($_POST['f-name']);
     $_SESSION['last-name'] = trim($_POST['l-name']);
@@ -133,8 +135,8 @@ $screen4  = $_SESSION['screen-4'];
 
 
 
-
 ?>
+
 
 <div class="h-screen w-screen bg-gray-700 p-4">
     <h1 class="text-4xl text-center text-slate-200 font-light pb-12">Initial Setup</h1>

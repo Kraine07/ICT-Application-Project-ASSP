@@ -2,7 +2,9 @@
 
     require_once('error-handler.php');
     require_once('redirect.php');
-    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // enable mysql error reporting
+
+    //turn off mysqli error reporting
+    // mysqli_report(MYSQLI_REPORT_OFF);
 
 
     $host = "localhost";
@@ -23,10 +25,13 @@
 
 
     // establish a database connection
-    $conn = mysqli_connect($host,$user,$password);
+    $conn = @mysqli_connect($host,$user,$password);
+    if(!$conn){
+
+        showErrorMessage('Error connecting to database server. Please try again or contact technical support.', 'index');
+    }
 
 
-    
 
 
 ?>

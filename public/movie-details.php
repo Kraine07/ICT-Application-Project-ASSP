@@ -46,10 +46,10 @@
                             <p class="w-full text-xl font-semibold"><?php echo $duration; ?> <span class="font-light text-sm">minutes</span></p>
                         </div>
                     </div>
-                    <form action="index.php" method="post" id="movie-details">
+                    <form action="index.php" method="post">
                         <input type="text" name="movie-details" value="000" hidden>
+                        <button class=" bg-amber-600 w-full py-1 mt-4 text-slate-100 text-lg rounded-full">Add Movie</button>
                     </form>
-                    <button form="movie-details" class=" bg-amber-600 w-full py-1 mt-4 text-slate-100 text-lg rounded-full">Add Movie</button>
                 </div>
             </div>
         </div>

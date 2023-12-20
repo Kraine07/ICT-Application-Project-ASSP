@@ -7,6 +7,7 @@ session_start();
 
 // initialize session variables
 if($_SESSION == null){
+    // user
     $_SESSION['db-setup'] = false;
     $_SESSION['auth-user'] = false;
     $_SESSION['screen'] = "main";
@@ -15,10 +16,15 @@ if($_SESSION == null){
     $_SESSION['email'] = "";
     $_SESSION['password'] = "";
     $_SESSION['c-password'] = "";
+    $_SESSION['role'] = "";
+
+    // screen
     $_SESSION['screen-1'] = "";
     $_SESSION['screen-2'] = "";
     $_SESSION['screen-3'] = "";
     $_SESSION['screen-4'] = "";
+    $_SESSION['screen-name'] = "";
+
     $_SESSION['movie-search-results']="";
 
 }
@@ -43,8 +49,17 @@ if($conn){
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if(isset($_POST['movie_search'])){
-        $query = trim($_POST['movie_search']);
+    if(isset($_POST['manage-movies'])){
+        $_SESSION['screen'] = "movie";
+    }
+    elseif(isset($_POST['manage-schedules'])){
+        $_SESSION['screen'] = "schedule";
+    }
+    elseif(isset($_POST['manage-users'])){
+        $_SESSION['screen'] = "user";
+    }
+    elseif(isset($_POST['search_movie'])){ // POST from search movie title modal (partials/admin-panel.php)
+        $query = trim($_POST['search_movie']);
         $search_movie = "https://api.themoviedb.org/3/search/movie?&include_adult=false&query={$query}";
 
         $response = fetchData($search_movie);
@@ -56,7 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(!isset($response->{'success'})){  // check if api call was successful
                 $_SESSION['movie-search-results'] = $results = $response-> {'results'};
 
-                $_SESSION['screen'] = "list";
+                $_SESSION['screen'] = "movie-result-list";
 
                 }
             else{
@@ -104,45 +119,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         require_once('movie-details.php');
     }
     elseif(isset($_POST['movie-details'])){
-        $sql = "INSERT INTO {$movie_table} VALUES (?,?,?,?,?,?,?)";
-
-        if($conn){
-            if($result = mysqli_execute_query($conn,$sql,[
+        // TODO handle mysql errors
+        $sql = "INSERT INTO `{$database}`.`{$movie_table}` VALUES (?,?,?,?,?,?,?)";
+        // add movie to database
+        $result = mysqli_execute_query($conn,$sql,[
+            $_SESSION['movie-id'],
+            $_SESSION['title'],
+            $_SESSION['plot'],
+            $_SESSION['duration'],
+            $_SESSION['poster'],
+            $_SESSION['trailer'],
+            $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
+        ]);
+        // add genres to database
+        foreach($_SESSION['genres'] as $genre){
+            $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
+            $result = mysqli_execute_query($conn,$genre_sql,[
                 $_SESSION['movie-id'],
-                $_SESSION['title'],
-                $_SESSION['plot'],
-                $_SESSION['duration'],
-                $_SESSION['poster'],
-                $_SESSION['trailer'],
-                $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
-            ])){
-                $sql = "INSERT INTO {$has_genre_table} VALUES (?,?)";
-                if($result = mysqli_execute_query($conn,$sql,[
-                    $_SESSION['movie-id'],
-                    $_SESSION['title'],
-                    $_SESSION['plot'],
-                    $_SESSION['duration'],
-                    $_SESSION['poster'],
-                    $_SESSION['trailer'],
-                    $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
-                ])){
-                    echo "Success";
-                }
-                else{
-                    echo "could not add genres";
-                }
-            }
-            else{
-                echo "could not add movie";
-            }
-            ;
-
+                $genre->{'id'}
+        ]);
         }
-        else{
-            showErrorMessage('Database connection error. Please try again or contact technical support.','index');
-        }
+        // return to movies main screen
+        $_SESSION['screen'] = "movie";
     }
 }
+
 
 
 
