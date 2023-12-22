@@ -38,9 +38,9 @@ $results = $_SESSION['movie-search-results'];
                 <form id="manage-schedules" action="index.php" method="post"><input type="text" name="manage-schedules" hidden></form>
                 <form id="manage-users" action="index.php" method="post"><input type="text" name="manage-users"  hidden></form>
 
-                <button form="manage-movies" autofocus id='movies-menu-button' class='w-full font-semibold text-lg focus:bg-[#d9d9d9]  focus:text-[#141e46]    focus:outline-none py-2        selected' >Manage Movies</button>
-                <button form="manage-schedules" id='schedule-menu-button' class="w-full font-semibold text-lg py-2 focus:bg-[#d9d9d9]  focus:text-[#141e46]    focus:outline-none">Manage Schedules</button>
-                <button form="manage-users" id='users-menu-button' class=" w-full font-semibold text-lg py-2 focus:bg-[#d9d9d9]  focus:text-[#141e46]    focus:outline-none">Manage Users</button>
+                <button form="manage-movies" id='movies-menu-button' class='w-full font-semibold text-lg  py-2 <?php  echo $_SESSION['screen']=='movie'? 'bg-white text-blue-950':'';  ?>       selected' >Manage Movies</button>
+                <button form="manage-schedules" id='schedule-menu-button' class="w-full font-semibold text-lg py-2 <?php  echo $_SESSION['screen']=='schedule'? 'bg-white text-blue-950':'';  ?>">Manage Schedules</button>
+                <button form="manage-users" id='users-menu-button' class=" w-full font-semibold text-lg py-2 <?php  echo $_SESSION['screen']=='user'? 'bg-white text-blue-950':'';  ?>">Manage Users</button>
             </div>
         </div>
 
@@ -78,7 +78,7 @@ $results = $_SESSION['movie-search-results'];
                 break;
 
             case "schedule":
-                echo "Schedule screen goes here";
+                require_once('schedule-main.php');
                 break;
 
             case "user":

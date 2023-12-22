@@ -1,9 +1,7 @@
 <?php
 require_once('dbConn.php');
-$db_movies_sql = "SELECT * FROM `{$database}`.`{$movie_table}`";
+$db_movies_sql = "SELECT * FROM `{$database}`.`{$is_scheduled_for_table}`"; // TODO JOIN
 $result = mysqli_query($conn, $db_movies_sql);
-
-
 
 
 
@@ -13,7 +11,7 @@ $result = mysqli_query($conn, $db_movies_sql);
 
 <div class="mx-8 flex flex-col items-center justify-center">
             <!-- Heading -->
-            <p class="text-blue-900 text-6xl font-light py-10   text-heading">Movie Management</p>
+            <p class="text-blue-900 text-6xl font-light py-10   text-heading">Schedule Management</p>
 
             <!-- Action buttons -->
             <div class="flex justify-between w-full my-6    action">
@@ -23,7 +21,7 @@ $result = mysqli_query($conn, $db_movies_sql);
                     <button class=" bg-blue-950 text-white p-2 lg:px-6  rounded  add-movie "  id="search-movie-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg> <span class="hidden lg:inline">ADD MOVIE</span>
+                        </svg> <span class="hidden lg:inline">NEW SCHEDULE</span>
                     </button>
                 </div>
 
@@ -42,14 +40,15 @@ $result = mysqli_query($conn, $db_movies_sql);
                 </div>
 
             </div>
-            <!-- Movie Table -->
+            <!-- Schedule Table -->
             <table class="table-fixed w-full bg-white border-2 border-[#d9d9d9]">
                 <thead class="bg-blue-950 text-white">
                     <tr>
-                        <th class="py-4 border-2 border-[#d9d9d9] w-1/2" >TITLE</th>
-                        <th class="border-2 border-[#d9d9d9]">DURATION</th>
-                        <th class="border-2 border-[#d9d9d9]">RATING</th>
-                        <th class="border-2 border-[#d9d9d9] ">EDIT</th>
+                        <th class="py-4 border-2 border-[#d9d9d9] w-1/2" >MOVIE</th>
+                        <th class="border-2 border-[#d9d9d9]">SCREEN</th>
+                        <th class="border-2 border-[#d9d9d9]">DATE</th>
+                        <th class="border-2 border-[#d9d9d9] ">START</th>
+                        <th class="border-2 border-[#d9d9d9] ">END</th>
                     </tr>
                 </thead>
                 <tbody class="border-2 border-[#d9d9d9]">
@@ -58,12 +57,12 @@ $result = mysqli_query($conn, $db_movies_sql);
 
                         echo '
                             <tr>
-                                <td class="border-2 border-[#d9d9d9] py-2">'.$row['movie_title'].'</td>
-                                <td class="border-2 border-[#d9d9d9]">'.$row['movie_duration'].'</td>
-                                <td class="border-2 border-[#d9d9d9]">'.$row['movie_rating'].'</td>
+                                <td class="border-2 border-[#d9d9d9] py-2"></td>
+                                <td class="border-2 border-[#d9d9d9]"></td>
+                                <td class="border-2 border-[#d9d9d9]"></td>
                                 <td class="border-2 border-[#d9d9d9]  ">
                                     <form action="edit-movie.php" method="post" class="inline">
-                                        <input name="edit-id" type="text" value="'.$row['movie_id'].'" hidden>
+                                        <input name="edit-id" type="text" value="" hidden>
                                         <input name="edit-option" type="text" value="edit" hidden>
                                         <button class="text-green-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
@@ -72,7 +71,7 @@ $result = mysqli_query($conn, $db_movies_sql);
                                         </button>
                                     </form>
                                     <form action="edit-movie.php" method="post" class="inline">
-                                        <input name="edit-id" type="text"  value="'.$row['movie_id'].'" hidden>
+                                        <input name="edit-id" type="text"  value="" hidden>
                                         <input name="edit-option" type="text" value="delete" hidden>
                                         <button class="text-red-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
