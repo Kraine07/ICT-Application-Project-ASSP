@@ -7,3 +7,4 @@
         <title>Backyard Cinema</title>
     </head>
     <body>
+        <div class="  h-screen w-screen max-w-[1280px] mx-auto flex flex-col justify-center relative overflow-hidden">

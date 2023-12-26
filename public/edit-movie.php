@@ -2,16 +2,17 @@
 require_once('redirect.php');
 require_once('dbConn.php');
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if(isset($_POST['edit-id'])){
-        require_once('./partials/head.php');
-        // handle delete and edit button clicks
-        switch($_POST['edit-option']){
-            case 'edit':
-                break;
-            case 'delete':
-                echo '
-                    <form action="edit-movie.php" method="post" id="cancel">
+function handleDeleteMovie($movie_id,$schedule_table,$conn,$database){
+    $sql = "SELECT * FROM `{$database}`.`{$schedule_table}` WHERE `movie` = {$movie_id}";
+    $result = mysqli_query($conn,$sql);
+
+    if(mysqli_num_rows($result) > 0){
+        showErrorMessage("Cannot delete movie because it is linked to a schedule.","index");
+        mysqli_free_result($result);
+    }
+    else{
+        echo '
+        <form action="edit-movie.php" method="post" id="cancel">
                         <input type="text" name="cancel-delete" value="0" hidden>
                     </form>
                     <form action="edit-movie.php" method="post" id="delete-form" class=" mt-4 pb-4 mx-auto px-6 w-[340px] shadow-custom text-sm">
@@ -28,7 +29,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             <button form="cancel" class="text-white bg-green-600  py-1 px-8 rounded-full">NO</button>
                         </div>
                     </form>
-                ';
+        ';
+        mysqli_free_result($result);
+    }
+}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if(isset($_POST['edit-id'])){
+        require_once('./partials/head.php');
+        // handle delete and edit button clicks
+        switch($_POST['edit-option']){
+            // TODO handle edit
+            case 'edit':
+                break;
+            // handle delete
+            case 'delete':
+                handleDeleteMovie($_POST['edit-id'],$is_scheduled_for_table,$conn,$database);
+                
                 break;
         }
         require_once('./partials/footer.php');

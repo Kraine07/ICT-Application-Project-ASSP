@@ -6,10 +6,10 @@ session_start();
 
 
 // initialize session variables
-if($_SESSION == null){
+if(empty($_SESSION)){
     // user
-    $_SESSION['db-setup'] = false;
-    $_SESSION['auth-user'] = false;
+    $_SESSION['db-setup'] = 0;
+    $_SESSION['auth-user'] = 0;
     $_SESSION['screen'] = "main";
     $_SESSION['first-name'] = "";
     $_SESSION['last-name'] = "";
@@ -30,7 +30,7 @@ if($_SESSION == null){
 }
 
 require_once('api-handler.php');
-require_once('error-handler.php');
+
 require_once('dbConn.php');
 require_once('redirect.php');
 
@@ -43,7 +43,7 @@ if($conn){
         redirect('setup.php');
     }
     else{
-        $_SESSION['db-setup'] = true;
+        $_SESSION['db-setup'] = 1;
     }
 }
 
@@ -142,16 +142,52 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // return to movies main screen
         $_SESSION['screen'] = "movie";
     }
+
+    // SCHEDULE
+    elseif(isset($_POST['movie'])){
+        $conflict = false;
+        $movie = $_POST['movie'];
+        $screen = $_POST['screen'];
+        $start_date = dateToUnix($_POST['start']);
+        $end_date = dateToUnix($_POST['end']);
+
+        // check for scheduling conflicts
+        $all_sql = "SELECT `screen`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}` ";
+        $result = mysqli_query($conn,$all_sql);
+        while($row = mysqli_fetch_assoc($result)){
+            if($row['screen'] == $screen && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
+                $conflict = true;
+            }
+        }
+
+
+        if(!$conflict){
+            // add schedule
+            $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
+            mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date]);
+            // TODO handle error
+            $_SESSION['screen'] = 'schedule';
+        }
+        else{
+            showErrorMessage("Scheduling conflict exists. Please adjust times or choose a different screen.","index");
+        }
+
+    }
 }
 
+function dateToUnix($date_str){
+    $new_date = date_create($date_str);
+    $unix_date = date_format($new_date,"U");
+    return $unix_date;
+}
 
 
 
 
 // handle page loading
 require_once('./partials/head.php');
-
-if($_SESSION['auth-user'] == false){
+require_once('error-handler.php');
+if($_SESSION['auth-user'] == 0){
     require_once('./partials/landing.php');
 }
 else{

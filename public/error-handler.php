@@ -1,12 +1,12 @@
 <?php
 // turn off error reports
-error_reporting(0);
+// error_reporting(0);
 
 include('./partials/head.php');
 
 function showErrorMessage($message, $redirect){
     echo '
-    <div class="h-screen w-screen bg-slate-400">
+    <div class="h-screen w-screen bg-slate-400 absolute z-30">
         <div class="w-80 rounded-lg bg-white  absolute z-30 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-red-500 border">
             <h2 class="text-lg bg-red-500 text-white p-2 font-bold">Error</h2>
             <span class=" text-sm m-2  block">'. $message . ' </span>

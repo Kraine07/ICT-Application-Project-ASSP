@@ -1,11 +1,11 @@
 <?php
 require_once('dbConn.php');
 $db_movies_sql = "SELECT * FROM `{$database}`.`{$movie_table}`";
-$result = mysqli_query($conn, $db_movies_sql);
+$_SESSION['movies'] = $result = mysqli_query($conn, $db_movies_sql);
 
 
 
-
+require_once('search-api-modal.php');
 
 ?>
 

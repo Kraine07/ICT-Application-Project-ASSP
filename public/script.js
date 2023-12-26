@@ -7,21 +7,24 @@ const loginCancel = document.getElementById('login-cancel');
 
 const searchMovieButton = document.getElementById('search-movie-btn');
 const searchMovieForm = document.getElementById('search-movie-form');
+const searchMovieInput = document.getElementById('movie_search');
 
 const movieDetails = document.getElementById('movie-details');
 const closeMovieDetailsButton = document.getElementById('close-movie-details');
+
+const newScheduleButton = document.getElementById('new-schedule-btn');
+const scheduleForm = document.getElementById('schedule-form');
+const closeScheduleFormButton = document.getElementById('close-schedule-form');
 
 
 var slideIndex = 1;
 var timer;
 
-/**
- * Below is the code that handles the login modal window
- */
 
+
+
+// LOGIN
 if(loginFormButton != null){
-
-    // open modal window when admin panel button is clicked
     loginFormButton.addEventListener('click',()=>{
         loginForm.classList.remove('hidden');
     });
@@ -31,34 +34,54 @@ if(loginFormButton != null){
         loginForm.classList.add("hidden");
     });
 
-    //click outside the window to close the modal window
+    //click outside form to close the modal window
     window.onclick = function(event) {
         if (event.target == loginForm) {
             loginForm.classList.add("hidden");
         }
     }
-
-
 }
-else if(searchMovieButton != null){
 
-// search movie modal window
+// ADD MOVIE
+else if(searchMovieButton != null){
     searchMovieButton.addEventListener('click',()=>{
-    searchMovieForm.classList.remove('hidden')
-})
-//click outside the window to close the modal window
-window.onclick = function(event) {
-    if (event.target == searchMovieForm) {
-        searchMovieForm.classList.add("hidden");
+        searchMovieForm.classList.remove('hidden');
+        searchMovieInput.focus()
+    })
+//click outside the form to close the modal window
+    window.onclick = function(event) {
+        if (event.target == searchMovieForm) {
+            searchMovieForm.classList.add("hidden");
+        }
     }
 }
 
-}
+// MOVIE DETAILS
 else if(movieDetails != null){
     closeMovieDetailsButton.addEventListener('click',()=>{
         movieDetails.classList.add('hidden')
     })
 
+    window.onclick = function(event) {
+        if (event.target == movieDetails) {
+            movieDetails.classList.add("hidden");
+        }
+    }
+}
+
+// NEW SCHEDULE
+else if(newScheduleButton != null){
+    newScheduleButton.addEventListener('click',()=>{
+        scheduleForm.classList.remove('hidden')
+    })
+    window.onclick = function(event) {
+        if (event.target == scheduleForm) {
+            scheduleForm.classList.add("hidden");
+        }
+    }
+    closeScheduleFormButton.addEventListener('click',()=>{
+        scheduleForm.classList.add('hidden');
+    })
 }
 
 
@@ -69,7 +92,6 @@ else if(movieDetails != null){
  */
 
 autoSlideshow();
-
 function autoSlideshow() {
     var i;
     var slides = document.getElementsByClassName("slides");
@@ -106,12 +128,6 @@ function nextSlide(n){
     autoSlideshow();
 }
 
-//click outside the window to close the modal window
-window.onclick = function(event) {
-    if (event.target == loginForm || event.target == titleSearch) {
-        loginForm.classList.add("hidden");
-    }
-}
 
 
 

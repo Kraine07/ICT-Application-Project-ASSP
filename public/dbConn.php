@@ -25,9 +25,8 @@
 
 
     // establish a database connection
-    $conn = @mysqli_connect($host,$user,$password);
+    $conn = mysqli_connect($host,$user,$password);
     if(!$conn){
-
         showErrorMessage('Error connecting to database server. Please try again or contact technical support.', 'index');
     }
 

@@ -45,7 +45,7 @@ function login($credentials,$conn,$database,$user_table){
             }else{
 
                 //USER LOGGED IN
-                $_SESSION['auth-user'] = true;
+                $_SESSION['auth-user'] = 1;
                 redirect('index.php');
 
                 // RESET LOGIN ATTEMPTS
