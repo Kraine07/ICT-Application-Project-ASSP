@@ -4,7 +4,7 @@
     require_once('redirect.php');
 
     //turn off mysqli error reporting
-    // mysqli_report(MYSQLI_REPORT_OFF);
+    mysqli_report(MYSQLI_REPORT_OFF);
 
 
     $host = "localhost";
@@ -25,9 +25,8 @@
 
 
     // establish a database connection
-    $conn = @mysqli_connect($host,$user,$password);
+    $conn = mysqli_connect($host,$user,$password);
     if(!$conn){
-
         showErrorMessage('Error connecting to database server. Please try again or contact technical support.', 'index');
     }
 
