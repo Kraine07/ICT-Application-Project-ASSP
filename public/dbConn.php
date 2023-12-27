@@ -4,7 +4,7 @@
     require_once('redirect.php');
 
     //turn off mysqli error reporting
-    // mysqli_report(MYSQLI_REPORT_OFF);
+    mysqli_report(MYSQLI_REPORT_OFF);
 
 
     $host = "localhost";

@@ -24,7 +24,7 @@ $screen_result = mysqli_query($conn, $screen_sql); //TODO HANDLE ERROR
         </h1>
         <form action="index.php" method="post" class="flex flex-col justify-between items-start w-full h-full p-[24px]">
             <div class="flex flex-col items-start w-full">
-                <label for="movie"><span class="text-red-600">* </span>Movie</label>
+                <label for="movie" class="text-md font-semibold"><span class="text-red-600">* </span>Movie</label>
                 <select name="movie" id="movie" class="bg-white w-3/4 py-1" required>
                     <option  hidden>Choose movie</option>
                     <?php
@@ -57,7 +57,7 @@ $screen_result = mysqli_query($conn, $screen_sql); //TODO HANDLE ERROR
                 <label for=""><span class="text-red-600">* </span>End</label>
                 <input type="datetime-local" class="" name="end" require_once>
             </div>
-            <button class="bg-blue-950 text-white">Submit</button>
+            <button class="bg-blue-950 text-white w-full p-2">Submit</button>
         </form>
     </div>
 

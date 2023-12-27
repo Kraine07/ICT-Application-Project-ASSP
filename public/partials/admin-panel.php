@@ -56,7 +56,7 @@ $results = $_SESSION['movie-search-results'];
 
 
     <!-- Section on the right(Movie, Schedule and User Management) -->
-    <div id='manage-movies' class=" bg-[#d9d9d9] items-center justify-center h-full w-3/4 text-center text-sm overflow-y-auto  selection">
+    <div id='manage-movies' class=" bg-[#d9d9d9] items-center justify-center h-full w-3/4 p-6 text-center text-sm overflow-y-auto  selection">
 
 
 

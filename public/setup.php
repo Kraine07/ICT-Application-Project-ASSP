@@ -32,9 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($_SESSION['password'] == $_SESSION['c-password']){
         $hPassword = hash("sha256",$_SESSION['password']);
 
-
-        // TODO add validation to prevent duplicate cinema names
-        $admin = ['',
+        $admin_user = [1001,
             $_SESSION['first-name'],
             $_SESSION['last-name'],
             $_SESSION['email'],
@@ -50,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         ];
 
 
-
+        // multi sql for creating database and tables
         $create_sql = "
             CREATE DATABASE IF NOT EXISTS {$database};
 
@@ -68,61 +66,96 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         ";
 
-        // create database and tables
-        mysqli_multi_query($conn, $create_sql);
-        while(mysqli_next_result($conn));
-        // TODO HANDLE ERROR
-
-
-
-        // create admin
-        $admin_sql = "INSERT INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
-        if(!mysqli_execute_query($conn, $admin_sql, $admin)){
-            showErrorMessage('Error creating admin user. Please try again or contact technical support','setup');
+        // check for duplicate screen names
+        if(checkForDuplicates($screens)){
+            showErrorMessage("Duplicated screen name. Please try again.","setup");
         }
+        else{
+            // create database and tables
+            if(mysqli_multi_query($conn, $create_sql)){
+                do{
 
+                }
+                while(mysqli_next_result($conn));
 
-
-        // populate genre table
-        populateGenreTable($conn, $database, $genre_table);
-
-        //populate screen table
-        populateScreenTable($conn, $database,$screen_table, $screens);
-        session_destroy();
-        redirect('index.php');
-
+                // create admin user
+                $admin_sql = "INSERT IGNORE INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
+                if(!mysqli_execute_query($conn, $admin_sql, $admin_user)){
+                    showErrorMessage('Error creating admin user. Please try again or contact technical support','setup');
+                }
+                else{
+                    // populate genre table
+                    if(!populateGenreTable($conn, $database, $genre_table)){
+                        showErrorMessage("Error adding genres. Please try again or contact technical support.","setup");
+                    }
+                    else{
+                        //populate screen table
+                        if(populateScreenTable($conn, $database,$screen_table, $screens)){
+                            session_destroy();
+                            redirect('index.php');
+                        }
+                        else{
+                            showErrorMessage("Error adding screens. Please try again or contact technical support.","setup");
+                        }
+                    }
+                }
+            }
+            else{
+                showErrorMessage("Error creating database. Please try again.","setup");
+            }
+        }
 
     }
     else{
-        showErrorMessage("Passwords do not match. Please try again.","index");
+        showErrorMessage("Passwords do not match. Please try again.","setup");
     }
 
-        
 
 }
 
+
+function checkForDuplicates(array $list){
+    foreach($list as $item){
+        for($i=0;$i<count($list);$i++){
+            if(strnatcasecmp($item, $list[$i]) == 0 && $i != array_search($item, $list)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 function populateGenreTable($conn, $database, $genre_table){
     require_once('api-handler.php');
     $genre_url = "https://api.themoviedb.org/3/genre/movie/list";
     $response = fetchData($genre_url);
     $genres = $response->{'genres'};
-
-    foreach($genres as $genre){
-        $genre_id = $genre->{'id'};
-        $genre_name = $genre->{'name'};
-        $sql = "INSERT INTO `{$database}`.`{$genre_table}` VALUES ({$genre_id},'{$genre_name}')";
-        mysqli_query($conn, $sql);
-        // TODO HANDLE ERROR
+    if(is_null($genres)){
+        return false;
+    }
+    else{
+        foreach($genres as $genre){
+            $genre_id = $genre->{'id'};
+            $genre_name = $genre->{'name'};
+            $genre_model = [$genre_id, $genre_name];
+            $sql = "INSERT IGNORE INTO `{$database}`.`{$genre_table}` VALUES (?,?)";
+            if(!mysqli_execute_query($conn, $sql,$genre_model)){
+                return false;
+            }
+        }
+        return true;
     }
 }
 
 function populateScreenTable($conn, $database, $screen_table, $screens){
     foreach($screens as $screen){
-        $sql = "INSERT INTO `{$database}`.`{$screen_table}` VALUES ('', '{$screen}')";
-        mysqli_query($conn, $sql);
-        // TODO HANDLE ERROR
+        $screen_model = ['',$screen];
+        $sql = "INSERT INTO `{$database}`.`{$screen_table}` VALUES (?,?)";
+        if(!mysqli_execute_query($conn, $sql, $screen_model)){
+            return false;
+        }
     }
+    return true;
 }
 
 

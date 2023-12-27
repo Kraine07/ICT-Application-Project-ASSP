@@ -49,6 +49,8 @@ if($conn){
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    // menu buttons
     if(isset($_POST['manage-movies'])){
         $_SESSION['screen'] = "movie";
     }
@@ -58,14 +60,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     elseif(isset($_POST['manage-users'])){
         $_SESSION['screen'] = "user";
     }
-    elseif(isset($_POST['search_movie'])){ // POST from search movie title modal (partials/admin-panel.php)
+
+    // POST from search movie title modal
+    elseif(isset($_POST['search_movie'])){
         $query = trim($_POST['search_movie']);
         $search_movie = "https://api.themoviedb.org/3/search/movie?&include_adult=false&query={$query}";
 
         $response = fetchData($search_movie);
 
         if($response == null){
-            showErrorMessage('No connection to source. Please try again or contact technical support.','index');
+            showErrorMessage('No connection to source. Please try again or contact technical support.');
         }
         else{
             if(!isset($response->{'success'})){  // check if api call was successful
@@ -75,11 +79,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                 }
             else{
-                showErrorMessage($response->{'status_message'},'index');
+                showErrorMessage($response->{'status_message'});
             }
 
         }
     }
+
+    // get data from api using selected movie id
     elseif(isset($_POST['movie-id'])){
         $movie_id = $_POST['movie-id'];
         $movie_url = "https://api.themoviedb.org/3/movie/{$movie_id}?append_to_response=release_dates,videos&language=en-US";
@@ -108,7 +114,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         foreach($videos as $video){
             $key = $video->{'key'};
 
-            if($video->{'type'} === 'Trailer'){
+            if($video->{'type'} == 'Trailer'){
                 $trailer = 'https://www.youtube.com/embed/'.$key.'?autoplay=1&mute=1&controls=1';
                 break;
             }
@@ -121,8 +127,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     elseif(isset($_POST['movie-details'])){
         // TODO handle mysql errors
         $sql = "INSERT INTO `{$database}`.`{$movie_table}` VALUES (?,?,?,?,?,?,?)";
-        // add movie to database
-        $result = mysqli_execute_query($conn,$sql,[
+        $movie = [
             $_SESSION['movie-id'],
             $_SESSION['title'],
             $_SESSION['plot'],
@@ -130,17 +135,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_SESSION['poster'],
             $_SESSION['trailer'],
             $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
-        ]);
-        // add genres to database
-        foreach($_SESSION['genres'] as $genre){
-            $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
-            $result = mysqli_execute_query($conn,$genre_sql,[
-                $_SESSION['movie-id'],
-                $genre->{'id'}
-        ]);
+        ];
+        // add movie to database
+        if(!mysqli_execute_query($conn,$sql,$movie)){
+            showErrorMessage("Error adding movie. Please try again or contact technical support.");
         }
-        // return to movies main screen
-        $_SESSION['screen'] = "movie";
+        else{
+            // add genres to database
+            foreach($_SESSION['genres'] as $genre){
+                $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
+                if(!mysqli_execute_query($conn,$genre_sql,[$_SESSION['movie-id'], $genre->{'id'}])){
+                    showErrorMessage("Error adding movie genres. Please try again or contact technical support.");
+                }
+            }
+            // return to movies main screen
+            $_SESSION['screen'] = "movie";
+        }
+
     }
 
     // SCHEDULE
@@ -153,32 +164,33 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         // check for scheduling conflicts
         $all_sql = "SELECT `screen`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}` ";
-        $result = mysqli_query($conn,$all_sql);
-        while($row = mysqli_fetch_assoc($result)){
-            if($row['screen'] == $screen && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
-                $conflict = true;
+        if($result = mysqli_query($conn,$all_sql)){
+            while($row = mysqli_fetch_assoc($result)){
+                if($row['screen'] == $screen && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
+                    $conflict = true;
+                }
+            }
+
+            if(!$conflict){
+                // add schedule
+                $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
+                if(mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date])){
+                    $_SESSION['screen'] = 'schedule';
+                }
+                else{
+                    showErrorMessage("Error adding movie. Please try again or contact technical support.");
+                }
+            }
+            else{
+                showErrorMessage("Scheduling conflict exists. Please adjust times or choose a different screen.");
             }
         }
-
-
-        if(!$conflict){
-            // add schedule
-            $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
-            mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date]);
-            // TODO handle error
-            $_SESSION['screen'] = 'schedule';
-        }
-        else{
-            showErrorMessage("Scheduling conflict exists. Please adjust times or choose a different screen.","index");
-        }
-
     }
 }
 
 function dateToUnix($date_str){
     $new_date = date_create($date_str);
-    $unix_date = date_format($new_date,"U");
-    return $unix_date;
+    return date_format($new_date,"U");
 }
 
 
@@ -187,12 +199,13 @@ function dateToUnix($date_str){
 // handle page loading
 require_once('./partials/head.php');
 require_once('error-handler.php');
-if($_SESSION['auth-user'] == 0){
-    require_once('./partials/landing.php');
-}
-else{
-    require_once('./partials/admin-panel.php');
-}
+
+    if($_SESSION['auth-user'] == 0){
+        require_once('./partials/landing.php');
+    }
+    else{
+        require_once('./partials/admin-panel.php');
+    }
 
 require_once('./partials/footer.php');
 
