@@ -15,7 +15,7 @@ $screen_result = mysqli_query($conn, $screen_sql); //TODO HANDLE ERROR
 <!--  Schedule form modal window -->
 <div id="schedule-form" class="absolute top-0 left-0 bg-[#838383cc]  w-full h-full hidden" >
     <div class="absolute flex flex-col items-center  left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[300px] border-2 border-blue-950 bg-white" >
-        <h1 class="text-white text-lg text-left bg-blue-950 w-full px-[24px] py-2">New schedule
+        <h1 class="text-white text-lg text-left bg-blue-950 w-full px-[24px] py-2"> <?php    ?>  New schedule
             <button class="float-right inline-block" id="close-schedule-form">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />

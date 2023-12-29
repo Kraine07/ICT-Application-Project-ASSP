@@ -38,7 +38,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             // handle delete
             case 'delete':
                 handleDeleteSchedule();
-                
                 break;
         }
         require_once('./partials/footer.php');
@@ -51,7 +50,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         mysqli_query($conn,$delete_sql);
 
         // TODO HANDLE ERROR
-        
         redirect("index.php");
 
     }

@@ -85,7 +85,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     }
 
-    // get data from api using selected movie id
+    // get movie data from api using selected movie id
     elseif(isset($_POST['movie-id'])){
         $movie_id = $_POST['movie-id'];
         $movie_url = "https://api.themoviedb.org/3/movie/{$movie_id}?append_to_response=release_dates,videos&language=en-US";
@@ -124,8 +124,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // display details
         require_once('movie-details.php');
     }
+
+    // add movie
     elseif(isset($_POST['movie-details'])){
-        // TODO handle mysql errors
         $sql = "INSERT INTO `{$database}`.`{$movie_table}` VALUES (?,?,?,?,?,?,?)";
         $movie = [
             $_SESSION['movie-id'],
@@ -151,7 +152,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             // return to movies main screen
             $_SESSION['screen'] = "movie";
         }
-
     }
 
     // SCHEDULE

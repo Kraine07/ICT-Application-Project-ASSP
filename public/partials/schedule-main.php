@@ -1,7 +1,7 @@
 <?php
 require_once('dbConn.php');
-$db_movies_sql = "SELECT `movie`,`screen`,`movie_title`,`screen_name`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}`,`{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen`"; // TODO JOIN
-$result = mysqli_query($conn, $db_movies_sql);
+$sql = "SELECT `movie`,`screen`,`movie_title`,`screen_name`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}`,`{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen`"; // TODO JOIN
+$result = mysqli_query($conn, $sql);
 
 
 require_once('schedule-form.php');

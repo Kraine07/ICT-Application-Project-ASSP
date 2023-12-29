@@ -9,7 +9,7 @@
     $_SESSION['genres'] = $genres;
 ?>
 
-<div  id="movie-details" class="absolute h-full w-full bg-[#838383cc] top-0 left-0 z-10">
+<div  id="movie-details" class="absolute h-full w-full bg-[#838383cc] top-0 left-0 z-50">
     <div class="absolute w-5/6 h-5/6  p-12 bg-white shadow-custom-sm left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
 
 
