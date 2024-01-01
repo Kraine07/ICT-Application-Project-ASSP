@@ -10,7 +10,7 @@
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database = "backyard_cinema";
+    $database = "backyardcinema";
 
 
     // tables

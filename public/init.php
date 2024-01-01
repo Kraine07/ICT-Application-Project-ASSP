@@ -1,9 +1,16 @@
-
 <?php
+
 
 if(!isset($_SESSION)){
     session_start();
 }
+
+// redirect if setup already done
+if($_SESSION['db-setup'] == 1){
+    redirect('index.php');
+}
+
+
 require_once('form-validation.php');
 require_once('./partials/head.php');
 require_once('dbConn.php');
@@ -12,17 +19,21 @@ require_once('redirect.php');
 require_once('error-handler.php');
 
 
-if($_SESSION['db-setup'] == 1){
-    redirect('index.php');
-}
-
-// when setup form is posted
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if(isset($_POST['f-name'])){
-        $form_data = [
+
+    $_SESSION['first-name'] = trim($_POST['f-name']);
+    $_SESSION['last-name'] = trim($_POST['l-name']);
+    $_SESSION['email']= trim($_POST['email']);
+    $_SESSION['password'] = trim($_POST['password']);
+    $_SESSION['c-password'] = trim($_POST['c-password']);
+    $_SESSION['screen-1'] = trim($_POST['screen-1']);
+    $_SESSION['screen-2'] = trim($_POST['screen-2']);
+    $_SESSION['screen-3'] = trim($_POST['screen-3']);
+    $_SESSION['screen-4'] = trim($_POST['screen-4']);
+
+    $form_data = [
         $_POST['f-name'],
-        // $_POST['l-name'],
-        "",
+        $_POST['l-name'],
         $_POST['email'],
         $_POST['password'],
         $_POST['c-password'],
@@ -32,129 +43,111 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $_POST['screen-4']
     ];
 
-    // check for empty data
-    foreach($form_data as $data){
-        if(empty($data) || $data==null){
-            showErrorMessage("Empty fields not allowed. Please try again.","setup");
-        }
-    }
-    }
+    $admin_user = [
+        1001,
+        $_SESSION['first-name'],
+        $_SESSION['last-name'],
+        $_SESSION['email'],
+        hash("sha256",$_SESSION['password']),
+        "admin"
+    ];
+
+
+    $screen_names = [
+        $_SESSION['screen-1'],
+        $_SESSION['screen-2'],
+        $_SESSION['screen-3'],
+        $_SESSION['screen-4'],
+    ];
+
+
+    // multi sql for creating database and tables
+    $create_db = "
+        CREATE DATABASE IF NOT EXISTS {$database};
+
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$user_table}` (`user_id` int(11) NOT NULL AUTO_INCREMENT,`first_name` varchar(100) NOT NULL,`last_name` varchar(100) NOT NULL,`email` varchar(100) NOT NULL,`password` varchar(100) NOT NULL,`role` varchar(50) NOT NULL,PRIMARY KEY (`user_id`),UNIQUE KEY `email` (`email`)) ENGINE=InnoDB;
+
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$movie_table}` (`movie_id` INT NOT NULL , `movie_title` VARCHAR(100) NOT NULL , `movie_plot` VARCHAR(500) NOT NULL , `movie_duration` INT NOT NULL , `movie_poster` VARCHAR(100) NOT NULL , `movie_trailer` VARCHAR(100) NOT NULL , `movie_rating` VARCHAR(10) NOT NULL , PRIMARY KEY (`movie_id`)) ENGINE = InnoDB;
+
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$screen_table}` (`screen_id` INT NOT NULL AUTO_INCREMENT, `screen_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`screen_id`)) ENGINE = InnoDB;
+
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$genre_table}` (`genre_id` INT NOT NULL AUTO_INCREMENT, `genre_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`genre_id`)) ENGINE = InnoDB;
+
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$has_genre_table}` (`movie` int(11) NOT null,`genre` int(11) NOT NULL, KEY `movie` (`movie`),  KEY `genre` (`genre`), CONSTRAINT `has_genre_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `has_genre_fk2` FOREIGN KEY (`genre`) REFERENCES `genre` (`genre_id`) ) ENGINE=INNODB;
+
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$is_scheduled_for_table}` ( `movie` int(11) NOT null, `screen` int(11) NOT null,`start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), PRIMARY KEY (`screen`, `start`, `end`))ENGINE=INNODB;
+
+    ";
+
+
+    $admin_sql = "INSERT IGNORE INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
 
 
 
-    $_SESSION['first-name'] = trim($_POST['f-name']);
-    $_SESSION['last-name'] = trim($_POST['l-name']);
-    $_SESSION['email']= trim($_POST['email']);
-    $_SESSION['password'] = trim($_POST['password']);
-    $_SESSION['c-password'] = trim($_POST['c-password']);
 
-    $_SESSION['screen-1'] = trim($_POST['screen-1']);
-    $_SESSION['screen-2'] = trim($_POST['screen-2']);
-    $_SESSION['screen-3'] = trim($_POST['screen-3']);
-    $_SESSION['screen-4'] = trim($_POST['screen-4']);
+    // validate submitted data
+    if(!empty_fields($form_data)){
+        if(validEmail($_SESSION['email'])){
+            if(checkForDuplicates( ["eeee", "eeee"] )){
+                if(validPassword("Admin123")){
+                    if(!checkForDuplicates($screen_names)){
 
+                        // create database and tables
+                        if(mysqli_multi_query($conn, $create_db)){
+                            //execute subsequent queries
+                            do{}while(mysqli_next_result($conn));
 
+                            // create admin user
+                            if(!mysqli_execute_query($conn, $admin_sql, $admin_user)){
+                                showErrorMessage('Error creating admin user. Please try again or contact technical support','setup');
+                            }
+                            else{
+                                // populate genre table
+                                if(!populateGenreTable($conn, $database, $genre_table)){
+                                    showErrorMessage("Error adding genres. Please try again or contact technical support.","setup");
+                                }
+                                else{
+                                    //populate screen table
+                                    if(!populateScreenTable($conn, $database,$screen_table, $screen_names)){
+                                        showErrorMessage("Error adding screens. Please try again or contact technical support.","setup");
+                                    }
+                                    else{
+                                        // TODO display success message
+                                        session_destroy();
+                                        redirect('index.php');
+                                    }
+                                }
+                            }
 
-
-    // validate email
-    if(!validEmail("lasjflkjflsdjafl.ldjflasjfls")){
-    // if(!validEmail($_SESSION['email'])){
-        showErrorMessage("Invalid email format. Please try again.","setup");
-    }
-
-    if(checkForDuplicates([$_SESSION['password'],$_SESSION['c-password']])){
-
-        $hPassword;
-
-        // validate password
-        if(validPassword($_SESSION['password'])){
-            $hPassword = hash("sha256",$_SESSION['password']);
-        }else{
-            showErrorMessage("Invalid password format. Password must be minimum 8 characters with at least one numeral and uppercase character.","setup");
-        }
-
-
-        $admin_user = [1001,
-            $_SESSION['first-name'],
-            $_SESSION['last-name'],
-            $_SESSION['email'],
-            $hPassword,
-            'admin'
-        ];
-
-        $screens = [
-            $_SESSION['screen-1'],
-            $_SESSION['screen-2'],
-            $_SESSION['screen-3'],
-            $_SESSION['screen-4'],
-        ];
-
-
-        // multi sql for creating database and tables
-        $create_db = "
-            CREATE DATABASE IF NOT EXISTS {$database};
-
-            CREATE TABLE IF NOT EXISTS `{$database}`.`{$user_table}` (`user_id` int(11) NOT NULL AUTO_INCREMENT,`first_name` varchar(100) NOT NULL,`last_name` varchar(100) NOT NULL,`email` varchar(100) NOT NULL,`password` varchar(100) NOT NULL,`role` varchar(50) NOT NULL,PRIMARY KEY (`user_id`),UNIQUE KEY `email` (`email`)) ENGINE=InnoDB;
-
-            CREATE TABLE IF NOT EXISTS `{$database}`.`{$movie_table}` (`movie_id` INT NOT NULL , `movie_title` VARCHAR(100) NOT NULL , `movie_plot` VARCHAR(500) NOT NULL , `movie_duration` INT NOT NULL , `movie_poster` VARCHAR(100) NOT NULL , `movie_trailer` VARCHAR(100) NOT NULL , `movie_rating` VARCHAR(10) NOT NULL , PRIMARY KEY (`movie_id`)) ENGINE = InnoDB;
-
-            CREATE TABLE IF NOT EXISTS `{$database}`.`{$screen_table}` (`screen_id` INT NOT NULL AUTO_INCREMENT, `screen_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`screen_id`)) ENGINE = InnoDB;
-
-            CREATE TABLE IF NOT EXISTS `{$database}`.`{$genre_table}` (`genre_id` INT NOT NULL AUTO_INCREMENT, `genre_name` VARCHAR(100) NOT NULL , PRIMARY KEY (`genre_id`)) ENGINE = InnoDB;
-
-            CREATE TABLE IF NOT EXISTS `{$database}`.`{$has_genre_table}` (`movie` int(11) NOT null,`genre` int(11) NOT NULL, KEY `movie` (`movie`),  KEY `genre` (`genre`), CONSTRAINT `has_genre_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `has_genre_fk2` FOREIGN KEY (`genre`) REFERENCES `genre` (`genre_id`) ) ENGINE=INNODB;
-
-            CREATE TABLE IF NOT EXISTS `{$database}`.`{$is_scheduled_for_table}` ( `movie` int(11) NOT null, `screen` int(11) NOT null,`start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), PRIMARY KEY (`screen`, `start`, `end`))ENGINE=INNODB;
-
-        ";
-
-        // check for duplicate screen names
-        if(checkForDuplicates($screens)){
-            showErrorMessage("Duplicated screen name. Please try again.","setup");
-        }
-        else{
-            // create database and tables
-            if(mysqli_multi_query($conn, $create_db)){
-                do{
-
-                }
-                while(mysqli_next_result($conn));
-
-                // create admin user
-                $admin_sql = "INSERT IGNORE INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
-                if(!mysqli_execute_query($conn, $admin_sql, $admin_user)){
-                    showErrorMessage('Error creating admin user. Please try again or contact technical support','setup');
-                }
-                else{
-                    // populate genre table
-                    if(!populateGenreTable($conn, $database, $genre_table)){
-                        showErrorMessage("Error adding genres. Please try again or contact technical support.","setup");
-                    }
-                    else{
-                        //populate screen table
-                        if(populateScreenTable($conn, $database,$screen_table, $screens)){
-                            session_destroy();
-                            redirect('index.php');
                         }
                         else{
-                            showErrorMessage("Error adding screens. Please try again or contact technical support.","setup");
+                            showErrorMessage("Error creating database. Please try again.","setup");
                         }
+
                     }
+                    else{
+                        showErrorMessage("Duplicated screen name. Please try again.", "setup");
+                    }
+
+                }
+                else{
+                    showErrorMessage("Invalid password format. Password must be minimum 8 characters with at least one numeral and uppercase character.", "setup");
                 }
             }
             else{
-                showErrorMessage("Error creating database. Please try again.","setup");
+                showErrorMessage("Passwords do not match. Please try again.", "setup");
             }
-        }
 
+        }
+        else{
+            showErrorMessage("Invalid email format. Please try again.", "setup");
+        }
     }
     else{
-        showErrorMessage("Passwords do not match. Please try again.","setup");
+        showErrorMessage("Empty fields not allowed. Please try again.", "setup");
     }
 
-
 }
-
 function populateGenreTable($conn, $database, $genre_table){
     require_once('api-handler.php');
     $genre_url = "https://api.themoviedb.org/3/genre/movie/list";
@@ -188,9 +181,8 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
     return true;
 }
 
-
-
 ?>
+
 
 
 <div class="h-[560px] w-[1000px] bg-slate-300 mx-auto">
@@ -260,6 +252,8 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
     </div>
 
 </div>
+
+
 
 
 <?php

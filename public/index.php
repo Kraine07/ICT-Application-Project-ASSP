@@ -27,6 +27,9 @@ if(empty($_SESSION)){
 
     $_SESSION['movie-search-results']="";
 
+    $_SESSION['schedule-edit'] = false;
+
+
 }
 
 require_once('api-handler.php');
@@ -40,7 +43,7 @@ if($conn){
     $result = mysqli_query($conn,$sql);
 
     if(mysqli_num_rows($result) < 1){
-        redirect('setup.php');
+        redirect('init.php');
     }
     else{
         $_SESSION['db-setup'] = 1;
@@ -155,7 +158,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
     // SCHEDULE
-    elseif(isset($_POST['movie'])){
+    elseif(isset($_POST['movie']) || isset($_POST['edit-schedule-movie'])){
         $conflict = false;
         $movie = $_POST['movie'];
         $screen = $_POST['screen'];
@@ -172,20 +175,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
 
             if(!$conflict){
-                // add schedule
-                $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
-                if(mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date])){
-                    $_SESSION['screen'] = 'schedule';
-                }
-                else{
-                    showErrorMessage("Error adding movie. Please try again or contact technical support.");
-                }
+                // add or update schedule
+                    $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
+                    if(mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date])){
+                        $_SESSION['screen'] = 'schedule';
+                    }
+                    else{
+                        showErrorMessage("Error adding/updating movie. Please try again or contact technical support.");
+                    }
             }
             else{
                 showErrorMessage("Scheduling conflict exists. Please adjust times or choose a different screen.");
             }
         }
     }
+
 }
 
 function dateToUnix($date_str){

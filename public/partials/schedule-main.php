@@ -64,7 +64,11 @@ require_once('schedule-form.php');
                         <td class="border-2 border-[#d9d9d9]">'.date("g:i A",$row['end']).'</td>
                         <td class="border-2 border-[#d9d9d9]  ">
                             <form action="edit-schedule.php" method="post" class="inline">
-                                <input name="edit-id" type="text"  value="" hidden>
+                                <input name="movie-title" type="text" value="'.$row['movie_title'].'" hidden>
+                                <input name="screen-name" type="text" value="'.$row['screen_name'].'" hidden>
+                                <input name="edit-id" type="text" value="'.$row['screen'].'" hidden>
+                                <input name="start-time" type="text" value="'.$row['start'].'" hidden>
+                                <input name="end-time" type="text" value="'.$row['end'].'" hidden>
                                 <input name="edit-option" type="text" value="edit" hidden>
                                 <button class="text-green-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">

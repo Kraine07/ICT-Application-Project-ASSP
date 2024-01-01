@@ -77,10 +77,12 @@ else if(newScheduleButton != null){
     window.onclick = function(event) {
         if (event.target == scheduleForm) {
             scheduleForm.classList.add("hidden");
+            location.reload();
         }
     }
     closeScheduleFormButton.addEventListener('click',()=>{
         scheduleForm.classList.add('hidden');
+        location.reload();
     })
 }
 

@@ -1,4 +1,9 @@
 <?php
+
+if(!isset($_SESSION)){
+    session_start();
+}
+
 require_once('redirect.php');
 require_once('dbConn.php');
 
@@ -30,11 +35,22 @@ function handleDeleteSchedule(){
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['edit-id'])){
         require_once('./partials/head.php');
+
         // handle delete and edit button clicks
         switch($_POST['edit-option']){
-            // TODO handle edit
+
+            //  handle edit
             case 'edit':
+                $_SESSION['schedule-edit'] = true;
+
+                $_SESSION['movie-title'] = $_POST['movie-title'];
+                $_SESSION['screen-name'] = $_POST['screen-name'];
+                $_SESSION['screen-id'] = $_POST['edit-id'];
+                $_SESSION['start-time'] = $_POST['start-time'];
+                $_SESSION['end-time'] = $_POST['end-time'];
+                redirect('index.php');
                 break;
+
             // handle delete
             case 'delete':
                 handleDeleteSchedule();
