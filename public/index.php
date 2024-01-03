@@ -4,12 +4,11 @@ session_start();
 // session_destroy();
 
 
-
 // initialize session variables
-if(empty($_SESSION)){
+if(!isset($_SESSION) || empty($_SESSION)){
     // user
     $_SESSION['db-setup'] = 0;
-    $_SESSION['auth-user'] = 0;
+
     $_SESSION['screen'] = "main";
     $_SESSION['first-name'] = "";
     $_SESSION['last-name'] = "";
@@ -28,7 +27,6 @@ if(empty($_SESSION)){
     $_SESSION['movie-search-results']="";
 
     $_SESSION['schedule-edit'] = false;
-
 
 }
 
@@ -158,26 +156,29 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
     // SCHEDULE
-    elseif(isset($_POST['movie']) || isset($_POST['edit-schedule-movie'])){
+    elseif(isset($_POST['movie'])){
         $conflict = false;
+        $schedule_id = $_POST['schedule-id'];
         $movie = $_POST['movie'];
         $screen = $_POST['screen'];
         $start_date = dateToUnix($_POST['start']);
         $end_date = dateToUnix($_POST['end']);
 
+
         // check for scheduling conflicts
-        $all_sql = "SELECT `screen`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}` ";
+        $all_sql = "SELECT `schedule_id`, `screen`,`start`,`end` FROM `{$database}`.`{$schedule_table}` ";
         if($result = mysqli_query($conn,$all_sql)){
             while($row = mysqli_fetch_assoc($result)){
-                if($row['screen'] == $screen && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
+                if($row['screen'] == $screen && $row['schedule_id'] != $schedule_id && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
                     $conflict = true;
                 }
             }
 
+
             if(!$conflict){
                 // add or update schedule
-                    $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
-                    if(mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date])){
+                    $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?)";
+                    if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $start_date, $end_date])){
                         $_SESSION['screen'] = 'schedule';
                     }
                     else{
@@ -204,11 +205,11 @@ function dateToUnix($date_str){
 require_once('./partials/head.php');
 require_once('error-handler.php');
 
-    if($_SESSION['auth-user'] == 0){
-        require_once('./partials/landing.php');
+    if(isset($_SESSION['auth-user'] )){
+        require_once('./partials/admin-panel.php');
     }
     else{
-        require_once('./partials/admin-panel.php');
+        require_once('./partials/landing.php');
     }
 
 require_once('./partials/footer.php');

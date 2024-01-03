@@ -3,14 +3,18 @@ require_once('redirect.php');
 require_once('dbConn.php');
 
 function handleDeleteMovie($movie_id,$schedule_table,$conn,$database){
+
+    // sql to search for selected movie in the schedule table
     $sql = "SELECT * FROM `{$database}`.`{$schedule_table}` WHERE `movie` = {$movie_id}";
     $result = mysqli_query($conn,$sql);
 
+    // delete selected movie
     if(mysqli_num_rows($result) > 0){
-        showErrorMessage("Cannot delete movie because it is linked to a schedule.","index");
+        showErrorMessage("Cannot delete movie because it is linked to a schedule. Please resolve scheduling issue then try again.");
         mysqli_free_result($result);
     }
     else{
+        // display confirmation popup
         echo '
             <form action="edit-movie.php" method="post" id="cancel">
                 <input type="text" name="cancel-delete" value="0" hidden>
@@ -37,22 +41,28 @@ function handleDeleteMovie($movie_id,$schedule_table,$conn,$database){
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['edit-id'])){
         require_once('./partials/head.php');
+
         // handle delete and edit button clicks
         switch($_POST['edit-option']){
+
             // TODO handle edit
             case 'edit':
                 break;
+
             // handle delete
             case 'delete':
-                handleDeleteMovie($_POST['edit-id'],$is_scheduled_for_table,$conn,$database);
-                
+                handleDeleteMovie($_POST['edit-id'],$schedule_table,$conn,$database);
                 break;
         }
         require_once('./partials/footer.php');
     }
+
+    // cancel button click
     elseif(isset($_POST['cancel-delete'])){
         redirect("index.php");
     }
+
+    // delete all genres associated with the movie
     elseif(isset($_POST['delete-id'])){
         $delete_sql = "DELETE FROM `{$database}`.`{$has_genre_table}` WHERE `movie` = {$_POST['delete-id']};
         DELETE FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = {$_POST['delete-id']};";

@@ -10,7 +10,7 @@
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database = "backyardcinema";
+    $database = "backyard_cinema";
 
 
     // tables
@@ -18,8 +18,8 @@
     $user_table = 'user';
     $genre_table = 'genre';
     $screen_table = 'screen';
+    $schedule_table = "schedule";
     $has_genre_table = 'has_genre';
-    $is_scheduled_for_table = "is_scheduled_for";
 
 
 

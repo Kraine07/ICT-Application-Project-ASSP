@@ -57,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $_SESSION['screen-1'],
         $_SESSION['screen-2'],
         $_SESSION['screen-3'],
-        $_SESSION['screen-4'],
+        $_SESSION['screen-4']
     ];
 
 
@@ -75,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         CREATE TABLE IF NOT EXISTS `{$database}`.`{$has_genre_table}` (`movie` int(11) NOT null,`genre` int(11) NOT NULL, KEY `movie` (`movie`),  KEY `genre` (`genre`), CONSTRAINT `has_genre_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `has_genre_fk2` FOREIGN KEY (`genre`) REFERENCES `genre` (`genre_id`) ) ENGINE=INNODB;
 
-        CREATE TABLE IF NOT EXISTS `{$database}`.`{$is_scheduled_for_table}` ( `movie` int(11) NOT null, `screen` int(11) NOT null,`start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), PRIMARY KEY (`screen`, `start`, `end`))ENGINE=INNODB;
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$schedule_table}` (`schedule_id` int(11) NOT NULL AUTO_INCREMENT, `movie` int(11) NOT null, `screen` int(11) NOT null,`start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), PRIMARY KEY (`schedule_id`))ENGINE=INNODB;
 
     ";
 

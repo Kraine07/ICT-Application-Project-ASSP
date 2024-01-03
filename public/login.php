@@ -30,7 +30,7 @@ function login($credentials,$conn,$database,$user_table){
         return false;
     }
     else{
-        if(!mysqli_fetch_array($result)){
+        if(!$_SESSION['auth-user'] = mysqli_fetch_array($result)){
 
             // DISPLAY 'USER NOT AUTHORIZED' MESSAGE
             showErrorMessage('User not authorized. Please try again.','index');
@@ -39,7 +39,6 @@ function login($credentials,$conn,$database,$user_table){
 
         //USER LOGGED IN
         else{
-            $_SESSION['auth-user'] = 1;
             $_SESSION['screen'] = "movie";
             redirect('index.php');
         }

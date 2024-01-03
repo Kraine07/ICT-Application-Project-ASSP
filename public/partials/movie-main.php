@@ -1,9 +1,14 @@
 <?php
 require_once('dbConn.php');
+
+// get all movies
 $db_movies_sql = "SELECT * FROM `{$database}`.`{$movie_table}`";
-$_SESSION['movies'] = $result = mysqli_query($conn, $db_movies_sql);
-
-
+if($result = mysqli_query($conn, $db_movies_sql)){
+    $_SESSION['movies'] = $result;
+}
+else{
+    showErrorMessage("Error getting movies. Please reload page or contact technical support");
+}
 
 require_once('search-api-modal.php');
 
@@ -55,11 +60,15 @@ require_once('search-api-modal.php');
                 <tbody class="border-2 border-[#d9d9d9]">
                     <?php
                     while($row = mysqli_fetch_array($result)){
+                        // format movie duration
+                        $duration = gmdate("g\h\\r\s i\m\i\\n\s", ($row['movie_duration']*60));
 
+
+                        // table rows
                         echo '
                             <tr>
                                 <td class="border-2 border-[#d9d9d9] py-2">'.$row['movie_title'].'</td>
-                                <td class="border-2 border-[#d9d9d9]">'.$row['movie_duration'].'</td>
+                                <td class="border-2 border-[#d9d9d9]">'.$duration.'</td>
                                 <td class="border-2 border-[#d9d9d9]">'.$row['movie_rating'].'</td>
                                 <td class="border-2 border-[#d9d9d9]  ">
                                     <form action="edit-movie.php" method="post" class="inline">
