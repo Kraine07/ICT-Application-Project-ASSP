@@ -169,7 +169,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $all_sql = "SELECT `schedule_id`, `screen`,`start`,`end` FROM `{$database}`.`{$schedule_table}` ";
         if($result = mysqli_query($conn,$all_sql)){
             while($row = mysqli_fetch_assoc($result)){
-                if($row['screen'] == $screen && $row['schedule_id'] != $schedule_id && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
+                if($row['screen'] == $screen && $row['schedule_id'] != $schedule_id &&
+                (
+                    (
+                        $start_date <= $row['end'] &&
+                        $start_date >= $row['start']
+                    ) ||
+                    (
+                        $end_date <= $row['end'] &&
+                        $end_date >= $row['start']
+                    ) ||
+                    (
+                        $end_date >= $row['end'] &&
+                        $start_date <= $row['end']
+                    ) ||
+                    (
+                        $start_date >= $row['start'] &&
+                        $end_date <= $row['start']
+                    )
+                )){
                     $conflict = true;
                 }
             }
