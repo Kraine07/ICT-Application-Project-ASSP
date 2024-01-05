@@ -2,7 +2,7 @@
 require_once('dbConn.php');
 
 // get all movies
-$db_movies_sql = "SELECT * FROM `{$database}`.`{$movie_table}`";
+$db_movies_sql = "SELECT * FROM `{$database}`.`{$movie_table}` ORDER BY `movie_title`";
 if($result = mysqli_query($conn, $db_movies_sql)){
     $_SESSION['movies'] = $result;
 }

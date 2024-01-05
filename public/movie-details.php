@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- plot -->
-                <p class="bg-white my-2 h-[70px] text-xs z-10 text-ellipsis overflow-hidden hover:overflow-visible"> <?php echo $plot; ?> </p>
+                <p class=" my-2 h-[70px] text-xs z-10 text-ellipsis overflow-hidden hover:overflow-visible"> <?php echo $plot; ?> </p>
 
 
                 <div class="flex justify-between w-full h-[200px] justify-self-end   pb-10 ">
