@@ -61,7 +61,7 @@ require_once('search-api-modal.php');
                     <?php
                     while($row = mysqli_fetch_array($result)){
                         // format movie duration
-                        $duration = gmdate("g\h\\r\s i\m\i\\n\s", ($row['movie_duration']*60));
+                        $duration = gmdate("g\h\\r i\m\i\\n", ($row['movie_duration']*60));
 
 
                         // table rows

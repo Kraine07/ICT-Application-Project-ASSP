@@ -3,6 +3,7 @@ session_start();
 require_once('dbConn.php');
 require_once('redirect.php');
 include_once('error-handler.php');
+include_once('./partials/head.php');
 
 
 // check if a post was made
@@ -48,6 +49,6 @@ function login($credentials,$conn,$database,$user_table){
 }
 
 
-
+require_once('./partials/footer.php');
 
 ?>

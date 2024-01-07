@@ -28,6 +28,10 @@ if(!isset($_SESSION) || empty($_SESSION)){
 
     $_SESSION['schedule-edit'] = false;
 
+    $_SESSION['screen-id'] = "1";
+    $_SESSION['movie-info'] = false;
+    $_SESSION['watch-trailer'] = false;
+
 }
 
 require_once('api-handler.php');
@@ -116,7 +120,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $key = $video->{'key'};
 
             if($video->{'type'} == 'Trailer'){
-                $trailer = 'https://www.youtube.com/embed/'.$key.'?autoplay=1&mute=1&controls=1';
+                $trailer = 'https://www.youtube.com/embed/'.$key.'?autoplay=1&mute=0&controls=1';
                 break;
             }
 
