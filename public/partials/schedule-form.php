@@ -27,8 +27,10 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
                 </svg>
             </button>
         </h1>
+        <p class="text-xs  text-red-500 italic text-right w-full px-[24px]"><span class="text-lg">*</span> Required fields </p>
         <!-- schedule form -->
         <form action="index.php" method="post" class="flex flex-col justify-between items-start w-full h-full p-[24px]">
+        
             <input type="text" name="schedule-id" value=" <?php echo $_SESSION['schedule-edit'] ? $_SESSION['schedule-id']:"";  ?>  " hidden>
             <div class="flex flex-col items-start w-full">
                 <label for="movie" class="text-md font-semibold mb-1">Movie <span class="text-red-600">*</span></label>

@@ -6,34 +6,44 @@ require_once('error-handler.php');
 
 
 
-
+// get data to display in slideshow
 $schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY `start` DESC LIMIT 3";
 
+//get screen data
 $screen_sql = "SELECT * FROM `{$database}`.{$screen_table}";
 
+// get movies scheduled for toady
 $today_sql = "SELECT `movie_poster`, `movie_id`, `movie_title`, `movie_plot`, `movie_duration`,`movie_trailer`, `start`, `end`, `movie`, `screen` FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie` = `movie_id` AND `screen` = {$_SESSION['screen-id']} AND `screen` = `screen_id` AND FROM_UNIXTIME(`start`,'%Y-%m-%d') = CURDATE() ORDER BY `start`";
+
+// get unscheduled movies
+$coming_soon_sql = "SELECT * FROM `{$database}`.`{$movie_table}` WHERE NOT EXISTS (SELECT * FROM `{$database}`.`{$schedule_table}` WHERE `movie` = `movie_id`) ORDER BY `movie_title`";
+
+
+
+
 
 
 require_once('./partials/head.php');
-
 
 ?>
 
 
 
-<div class=" h-full w-full bg-blue-950 overflow-y-auto   ">
+<div class=" h-full w-full bg-blue-950 overflow-y-auto  ">
+
 
     <!-- movie info modal -->
     <?php
+        require_once('./partials/navbar.php');
         require_once('./partials/movie-info-modal.php');
         require_once('./partials/watch-trailer.php');
     ?>
 
 
 
-<!-- slides -->
-    <div class="slideshow relative h-full">
-        <h2 class="text-white text-2xl text-center text-light py-2 bg-blue-900">Now showing</h2>
+    <!-- slides -->
+    <div class="slideshow relative h-[90%]">
+        <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2>
         <div class="">
             <?php
             if($result = mysqli_query($conn, $schedule_info_sql)){
@@ -41,12 +51,12 @@ require_once('./partials/head.php');
                 while($row = mysqli_fetch_assoc($result)){
                     echo '
 
-                        <div  class="slides h-[420px] w-[640px] bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg  ">
-                            <div class="flex items-center h-full w-full p-6">
-                                <div class="w-1/2 h-full">
+                        <div  class="slides h-[360px] w-[640px] bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg  ">
+                            <div class="flex items-center justify-between h-full w-full p-6">
+                                <div class="w-1/3 h-full">
                                     <img class="object-cover h-full rounded-lg" src="'.$row['movie_poster'].' " alt="movie-poster">
                                 </div>
-                                <div class="flex flex-col justify-between w-1/2 h-full px-6 text-black">
+                                <div class="flex flex-col justify-between w-3/5 h-full px-6 text-black">
                                     <div class="h-2/3 flex flex-col justify-start">
                                         <h1 class="text-2xl h-1/3 leading-6 justify-self-center ">'.$row['movie_title'].'</h1>
                                         <p class="text-xs h-2/3 overflow-clip  py-2">'.$row['movie_plot'].'</p>
@@ -80,6 +90,7 @@ require_once('./partials/head.php');
                 }
             }
 
+
             ?>
 
         </div>
@@ -107,8 +118,7 @@ require_once('./partials/head.php');
                 // select screen buttons
                 if($result = mysqli_query($conn, $screen_sql)){
                     while($screen = mysqli_fetch_assoc($result)){
-                        // $bg;
-                        // $text_col;
+
                         if($screen['screen_id'] == $_SESSION['screen-id']){
                             $bg = "bg-blue-950";
                             $text_col = "text-white";
@@ -136,40 +146,57 @@ require_once('./partials/head.php');
 
 
 
-        <!-- movie cards -->
+        <!-- today's movie cards -->
 
-        <div class="movie h-auto w-5/6 grid grid-cols-4 gap-4 mx-auto text-black ">
+        <div class=" h-auto w-5/6 grid grid-cols-4 gap-4 mx-auto text-black ">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
                     while($row = mysqli_fetch_assoc($result)){
-                        echo '
-                            <div class=" group  h-full w-4/5     relative    " >
-                                <img class="object-contain w-full " src="'.$row['movie_poster'].'" alt="movie-poster">
-                                <div>
-                                    <h5 class="bg-[#ffffff88] w-full py-1 text-center text-blue-950 text-xl font-bold absolute bottom-0">'.date("g:i A",$row['start']).'</h5>
-                                </div>
-                                <form action="process-main.php" method="post">
-                                    <input type="text" name="movie-id" value="'.$row['movie_id'].'" hidden>
-                                    <button class=" bg-white w-2/3 py-1 ani-slide-down absolute top-1/2  left-1/2  -translate-x-1/2 rounded-full hidden group-hover:block  ">View details</button>
-                                </form>
-                            </div>
-                        ';
+                        require('./partials/movie-card.php');
                     }
                 }
-
             ?>
 
         </div>
 
     </div>
 
+
+
+
+    <!-- Coming soon -->
+    <div class="h-auto w-full bg-blue-950 pb-8">
+        <div class="flex  p-8 w-full">
+            <span class="text-4xl w-1/4 text-white mb-4  ">Coming Soon</span>
+        </div>
+
+
+        <div class=" h-auto w-5/6 grid grid-cols-6 gap-y-8 gap-x-2 mx-auto text-black ">
+            <?php
+                if($result1 = mysqli_query($conn, $coming_soon_sql)){
+
+                    while($row = mysqli_fetch_assoc($result1)){
+                        require('./partials/movie-card.php');
+                    }
+                }
+
+            ?>
+
+        </div>
+    </div>
+    <footer class="h-1/3 bg-black w-full relative">
+        <div>
+            <p class="text-xs w-screen text-white text-center absolute bottom-2 left-0">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
 </div>
+
+
 
 <?php
 
-
 require_once('./partials/footer.php');
-
 
 ?>

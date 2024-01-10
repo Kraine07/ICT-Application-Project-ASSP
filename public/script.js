@@ -113,7 +113,7 @@ function autoSlideshow() {
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].style.backgroundColor = 'rgba(255,255,255,0.7)';
     slideIndex++;
-    timer = setTimeout(autoSlideshow, 5000);
+    timer = setTimeout(autoSlideshow, 8000);
 }
 
 

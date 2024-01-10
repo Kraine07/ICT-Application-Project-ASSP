@@ -1,8 +1,6 @@
 
 <?php
 session_start();
-// session_destroy();
-
 
 // initialize session variables
 if(!isset($_SESSION) || empty($_SESSION)){
@@ -68,7 +66,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     // POST from search movie title modal
     elseif(isset($_POST['search_movie'])){
-        $query = trim($_POST['search_movie']);
+
+        // replace space with '%20' (api requirement)
+        $query = preg_replace('/\s+/', '%20', $_POST['search_movie']);
         $search_movie = "https://api.themoviedb.org/3/search/movie?&include_adult=false&query={$query}";
 
         $response = fetchData($search_movie);
