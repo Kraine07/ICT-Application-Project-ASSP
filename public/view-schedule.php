@@ -2,6 +2,8 @@
 require_once('dbConn.php');
 require_once('./partials/head.php');
 echo "<div class='h-full w-full bg-blue-950'>";
+
+// opening div tag
 require_once('./partials/navbar.php');
 
 $day_names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -18,7 +20,46 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $selected_date = date('Y-m-'.$_POST['calendar-day']);
 }
 
-$schedule_sql = "SELECT `movie_poster`, `movie_id`, `movie_title`, `movie_plot`, `movie_duration`,`movie_trailer`, `start`, `end`, `movie`, `screen` FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie` = `movie_id` AND  `screen` = `screen_id` AND FROM_UNIXTIME(`start`,'%Y-%m-%d') = '$selected_date' ORDER BY `start`";
+
+// get screen names
+$screen_names = [];
+$screen_sql = "SELECT * FROM `{$database}`.{$screen_table}";
+if($result = mysqli_query($conn, $screen_sql)){
+    while($row = mysqli_fetch_assoc($result))
+        array_push($screen_names,$row['screen_name']);
+}
+
+
+$schedule_sql = "SELECT `movie_poster`, `movie_id`, `movie_title`,  `start`,  `movie`, `screen`, `screen_id`, `screen_name` FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie` = `movie_id` AND  `screen` = `screen_id` AND FROM_UNIXTIME(`start`,'%Y-%m-%d') = '$selected_date' ORDER BY `start`";
+
+$new_date = date_create($selected_date);
+$new_selected_date = date_format($new_date, 'F j, Y');
+
+
+
+// sort result by screens
+$cinema_1 = [];
+$cinema_2 = [];
+$cinema_3 = [];
+$cinema_4 = [];
+
+if($result = mysqli_query($conn, $schedule_sql)){
+    while($row = mysqli_fetch_assoc($result)){
+        if($row['screen'] == 1){
+            array_push($cinema_1,$row);
+        }
+        elseif($row['screen'] == 2){
+            array_push($cinema_2,$row);
+        }
+        elseif($row['screen'] == 3){
+            array_push($cinema_3,$row);
+        }
+        elseif($row['screen'] == 4){
+            array_push($cinema_4,$row);
+        }
+
+    }
+}
 
 
 ?>
@@ -65,19 +106,77 @@ $schedule_sql = "SELECT `movie_poster`, `movie_id`, `movie_title`, `movie_plot`,
     </div>
 
 
-    <!-- schedule views -->
-    <div class="w-[840px] h-full bg-slate-700 right-4 absolute overflow-y-auto">
-        <?php
-        $new_date = date_create($selected_date);
-        $new_selected_date = date_format($new_date, 'F j, Y');
-        echo "<span class='text-xl font-bold block'> {$new_selected_date} </span>";
-        if($result = mysqli_query($conn, $schedule_sql)){
-            while($row = mysqli_fetch_assoc($result)){
-                echo $row['movie_title']."<br>";
-            }
+    <!-- display schedules -->
+    <div class="w-[840px] h-full  right-4 absolute overflow-y-auto p-4">
 
-        }
-        ?>
+        <div class="mx-auto h-full">
+            <span class='text-4xl font-light text-white block pb-4  text-right'> <?php echo $new_selected_date; ?> </span>
+            <div class=" mx-auto h-3/4">
+            <!-- Tabs -->
+                <input type="radio" id="tab1" name="tab" class="hidden " checked>
+                <label for="tab1" class="cursor-pointer bg-white text-blue-950  px-6 inline-block" > <?php  echo $screen_names[0];  ?> </label>
+
+                <input type="radio" id="tab2" name="tab" class="hidden">
+                <label for="tab2" class="cursor-pointer bg-white text-blue-950  px-6 inline-block"> <?php  echo $screen_names[1];  ?> </label>
+
+                <input type="radio" id="tab3" name="tab" class="hidden">
+                <label for="tab3" class="cursor-pointer bg-white text-blue-950  px-6 inline-block"> <?php  echo $screen_names[2];  ?> </label>
+
+                <input type="radio" id="tab4" name="tab" class="hidden">
+                <label for="tab4" class="cursor-pointer bg-white text-blue-950  px-6 inline-block"> <?php  echo $screen_names[3];  ?> </label>
+
+                <!-- Tab Content 1 -->
+                <div id="tab-content-1" class="tab-content h-full">
+                    <div class=" grid grid-cols-4 gap-3 h-auto">
+                    <!-- Content for Tab 1 goes here -->
+                    <?php
+                        foreach($cinema_1 as $row){
+                            require_once('./partials/movie-card.php');
+                        }
+                    ?>
+                    </div>
+                </div>
+
+                <!-- Tab Content 2 -->
+                <div id="tab-content-2" class="hidden tab-content">
+                    <div class="grid grid-cols-4 gap-3 h-auto">
+                    <!-- Content for Tab 2 goes here -->
+                    <?php
+                        foreach($cinema_2 as $row){
+                            require_once('./partials/movie-card.php');
+                        }
+                    ?>
+                    </div>
+                </div>
+
+                <!-- Tab Content 3 -->
+                <div id="tab-content-3" class="hidden tab-content">
+                    <div class="grid grid-cols-4 gap-3 h-auto">
+                    <!-- Content for Tab 3 goes here -->
+                    <?php
+                        foreach($cinema_3 as $row){
+                            require_once('./partials/movie-card.php');
+                        }
+                    ?>
+                    </div>
+                </div>
+
+                <!-- Tab Content 4 -->
+                <div id="tab-content-4" class="hidden tab-content">
+                    <div class="grid grid-cols-4 gap-3 h-auto">
+                    <!-- Content for Tab 4 goes here -->
+                    <?php
+                        foreach($cinema_4 as $row){
+                            require_once('./partials/movie-card.php');
+                        }
+                    ?>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
     </div>
 
 </div>

@@ -1,12 +1,12 @@
 
 
 
-<div class=" group  h-full w-4/5     relative    " >
+<div class=" group  h-full w-full     relative    " >
     <img class="object-contain w-full " src=" <?php echo $row['movie_poster'];  ?>" alt="movie-poster">
     <div>
         <?php
-            echo isset($row['start']) ? '<p class="bg-[#ffffffaa] w-full py-1 text-center text-blue-950 text-lg leading-5 font-bold absolute bottom-0">  '.date("g:i A",$row['start']).' </p>':'';
-            echo isset($row['start']) ? '<p class="bg-[#ffffff88] w-full py-1 text-center text-blue-950 text-lg font-bold leading-5 absolute top-0">  '.$row['movie_title'].' </p>':'';
+            echo isset($row['start']) ? '<p class="bg-[#ffffffcc] w-full py-1 text-center text-blue-950 text-sm leading-5 font-semibold absolute bottom-0">  '.date("g:i A",$row['start']).' </p>':'';
+            echo isset($row['start']) ? '<p class="bg-[#ffffffcc] w-full py-1 text-center text-blue-950 text-sm font-semibold leading-5 absolute top-0">  '.$row['movie_title'].' </p>':'';
         ?>
 
     </div>

@@ -1,8 +1,8 @@
 
 
 <!-- Login form modal -->
-<div id="login-form" class="bg-[#ffffffbb] absolute top-0 left-30 z-50 hidden w-full h-screen">
-    <div id="" class="shadow-custom bg-slate-200  w-[300px] p-8 top-12 right-12 absolute z-50">
+<div id="login-form" class="bg-[#0f0f0fdd] absolute top-0 left-30 z-50 hidden w-full h-screen">
+    <div id="" class=" bg-slate-200  w-[300px] p-8 top-12 right-12 absolute z-50">
 
         <div class="sm:mx-auto sm:w-full sm:max-w-sm mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 22 22" stroke-width="0.7" stroke="currentColor" class="w-16 h-16 mx-auto">

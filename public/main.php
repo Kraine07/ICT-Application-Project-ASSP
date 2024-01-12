@@ -148,12 +148,14 @@ require_once('./partials/head.php');
 
         <!-- today's movie cards -->
 
-        <div class=" h-auto w-5/6 grid grid-cols-4 gap-4 mx-auto text-black ">
+        <div class=" h-auto w-5/6 grid grid-cols-4 gap-6 mx-auto text-black ">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
                     while($row = mysqli_fetch_assoc($result)){
+                        echo "<div class='h-auto w-auto shadow-custom'>";
                         require('./partials/movie-card.php');
+                        echo "</div>";
                     }
                 }
             ?>
@@ -172,10 +174,9 @@ require_once('./partials/head.php');
         </div>
 
 
-        <div class=" h-auto w-5/6 grid grid-cols-6 gap-y-8 gap-x-2 mx-auto text-black ">
+        <div class=" h-auto w-5/6 grid grid-cols-6 gap-6 mx-auto text-black ">
             <?php
                 if($result1 = mysqli_query($conn, $coming_soon_sql)){
-
                     while($row = mysqli_fetch_assoc($result1)){
                         require('./partials/movie-card.php');
                     }
