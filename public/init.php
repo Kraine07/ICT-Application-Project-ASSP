@@ -1,9 +1,9 @@
 <?php
 
 
-if(!isset($_SESSION)){
-    session_start();
-}
+
+session_start();
+
 
 // redirect if setup already done
 if($_SESSION['db-setup'] == 1){
@@ -185,7 +185,7 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
 ?>
 
 <div class="w-full h-full bg-blue-950">
-    <div class="h-5/6 w-4/5 min-h-[600px] min-w-[1000px] bg-slate-300 mx-auto">
+    <div class="h-4/5 w-4/5 min-h-[600px] min-w-[1000px] bg-slate-300 mx-auto">
         <h1 class="text-3xl text-center text-white  font-light py-3 bg-blue-950">Initial Setup</h1>
         <div class="flex  justify-around items-center w-4/5 h-4/5 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-h-[480px] p-4 ">
 

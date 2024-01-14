@@ -1,6 +1,7 @@
 <?php
 require_once('redirect.php');
 require_once('dbConn.php');
+require_once('message-display.php');
 
 function handleDeleteMovie($movie_id,$schedule_table,$conn,$database){
 
@@ -54,7 +55,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 handleDeleteMovie($_POST['edit-id'],$schedule_table,$conn,$database);
                 break;
         }
-        require_once('./partials/footer.php');
     }
 
     // cancel button click
@@ -69,9 +69,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         mysqli_multi_query($conn,$delete_sql);
         while(mysqli_next_result($conn));
 
-        redirect("index.php");
+        showSuccessMessage("Movie deleted.");
 
     }
 
 }
+require_once('./partials/footer.php');
 ?>

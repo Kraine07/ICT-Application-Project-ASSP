@@ -9,7 +9,7 @@ date_default_timezone_set('America/Jamaica');
 
 
 // get data to display in slideshow
-$schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY `start` DESC LIMIT 3";
+$schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY RAND() LIMIT 3";
 
 //get screen data
 $screen_sql = "SELECT * FROM `{$database}`.{$screen_table}";
@@ -111,9 +111,9 @@ require_once('./partials/head.php');
 
     <!-- On today -->
 
-    <div class="h-full w-full bg-slate-300 py-12" id="on-today"  name="on-today">
+    <div class="h-full w-full bg-slate-300 pt-6" id="on-today"  name="on-today">
         <div class="flex  p-8 w-full">
-            <span class="text-4xl w-1/4 text-black mb-12  ">On Today</span>
+            <span class="text-4xl w-1/4 text-black mb-6  ">On Today</span>
             <div class="flex justify-start w-1/2  ">
                 <?php
 
@@ -150,7 +150,7 @@ require_once('./partials/head.php');
 
         <!-- today's movie cards -->
 
-        <div class=" h-auto w-5/6 grid grid-cols-4 gap-6 mx-auto text-black ">
+        <div class=" h-auto w-full px-20  grid grid-cols-4 gap-12 text-black ">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
@@ -176,7 +176,7 @@ require_once('./partials/head.php');
         </div>
 
 
-        <div class=" h-auto w-5/6 grid grid-cols-6 gap-6 mx-auto text-black ">
+        <div class=" h-auto w-full px-20 grid grid-cols-6 gap-6 text-black ">
             <?php
                 if($result1 = mysqli_query($conn, $coming_soon_sql)){
                     while($row = mysqli_fetch_assoc($result1)){

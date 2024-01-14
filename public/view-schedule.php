@@ -134,7 +134,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                 <!-- Tab Content 1 -->
                 <div id="tab-content-1" class="tab-content h-full  border-t-2 border-white py-12">
-                    <div class=" grid grid-cols-4 gap-3 h-auto">
+                    <div class=" grid grid-cols-4 gap-6 h-auto">
 
                     <?php
                         foreach($cinema_1 as $row){
@@ -147,7 +147,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                 <!-- Tab Content 2 -->
                 <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-white py-12">
-                    <div class="grid grid-cols-4 gap-3 h-auto">
+                    <div class="grid grid-cols-4 gap-6 h-auto">
 
                     <?php
                         foreach($cinema_2 as $row){
@@ -160,7 +160,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                 <!-- Tab Content 3 -->
                 <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-white py-12">
-                    <div class="grid grid-cols-4 gap-3 h-auto">
+                    <div class="grid grid-cols-4 gap-6 h-auto">
 
                     <?php
                         foreach($cinema_3 as $row){
@@ -173,7 +173,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                 <!-- Tab Content 4 -->
                 <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-white py-12">
-                    <div class="grid grid-cols-4 gap-3 h-auto">
+                    <div class="grid grid-cols-4 gap-6 h-auto">
 
                     <?php
                         foreach($cinema_4 as $row){

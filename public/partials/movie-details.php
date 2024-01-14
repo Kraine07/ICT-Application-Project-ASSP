@@ -64,7 +64,7 @@
                                 <p class="w-full text-xl font-semibold block"><?php echo $duration; ?><span class=" text-sm">mins</span></p>
                             </div>
                         </div>
-                        <form action="index.php" method="post" class="w-full">
+                        <form action="manage-movie.php" method="post" class="w-full">
                             <input type="text" name="movie-details" value="000" hidden>
 
                             <button class=" bg-blue-950 w-full py-1 mt-4 text-slate-100 text-lg rounded-full">Add Movie</button>

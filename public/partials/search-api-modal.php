@@ -13,7 +13,7 @@
                 </span>
             </div>
 
-            <form action="index.php" method="post" class="w-4/5 h-2/3 flex flex-col justify-center items-start ">
+            <form action="manage-movie.php" method="post" class="w-4/5 h-2/3 flex flex-col justify-center items-start ">
                 <span class="text-xs text-slate-800 text-left leading-3 mb-4  italic">Enter the title of the movie you wish to add. Partial searches allowed.</span>
                 <label for="movie-search">Movie Title <span class="text-red-500">*</span></label>
                 <div class="flex w-full justify-start items-center border border-blue-950 mt-1">

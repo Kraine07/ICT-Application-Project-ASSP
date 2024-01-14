@@ -4,13 +4,13 @@ require_once('message-display.php');
     require_once('redirect.php');
 
     //turn off mysqli error reporting
-    mysqli_report(MYSQLI_REPORT_OFF);
+    // mysqli_report(MYSQLI_REPORT_OFF);
 
 
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database = "backyard_cinema";
+    $database = "backyard_cinema_v01";
 
 
     // tables

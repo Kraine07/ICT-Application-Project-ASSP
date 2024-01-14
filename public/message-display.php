@@ -1,7 +1,7 @@
 <?php
 
 // turn off error reports
-error_reporting(0);
+// error_reporting(0);
 
 
 
@@ -23,6 +23,9 @@ function showErrorMessage($message, $redirect="index"){
     ';
 
 }
+
+
+
 
 function showSuccessMessage($message, $redirect="index"){
     echo '

@@ -8,7 +8,6 @@ date_default_timezone_set('America/Jamaica');
 // initialize session variables
 if(!isset($_SESSION) || empty($_SESSION)){
     // user
-    $_SESSION['db-setup'] = 0;
 
     $_SESSION['screen'] = "main";
     $_SESSION['first-name'] = "";
@@ -35,10 +34,11 @@ if(!isset($_SESSION) || empty($_SESSION)){
 
 }
 
-require_once('api-handler.php');
+
 
 require_once('dbConn.php');
 require_once('redirect.php');
+require_once('api-handler.php');
 
 // create database if it has not yet been created
 if($conn){
@@ -46,6 +46,7 @@ if($conn){
     $result = mysqli_query($conn,$sql);
 
     if(mysqli_num_rows($result) < 1){
+        $_SESSION['db-setup'] = 0;
         redirect('init.php');
     }
     else{
@@ -54,6 +55,7 @@ if($conn){
 }
 
 
+// handle posts
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     // menu buttons
@@ -68,32 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
 
-
-    // get all movies from api with full or partial match to title entered
-    elseif(isset($_POST['search_movie'])){
-        $query = preg_replace('/\s+/', '%20', $_POST['search_movie']); // replace all spaces with '%20' (api requirement)
-        $search_movie = "https://api.themoviedb.org/3/search/movie?&include_adult=false&query={$query}";
-
-        $response = fetchData($search_movie);
-
-        if($response == null){
-            showErrorMessage('No connection to source. Please try again or contact technical support.');
-        }
-        else{
-            if(!isset($response->{'success'})){  // check if api call was successful
-                $_SESSION['movie-search-results'] = $results = $response-> {'results'};
-
-                $_SESSION['screen'] = "movie-result-list";
-
-                }
-            else{
-                showErrorMessage($response->{'status_message'});
-            }
-
-        }
-    }
-
-    // get movie data from api using selected movie id
+    // get movie data from api
     elseif(isset($_POST['movie-id'])){
         $movie_id = $_POST['movie-id'];
         $movie_url = "https://api.themoviedb.org/3/movie/{$movie_id}?append_to_response=release_dates,videos&language=en-US";
@@ -127,102 +104,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 break;
             }
 
-
         }
         // display details
-        require_once('movie-details.php');
+        require_once('./partials/movie-details.php');
     }
 
-    // add movie
-    elseif(isset($_POST['movie-details'])){
-        $sql = "INSERT INTO `{$database}`.`{$movie_table}` VALUES (?,?,?,?,?,?,?)";
-        $movie = [
-            $_SESSION['movie-id'],
-            $_SESSION['title'],
-            $_SESSION['plot'],
-            $_SESSION['duration'],
-            $_SESSION['poster'],
-            $_SESSION['trailer'],
-            $_SESSION['rating'] == "" ? "NR" : $_SESSION['rating']
-        ];
-        // add movie to database
-        if(!mysqli_execute_query($conn,$sql,$movie)){
-            showErrorMessage("Error adding movie. Please try again or contact technical support.");
-        }
-        else{
-            // add genres to database
-            foreach($_SESSION['genres'] as $genre){
-                $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
-                if(!mysqli_execute_query($conn,$genre_sql,[$_SESSION['movie-id'], $genre->{'id'}])){
-                    showErrorMessage("Error adding movie genres. Please try again or contact technical support.");
-                }
-            }
-            // return to movies main screen
-            $_SESSION['screen'] = "movie";
-            showSuccessMessage("Movie added successfully.");
-        }
-    }
 
-    // SCHEDULE
-    elseif(isset($_POST['movie'])){
-        $conflict = false;
-        $schedule_id = $_POST['schedule-id'];
-        $movie = $_POST['movie'];
-        $screen = $_POST['screen'];
-        $start_date = dateToUnix($_POST['start']);
-        $end_date = dateToUnix($_POST['end']);
-
-
-        // check for scheduling conflicts
-        $all_sql = "SELECT `schedule_id`, `screen`,`start`,`end` FROM `{$database}`.`{$schedule_table}` ";
-        if($result = mysqli_query($conn,$all_sql)){
-            while($row = mysqli_fetch_assoc($result)){
-                if($row['screen'] == $screen && $row['schedule_id'] != $schedule_id &&
-                (
-                    (
-                        $start_date <= $row['end'] &&
-                        $start_date >= $row['start']
-                    ) ||
-                    (
-                        $end_date <= $row['end'] &&
-                        $end_date >= $row['start']
-                    ) ||
-                    (
-                        $end_date >= $row['end'] &&
-                        $start_date <= $row['end']
-                    ) ||
-                    (
-                        $start_date >= $row['start'] &&
-                        $end_date <= $row['start']
-                    )
-                )){
-                    $conflict = true;
-                }
-            }
-
-
-            if(!$conflict){
-                // add or update schedule
-                    $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?)";
-                    if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $start_date, $end_date])){
-                        $_SESSION['screen'] = 'schedule';
-                        showSuccessMessage("Action completed successfully.");
-                    }
-                    else{
-                        showErrorMessage("Error adding/updating schedule. Please try again or contact technical support.");
-                    }
-            }
-            else{
-                showErrorMessage("Scheduling conflict exists. Please adjust times or choose a different screen.");
-            }
-        }
-    }
-
-}
-
-function dateToUnix($date_str){
-    $new_date = date_create($date_str);
-    return date_format($new_date,"U");
 }
 
 
