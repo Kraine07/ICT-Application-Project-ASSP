@@ -1,5 +1,9 @@
 <?php
 session_start();
+$_SESSION['patron-view'] = true;
+$_SESSION['page'] = "main.php#on-today";
+
+
 require_once('dbConn.php');
 
 date_default_timezone_set('America/Jamaica');
@@ -39,13 +43,14 @@ require_once('./partials/head.php');
         require_once('./partials/navbar.php');
         require_once('./partials/movie-info-modal.php');
         require_once('./partials/watch-trailer.php');
+        require_once('./partials/login-form-modal.php');
     ?>
 
 
 
     <!-- slides -->
-    <div class="slideshow relative h-[90%]">
-        <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2>
+    <div class="slideshow relative h-5/6 bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-contain ">
+        <!-- <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2> -->
         <div class="">
             <?php
             if($result = mysqli_query($conn, $schedule_info_sql)){
@@ -53,7 +58,7 @@ require_once('./partials/head.php');
                 while($row = mysqli_fetch_assoc($result)){
                     echo '
 
-                        <div  class="slides h-[360px] w-[640px] bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg  ">
+                        <div  class="slides h-[360px] w-[700px] bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg  ">
                             <div class="flex items-center justify-between h-full w-full p-6">
                                 <div class="w-1/3 h-full">
                                     <img class="object-cover h-full rounded-lg" src="'.$row['movie_poster'].' " alt="movie-poster">
@@ -97,8 +102,19 @@ require_once('./partials/head.php');
 
         </div>
 
-        <span class="absolute left-[20%] p-2 top-1/2 text-2xl w-10  text-center  cursor-pointer text-white " onclick="nextSlide(-1)">&#10094;</span>
-        <span class="absolute right-[20%] p-2 top-1/2 text-2xl w-10  text-center  cursor-pointer text-white " onclick="nextSlide(1)">&#10095;</span>
+        <span class="absolute left-[17%]  top-1/2 text-2xl p-1 text-center  cursor-pointer text-black bg-[#ffffff77] font-semibold rounded-full" onclick="nextSlide(-1)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 ">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+
+        </span>
+
+        <span class="absolute right-[17%] p-1 top-1/2 text-2xl  text-center  cursor-pointer  text-black bg-[#ffffff77] font-semibold rounded-full " onclick="nextSlide(1)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+
+        </span>
 
         <div class="circles z-30 text-center absolute bottom-[6%] right-1/2 translate-x-1/2">
             <span class="dot bg-white h-4 aspect-square rounded-full relative inline-block cursor-pointer" onclick="currentSlide(1)"></span>
@@ -111,7 +127,7 @@ require_once('./partials/head.php');
 
     <!-- On today -->
 
-    <div class="h-full w-full bg-slate-300 pt-6" id="on-today"  name="on-today">
+    <div class="h-full w-full bg-slate-300 pt-10" id="on-today"  name="on-today">
         <div class="flex  p-8 w-full">
             <span class="text-4xl w-1/4 text-black mb-6  ">On Today</span>
             <div class="flex justify-start w-1/2  ">
@@ -170,36 +186,34 @@ require_once('./partials/head.php');
 
 
     <!-- Coming soon -->
-    <div class="h-auto w-full bg-blue-950 pb-8">
-        <div class="flex  p-8 w-full">
-            <span class="text-4xl w-1/4 text-white mb-4  ">Coming Soon</span>
-        </div>
+    <!-- <div class="h-auto w-full bg-[url('https://images.pexels.com/photos/7234227/pexels-photo-7234227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]"> -->
+        <div class="h-auto w-full bg-blue-950 pb-8">
+            <div class="flex  p-8 w-full">
+                <span class="text-4xl w-1/4 text-white mb-4  ">Coming Soon</span>
+            </div>
 
 
-        <div class=" h-auto w-full px-20 grid grid-cols-6 gap-6 text-black ">
-            <?php
-                if($result1 = mysqli_query($conn, $coming_soon_sql)){
-                    while($row = mysqli_fetch_assoc($result1)){
-                        require('./partials/movie-card.php');
+            <div class=" h-auto w-full px-20 grid grid-cols-6 gap-6 text-black ">
+                <?php
+                    if($result1 = mysqli_query($conn, $coming_soon_sql)){
+                        while($row = mysqli_fetch_assoc($result1)){
+                            require('./partials/movie-card.php');
+                        }
                     }
-                }
 
-            ?>
+                ?>
 
+            </div>
         </div>
-    </div>
-    <footer class="h-1/3 bg-black w-full relative">
-        <div>
-            <p class="text-xs w-screen text-white text-center absolute bottom-2 left-0">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
-        </div>
-    </footer>
-
-</div>
-
-
+    <!-- </div> -->
+    
 
 <?php
 
 require_once('./partials/footer.php');
 
 ?>
+</div>
+
+
+

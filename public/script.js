@@ -8,6 +8,7 @@ const loginCancel = document.getElementById('login-cancel');
 const searchMovieButton = document.getElementById('search-movie-btn');
 const searchMovieForm = document.getElementById('search-movie-form');
 const searchMovieInput = document.getElementById('movie_search');
+const closeSearchMovieForm = document.getElementById('close-search-movie-form');
 
 const movieDetails = document.getElementById('movie-details');
 const closeMovieDetailsButton = document.getElementById('close-movie-details');
@@ -48,12 +49,18 @@ else if(searchMovieButton != null){
         searchMovieForm.classList.remove('hidden');
         searchMovieInput.focus()
     })
+
 //click outside the form to close the modal window
     window.onclick = function(event) {
         if (event.target == searchMovieForm) {
             searchMovieForm.classList.add("hidden");
         }
     }
+
+    // close button
+    closeSearchMovieForm.addEventListener('click',()=>{
+        searchMovieForm.classList.add("hidden");
+    })
 }
 
 // MOVIE DETAILS

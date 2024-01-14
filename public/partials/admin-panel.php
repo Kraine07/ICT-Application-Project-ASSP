@@ -10,7 +10,7 @@ if(!isset($_SESSION['auth-user'])){
     showErrorMessage('Please login to access this page.','index');
 }
 
-$results = $_SESSION['movie-search-results'];
+$results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-results']:[];
 
 ?>
 

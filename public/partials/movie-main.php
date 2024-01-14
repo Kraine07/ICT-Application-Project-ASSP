@@ -21,7 +21,7 @@ require_once('search-api-modal.php');
             <p class="text-blue-900 text-6xl font-light py-10   text-heading">Movie Management</p>
 
             <!-- Action buttons -->
-            <div class="flex justify-between w-full my-6    action">
+            <div class="flex justify-start w-full my-6    action">
 
                 <!-- Add Movie -->
                 <div class="">
@@ -33,7 +33,7 @@ require_once('search-api-modal.php');
                 </div>
 
                 <!-- Search -->
-                <div class="flex    search-container">
+                <!-- <div class="flex    search-container">
                     <select class= "bg-blue-950 text-white  p-1 px-2">
                         <option selected hidden>SEARCH BY</option>
                         <option class="bg-white text-blue-950" value="title">TITLE</option>
@@ -44,7 +44,7 @@ require_once('search-api-modal.php');
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>
                     </button>
-                </div>
+                </div> -->
 
             </div>
             <!-- Movie Table -->

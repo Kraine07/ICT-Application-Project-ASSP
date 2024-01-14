@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+$_SESSION['patron-view'] = false;
 date_default_timezone_set('America/Jamaica');
 require_once('dbConn.php');
 require_once('message-display.php');

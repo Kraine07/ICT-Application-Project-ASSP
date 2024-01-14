@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+$_SESSION['patron-view'] = false;
 require_once('dbConn.php');
 require_once('./partials/head.php');
 require_once('message-display.php');

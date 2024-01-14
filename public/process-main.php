@@ -9,7 +9,7 @@ require_once('dbConn.php');
         // handle select cinema button clicks
         if(isset($_POST['screen-id'])){
             $_SESSION['screen-id'] = $_POST['screen-id'];
-            redirect('main.php#on-today');
+            redirect($_SESSION['page']);
         }
 
         // view movie details button click
@@ -25,7 +25,7 @@ require_once('dbConn.php');
                 }
                 $_SESSION['patron-genres'] = $genres;
                 $_SESSION['movie-info'] = true;
-                redirect('main.php#on-today');
+                redirect($_SESSION['page']);
             }
         }
 
@@ -33,13 +33,13 @@ require_once('dbConn.php');
         elseif(isset($_POST['trailer-link'])){
             $_SESSION['trailer-link'] = $_POST['trailer-link'];
             $_SESSION['watch-trailer'] = true;
-            redirect('main.php');
+            redirect($_SESSION['page']);
         }
 
         // close movie info modal
         elseif(isset($_POST['close-movie-info'])){
             $_SESSION['movie-info'] = false;
-            redirect('main.php#on-today');
+            redirect($_SESSION['page']);
         }
 
     }
