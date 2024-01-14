@@ -1,15 +1,15 @@
 
 <?php
 session_start();
-// session_destroy();
 
+date_default_timezone_set('America/Jamaica');
 
 
 // initialize session variables
-if(empty($_SESSION)){
+if(!isset($_SESSION) || empty($_SESSION)){
     // user
     $_SESSION['db-setup'] = 0;
-    $_SESSION['auth-user'] = 0;
+
     $_SESSION['screen'] = "main";
     $_SESSION['first-name'] = "";
     $_SESSION['last-name'] = "";
@@ -26,6 +26,12 @@ if(empty($_SESSION)){
     $_SESSION['screen-name'] = "";
 
     $_SESSION['movie-search-results']="";
+    $_SESSION['schedule-edit'] = false;
+    $_SESSION['user-edit'] = false;
+
+    $_SESSION['screen-id'] = "1";
+    $_SESSION['movie-info'] = false;
+    $_SESSION['watch-trailer'] = false;
 
 }
 
@@ -40,7 +46,7 @@ if($conn){
     $result = mysqli_query($conn,$sql);
 
     if(mysqli_num_rows($result) < 1){
-        redirect('setup.php');
+        redirect('init.php');
     }
     else{
         $_SESSION['db-setup'] = 1;
@@ -61,9 +67,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $_SESSION['screen'] = "user";
     }
 
-    // POST from search movie title modal
+
+
+    // get all movies from api with full or partial match to title entered
     elseif(isset($_POST['search_movie'])){
-        $query = trim($_POST['search_movie']);
+        $query = preg_replace('/\s+/', '%20', $_POST['search_movie']); // replace all spaces with '%20' (api requirement)
         $search_movie = "https://api.themoviedb.org/3/search/movie?&include_adult=false&query={$query}";
 
         $response = fetchData($search_movie);
@@ -85,7 +93,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     }
 
-    // get data from api using selected movie id
+    // get movie data from api using selected movie id
     elseif(isset($_POST['movie-id'])){
         $movie_id = $_POST['movie-id'];
         $movie_url = "https://api.themoviedb.org/3/movie/{$movie_id}?append_to_response=release_dates,videos&language=en-US";
@@ -115,7 +123,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $key = $video->{'key'};
 
             if($video->{'type'} == 'Trailer'){
-                $trailer = 'https://www.youtube.com/embed/'.$key.'?autoplay=1&mute=1&controls=1';
+                $trailer = 'https://www.youtube.com/embed/'.$key.'?autoplay=1&mute=0&controls=1';
                 break;
             }
 
@@ -124,8 +132,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // display details
         require_once('movie-details.php');
     }
+
+    // add movie
     elseif(isset($_POST['movie-details'])){
-        // TODO handle mysql errors
         $sql = "INSERT INTO `{$database}`.`{$movie_table}` VALUES (?,?,?,?,?,?,?)";
         $movie = [
             $_SESSION['movie-id'],
@@ -150,40 +159,81 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
             // return to movies main screen
             $_SESSION['screen'] = "movie";
+            showSuccessMessage("Movie added successfully.");
         }
-
     }
 
     // SCHEDULE
     elseif(isset($_POST['movie'])){
         $conflict = false;
+        $schedule_id = $_POST['schedule-id'];
         $movie = $_POST['movie'];
         $screen = $_POST['screen'];
         $start_date = dateToUnix($_POST['start']);
         $end_date = dateToUnix($_POST['end']);
 
+
         // check for scheduling conflicts
-        $all_sql = "SELECT `screen`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}` ";
+        $all_sql = "SELECT `schedule_id`, `screen`,`start`,`end` FROM `{$database}`.`{$schedule_table}` ";
         if($result = mysqli_query($conn,$all_sql)){
             while($row = mysqli_fetch_assoc($result)){
-                if($row['screen'] == $screen && (($start_date <= $row['end'] && $start_date >= $row['start']) || ($end_date <= $row['end'] && $end_date >= $row['start']))){
+                if($row['screen'] == $screen && $row['schedule_id'] != $schedule_id &&
+                (
+                    (
+                        $start_date <= $row['end'] &&
+                        $start_date >= $row['start']
+                    ) ||
+                    (
+                        $end_date <= $row['end'] &&
+                        $end_date >= $row['start']
+                    ) ||
+                    (
+                        $end_date >= $row['end'] &&
+                        $start_date <= $row['end']
+                    ) ||
+                    (
+                        $start_date >= $row['start'] &&
+                        $end_date <= $row['start']
+                    )
+                )){
                     $conflict = true;
                 }
             }
 
+
             if(!$conflict){
-                // add schedule
-                $sql = "INSERT INTO `{$database}`.`{$is_scheduled_for_table}` VALUES(?,?,?,?)";
-                if(mysqli_execute_query($conn, $sql,[$movie,$screen,$start_date,$end_date])){
-                    $_SESSION['screen'] = 'schedule';
-                }
-                else{
-                    showErrorMessage("Error adding movie. Please try again or contact technical support.");
-                }
+                // add or update schedule
+                    $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?)";
+                    if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $start_date, $end_date])){
+                        $_SESSION['screen'] = 'schedule';
+                        showSuccessMessage("Action completed successfully.");
+                    }
+                    else{
+                        showErrorMessage("Error adding/updating schedule. Please try again or contact technical support.");
+                    }
             }
             else{
                 showErrorMessage("Scheduling conflict exists. Please adjust times or choose a different screen.");
             }
+        }
+    }
+    // USER
+
+    //add User
+
+    elseif(isset($_POST['user-id'])){
+        $sql = "INSERT INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
+        $user = [
+            '',
+            $_SESSION['first-name'] = $_POST['first-name'],
+            $_SESSION['last-name'] = $_POST['last-name'],
+            $_SESSION['email'] = $_POST['email'],
+            $_SESSION['password'] = 'password123',
+            $_SESSION['role'] = $_POST['role']
+        ];
+        // add user to database
+        if(!mysqli_execute_query($conn,$sql,$user)){
+            showErrorMessage("Error adding user. Please try again or contact technical support.");
         }
     }
 }
@@ -198,13 +248,13 @@ function dateToUnix($date_str){
 
 // handle page loading
 require_once('./partials/head.php');
-require_once('error-handler.php');
+require_once('message-display.php');
 
-    if($_SESSION['auth-user'] == 0){
-        require_once('./partials/landing.php');
+    if(isset($_SESSION['auth-user'] )){
+        require_once('./partials/admin-panel.php');
     }
     else{
-        require_once('./partials/admin-panel.php');
+        require_once('./partials/landing.php');
     }
 
 require_once('./partials/footer.php');

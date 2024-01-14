@@ -13,6 +13,9 @@ const newScheduleButton = document.getElementById('new-schedule-btn');
 const scheduleForm = document.getElementById('schedule-form');
 const closeScheduleFormButton = document.getElementById('close-schedule-form');
 
+const newUserButton = document.getElementById('new-user-btn');
+const userForm = document.getElementById('user-form');
+const closeUserFormButton = document.getElementById('close-user-form');
 
 var slideIndex = 1;
 var timer;
@@ -31,14 +34,6 @@ if(loginFormButton != null){
         loginForm.classList.add("hidden");
     });
 
-<<<<<<< HEAD
-//click outside the window to close the modal window
-window.onclick = function(event) {
-    if (event.target == loginForm) {
-        loginForm.classList.add("hidden");
-    }
-}
-=======
     //click outside form to close the modal window
     window.onclick = function(event) {
         if (event.target == loginForm) {
@@ -68,7 +63,7 @@ else if(movieDetails != null){
     })
 
     window.onclick = function(event) {
-        if (event.target == movieDetails) {
+        if (event.target == movieDetails) {2
             movieDetails.classList.add("hidden");
         }
     }
@@ -82,10 +77,29 @@ else if(newScheduleButton != null){
     window.onclick = function(event) {
         if (event.target == scheduleForm) {
             scheduleForm.classList.add("hidden");
+            location.reload();
         }
     }
     closeScheduleFormButton.addEventListener('click',()=>{
         scheduleForm.classList.add('hidden');
+        location.reload();
+    })
+}
+
+// NEW User
+else if(newUserButton != null){
+    newUserButton.addEventListener('click',()=>{
+        userForm.classList.remove('hidden')
+    })
+    window.onclick = function(event) {
+        if (event.target == userForm) {
+            userForm.classList.add("hidden");
+            location.reload();
+        }
+    }
+    closeUserFormButton.addEventListener('click',()=>{
+        userForm.classList.add('hidden');
+        location.reload();
     })
 }
 
@@ -116,7 +130,7 @@ function autoSlideshow() {
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].style.backgroundColor = 'rgba(255,255,255,0.7)';
     slideIndex++;
-    timer = setTimeout(autoSlideshow, 5000);
+    timer = setTimeout(autoSlideshow, 8000);
 }
 
 
@@ -139,4 +153,3 @@ function nextSlide(n){
 
 
 
->>>>>>> progress-backup

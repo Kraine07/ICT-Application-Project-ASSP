@@ -1,6 +1,8 @@
 <?php
 
 
+
+// fetch data from given url
 function fetchData($url){
 
     $curl = curl_init();

@@ -2,7 +2,8 @@
 session_start();
 require_once('dbConn.php');
 require_once('redirect.php');
-include_once('error-handler.php');
+require_once('message-display.php');
+include_once('./partials/head.php');
 
 
 // check if a post was made
@@ -24,42 +25,30 @@ function login($credentials,$conn,$database,$user_table){
 
     $sql = "SELECT * FROM `{$database}`.`{$user_table}` WHERE `email` = ? and `password` = ?";
 
-    if($conn){ // check for database connection
-        $result = mysqli_execute_query($conn,$sql,$credentials);
+    // check if query failed
+    if(!$result = mysqli_execute_query($conn,$sql,$credentials)){
+        showErrorMessage('Something went wrong. Please try again or contact technical support.','index');
+        return false;
+    }
+    else{
+        if(!$_SESSION['auth-user'] = mysqli_fetch_array($result)){
 
-        if($result === false){ // check if query failed
-            showErrorMessage('Something went wrong. Please try again or contact technical support.','index');
+            // DISPLAY 'USER NOT AUTHORIZED' MESSAGE
+            showErrorMessage('User not authorized. Please try again.','index');
             return false;
         }
+
+        //USER LOGGED IN
         else{
-            if(!mysqli_fetch_array($result)){
-
-                // DISPLAY 'USER NOT AUTHORIZED' MESSAGE
-                showErrorMessage('User not authorized. Please try again.','index');
-                return false;
-
-                // DEPRECATE LOGIN ATTEMPTS
-
-                // IF ATTEMPTS == 0, SUSPEND LOGIN FUNCTIONALITY
-
-            }else{
-
-                //USER LOGGED IN
-                $_SESSION['auth-user'] = 1;
-                redirect('index.php');
-
-                // RESET LOGIN ATTEMPTS
-
-            }
-
+            $_SESSION['screen'] = "movie";
+            redirect('index.php');
         }
+
     }
-
-
 
 }
 
 
-
+require_once('./partials/footer.php');
 
 ?>

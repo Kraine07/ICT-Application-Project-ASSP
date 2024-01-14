@@ -1,12 +1,12 @@
 <?php
 require_once('dbConn.php');
-$db_movies_sql = "SELECT `movie`,`screen`,`movie_title`,`screen_name`,`start`,`end` FROM `{$database}`.`{$is_scheduled_for_table}`,`{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen`"; // TODO JOIN
-$result = mysqli_query($conn, $db_movies_sql);
-
+$sql = "SELECT `movie`,`screen`,`movie_title`,`schedule_id`,`screen_name`,`start`,`end` FROM `{$database}`.`{$schedule_table}`,`{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY `start` DESC";
+if(!$result = mysqli_query($conn, $sql)){
+    showErrorMessage("Error obtaining schedules. Please try again or contact technical support.");
+}
 
 require_once('schedule-form.php');
 ?>
-
 
 
 <div class=" flex flex-col items-center justify-center w-full px-4">
@@ -54,8 +54,11 @@ require_once('schedule-form.php');
         </thead>
         <tbody class="border-2 border-[#d9d9d9]">
             <?php
+
+            // table rows
             while($row = mysqli_fetch_assoc($result)){
                 echo '
+
                     <tr>
                         <td class="border-2 border-[#d9d9d9] py-2">'.$row['movie_title'].'</td>
                         <td class="border-2 border-[#d9d9d9]">'.$row['screen_name'].'</td>
@@ -64,7 +67,11 @@ require_once('schedule-form.php');
                         <td class="border-2 border-[#d9d9d9]">'.date("g:i A",$row['end']).'</td>
                         <td class="border-2 border-[#d9d9d9]  ">
                             <form action="edit-schedule.php" method="post" class="inline">
-                                <input name="edit-id" type="text"  value="" hidden>
+                                <input name="movie-title" type="text" value="'.$row['movie_title'].'" hidden>
+                                <input name="screen-name" type="text" value="'.$row['screen_name'].'" hidden>
+                                <input name="edit-id" type="text" value="'.$row['schedule_id'].'" hidden>
+                                <input name="start-time" type="text" value="'.$row['start'].'" hidden>
+                                <input name="end-time" type="text" value="'.$row['end'].'" hidden>
                                 <input name="edit-option" type="text" value="edit" hidden>
                                 <button class="text-green-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
@@ -73,7 +80,7 @@ require_once('schedule-form.php');
                                 </button>
                             </form>
                             <form action="edit-schedule.php" method="post" class="inline">
-                                <input name="edit-id" type="text" value="'.$row['screen'].'" hidden>
+                                <input name="edit-id" type="text" value="'.$row['schedule_id'].'" hidden>
                                 <input name="start-time" type="text" value="'.$row['start'].'" hidden>
                                 <input name="end-time" type="text" value="'.$row['end'].'" hidden>
                                 <input name="edit-option" type="text" value="delete" hidden>
@@ -89,6 +96,8 @@ require_once('schedule-form.php');
 
             }
             ?>
+
+
         </tbody>
     </table>
 </div>

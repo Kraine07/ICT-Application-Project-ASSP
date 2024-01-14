@@ -4,9 +4,9 @@ if(!isset($_SESSION)){
     session_start();
 }
 
-require_once('error-handler.php');
+require_once('message-display.php');
 
-if($_SESSION['auth-user'] == 0){
+if(!isset($_SESSION['auth-user'])){
     showErrorMessage('Please login to access this page.','index');
 }
 
@@ -25,8 +25,8 @@ $results = $_SESSION['movie-search-results'];
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-36 h-28 mx-auto">
                     <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
                 </svg>
-                <p class="text-4xl font-light  username">John Doe</p>
-                <p class="font-light   role">ADMINISTRATOR</p>
+                <p class="text-4xl font-light  username"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
+                <p class="font-light uppercase   role"> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
             </div >
 
 
@@ -38,7 +38,12 @@ $results = $_SESSION['movie-search-results'];
 
                 <button form="manage-movies" id='movies-menu-button' class='w-full font-semibold text-lg  py-2 <?php  echo $_SESSION['screen']=='movie'? 'bg-white text-blue-950':'';  ?>       selected' >Manage Movies</button>
                 <button form="manage-schedules" id='schedule-menu-button' class="w-full font-semibold text-lg py-2 <?php  echo $_SESSION['screen']=='schedule'? 'bg-white text-blue-950':'';  ?>">Manage Schedules</button>
-                <button form="manage-users" id='users-menu-button' class=" w-full font-semibold text-lg py-2 <?php  echo $_SESSION['screen']=='user'? 'bg-white text-blue-950':'';  ?>">Manage Users</button>
+
+                <!-- show user management if user is administrator -->
+                <?php
+                    echo $_SESSION['auth-user']['role'] == "admin" ? "<button form='manage-users' id='users-menu-button' class=' w-full font-semibold text-lg py-2   {$_SESSION['screen']}=='user'? 'bg-white text-blue-950':'';  '>Manage Users</button>" :"";
+                ?>
+
             </div>
         </div>
 
@@ -47,7 +52,7 @@ $results = $_SESSION['movie-search-results'];
             <form id="logout" action="logout.php" method="post"></form>
             <button form="logout" class="w-3/4 py-1 bg-slate-200 text-blue-950 font-bold rounded-full hover:bg-slate-400">Logout</button>
         </div>
-        <p class="absolute bottom-1 w-1/2 mx-auto text-center text-xs">&copy; Backyard Cinema 2023</p>
+        <p class="absolute bottom-1 w-1/4 mx-auto text-center text-xs">&copy; Backyard Cinema 2023</p>
     </div>
 
 
@@ -56,7 +61,7 @@ $results = $_SESSION['movie-search-results'];
 
 
     <!-- Section on the right(Movie, Schedule and User Management) -->
-    <div id='manage-movies' class=" bg-[#d9d9d9] items-center justify-center h-full w-3/4 p-6 text-center text-sm overflow-y-auto  selection">
+    <div id='manage-movies' class="  items-center justify-center h-[90%] w-3/4 text-center text-sm overflow-y-auto top-1/2  selection">
 
 
 
@@ -67,6 +72,12 @@ $results = $_SESSION['movie-search-results'];
         // load appropriate screen
         switch ($_SESSION['screen']) {
             case "movie-result-list": // show movie title results
+                echo
+                '
+                    <div class="text-xl w-full bg-white shadow-custom-sm sticky top-0 mb-4 pb-2">
+                        <span class="">Select a movie from the list below</span>
+                    </div>
+                ';
                 foreach($results as $result){
                     if($result->{'original_language'} == "en"){
                         $rating_url = 'https://api.themoviedb.org/3/movie/'.$result->{'id'}.'/release_dates';
@@ -80,7 +91,7 @@ $results = $_SESSION['movie-search-results'];
                 break;
 
             case "user": // show user management screen
-                echo "User screen goes here";
+                require_once('user-main.php');
                 break;
             default:
                 require_once('movie-main.php'); // show movie management screen

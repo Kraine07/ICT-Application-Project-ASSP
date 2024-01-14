@@ -1,4 +1,9 @@
 <?php
+
+if(!isset($_SESSION)){
+    session_start();
+}
+
 require_once('redirect.php');
 require_once('dbConn.php');
 
@@ -30,15 +35,28 @@ function handleDeleteSchedule(){
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['edit-id'])){
         require_once('./partials/head.php');
+
         // handle delete and edit button clicks
         switch($_POST['edit-option']){
-            // TODO handle edit
+
+            //  handle edit
             case 'edit':
+                $_SESSION['schedule-edit'] = true;
+
+                $_SESSION['movie-title'] = trim($_POST['movie-title']);
+                $_SESSION['screen-name'] = trim($_POST['screen-name']);
+                $_SESSION['schedule-id'] = trim($_POST['edit-id']);
+                $_SESSION['start-time'] = trim($_POST['start-time']);
+                $_SESSION['end-time'] = trim($_POST['end-time']);
+
+                redirect('index.php');
                 break;
+
+
+
             // handle delete
             case 'delete':
                 handleDeleteSchedule();
-                
                 break;
         }
         require_once('./partials/footer.php');
@@ -47,12 +65,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         redirect("index.php");
     }
     elseif(isset($_POST['delete-id'])){
-        $delete_sql = "DELETE FROM `{$database}`.`{$is_scheduled_for_table}` WHERE `screen` = {$_POST['delete-id']} AND `start` = {$_POST['start']} AND `end` = {$_POST['end']}";
-        mysqli_query($conn,$delete_sql);
+        $delete_sql = "DELETE FROM `{$database}`.`{$schedule_table}` WHERE `schedule_id` = {$_POST['delete-id']} ";
+        if(mysqli_query($conn,$delete_sql)){
+            redirect("index.php");
+        }
+        else{
+            showErrorMessage("Error deleting schedule. Please try again or contact technical support.");
+        }
 
-        // TODO HANDLE ERROR
-        
-        redirect("index.php");
 
     }
 
