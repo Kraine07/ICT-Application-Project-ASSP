@@ -2,6 +2,9 @@
 <?php
 session_start();
 
+date_default_timezone_set('America/Jamaica');
+
+
 // initialize session variables
 if(!isset($_SESSION) || empty($_SESSION)){
     // user
@@ -64,11 +67,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $_SESSION['screen'] = "user";
     }
 
-    // POST from search movie title modal
-    elseif(isset($_POST['search_movie'])){
 
-        // replace space with '%20' (api requirement)
-        $query = preg_replace('/\s+/', '%20', $_POST['search_movie']);
+
+    // get all movies from api with full or partial match to title entered
+    elseif(isset($_POST['search_movie'])){
+        $query = preg_replace('/\s+/', '%20', $_POST['search_movie']); // replace all spaces with '%20' (api requirement)
         $search_movie = "https://api.themoviedb.org/3/search/movie?&include_adult=false&query={$query}";
 
         $response = fetchData($search_movie);
@@ -156,6 +159,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
             // return to movies main screen
             $_SESSION['screen'] = "movie";
+            showSuccessMessage("Movie added successfully.");
         }
     }
 
@@ -202,9 +206,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?)";
                     if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $start_date, $end_date])){
                         $_SESSION['screen'] = 'schedule';
+                        showSuccessMessage("Action completed successfully.");
                     }
                     else{
-                        showErrorMessage("Error adding/updating movie. Please try again or contact technical support.");
+                        showErrorMessage("Error adding/updating schedule. Please try again or contact technical support.");
                     }
             }
             else{
@@ -225,7 +230,7 @@ function dateToUnix($date_str){
 
 // handle page loading
 require_once('./partials/head.php');
-require_once('error-handler.php');
+require_once('message-display.php');
 
     if(isset($_SESSION['auth-user'] )){
         require_once('./partials/admin-panel.php');

@@ -1,6 +1,6 @@
 <?php
 
-    require_once('error-handler.php');
+require_once('message-display.php');
     require_once('redirect.php');
 
     //turn off mysqli error reporting
@@ -10,7 +10,7 @@
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database = "backyard_cinema_2";
+    $database = "backyard_cinema";
 
 
     // tables

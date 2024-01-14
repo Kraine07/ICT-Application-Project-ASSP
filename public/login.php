@@ -2,7 +2,7 @@
 session_start();
 require_once('dbConn.php');
 require_once('redirect.php');
-include_once('error-handler.php');
+require_once('message-display.php');
 include_once('./partials/head.php');
 
 

@@ -2,7 +2,9 @@
 session_start();
 require_once('dbConn.php');
 
-require_once('error-handler.php');
+date_default_timezone_set('America/Jamaica');
+
+
 
 
 

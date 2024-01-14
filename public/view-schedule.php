@@ -1,10 +1,15 @@
 <?php
 require_once('dbConn.php');
 require_once('./partials/head.php');
-echo "<div class='h-full w-full bg-blue-950'>";
+
+// set default timezone
+date_default_timezone_set('America/Jamaica');
 
 // opening div tag
+echo "<div class='h-full w-full bg-blue-950'>";
+
 require_once('./partials/navbar.php');
+
 
 $day_names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -84,14 +89,14 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                 // display calendar days
                 for($i=1; $i<=$days_in_month+$start_day; $i++){
-                    $border = ( $month_day == (int)date('j')) ? "border border-white" :"";
+                    $css_class = ( $month_day == (int)date('j')) ? "text-yellow-500" :"";
                     if($i <= $start_day){
                         echo "<span></span>";
                     }else{
                         echo '
                         <form action="view-schedule.php" method="post">
                             <input type="text" name="calendar-day" value="'.sprintf("%02d",$month_day).'" hidden>
-                            <button class="text-xs aspect-square text-light w-8 p-0 '. $border .'  rounded-full">'.$month_day.'</button>
+                            <button class="text-sm aspect-square font-semibold w-4 p-0 '. $css_class .'  ">'.$month_day.'</button>
                         </form>
                     ';
                     $month_day ++;
@@ -112,62 +117,67 @@ if($result = mysqli_query($conn, $schedule_sql)){
         <div class="mx-auto h-full">
             <span class='text-4xl font-light text-white block pb-4  text-right'> <?php echo $new_selected_date; ?> </span>
             <div class=" mx-auto h-3/4">
-            <!-- Tabs -->
+
+            <!-- Tabs (screen names) -->
                 <input type="radio" id="tab1" name="tab" class="hidden " checked>
-                <label for="tab1" class="cursor-pointer bg-white text-blue-950  px-6 inline-block" > <?php  echo $screen_names[0];  ?> </label>
+                <label for="tab1" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block" > <?php  echo $screen_names[0];  ?> </label>
 
                 <input type="radio" id="tab2" name="tab" class="hidden">
-                <label for="tab2" class="cursor-pointer bg-white text-blue-950  px-6 inline-block"> <?php  echo $screen_names[1];  ?> </label>
+                <label for="tab2" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block"> <?php  echo $screen_names[1];  ?> </label>
 
                 <input type="radio" id="tab3" name="tab" class="hidden">
-                <label for="tab3" class="cursor-pointer bg-white text-blue-950  px-6 inline-block"> <?php  echo $screen_names[2];  ?> </label>
+                <label for="tab3" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block"> <?php  echo $screen_names[2];  ?> </label>
 
                 <input type="radio" id="tab4" name="tab" class="hidden">
-                <label for="tab4" class="cursor-pointer bg-white text-blue-950  px-6 inline-block"> <?php  echo $screen_names[3];  ?> </label>
+                <label for="tab4" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block"> <?php  echo $screen_names[3];  ?> </label>
+
 
                 <!-- Tab Content 1 -->
-                <div id="tab-content-1" class="tab-content h-full">
+                <div id="tab-content-1" class="tab-content h-full  border-t-2 border-white py-12">
                     <div class=" grid grid-cols-4 gap-3 h-auto">
-                    <!-- Content for Tab 1 goes here -->
+
                     <?php
                         foreach($cinema_1 as $row){
-                            require_once('./partials/movie-card.php');
+                            require('./partials/movie-card.php');
                         }
                     ?>
                     </div>
                 </div>
+
 
                 <!-- Tab Content 2 -->
-                <div id="tab-content-2" class="hidden tab-content">
+                <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-white py-12">
                     <div class="grid grid-cols-4 gap-3 h-auto">
-                    <!-- Content for Tab 2 goes here -->
+
                     <?php
                         foreach($cinema_2 as $row){
-                            require_once('./partials/movie-card.php');
+                            require('./partials/movie-card.php');
                         }
                     ?>
                     </div>
                 </div>
+
 
                 <!-- Tab Content 3 -->
-                <div id="tab-content-3" class="hidden tab-content">
+                <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-white py-12">
                     <div class="grid grid-cols-4 gap-3 h-auto">
-                    <!-- Content for Tab 3 goes here -->
+
                     <?php
                         foreach($cinema_3 as $row){
-                            require_once('./partials/movie-card.php');
+                            require('./partials/movie-card.php');
                         }
                     ?>
                     </div>
                 </div>
 
+
                 <!-- Tab Content 4 -->
-                <div id="tab-content-4" class="hidden tab-content">
+                <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-white py-12">
                     <div class="grid grid-cols-4 gap-3 h-auto">
-                    <!-- Content for Tab 4 goes here -->
+
                     <?php
                         foreach($cinema_4 as $row){
-                            require_once('./partials/movie-card.php');
+                            require('./partials/movie-card.php');
                         }
                     ?>
                     </div>

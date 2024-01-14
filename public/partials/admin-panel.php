@@ -4,7 +4,7 @@ if(!isset($_SESSION)){
     session_start();
 }
 
-require_once('error-handler.php');
+require_once('message-display.php');
 
 if(!isset($_SESSION['auth-user'])){
     showErrorMessage('Please login to access this page.','index');

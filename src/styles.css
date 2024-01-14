@@ -16,7 +16,8 @@
 #tab3:checked + label,
 #tab4:checked + label
 {
-    background-color: rgb(109, 109, 200);
+    background-color: #ffffff;
+    color:#000000;
 }
 
 /* Show the content of the checked tab */
