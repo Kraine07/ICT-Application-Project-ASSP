@@ -58,6 +58,9 @@ $result = mysqli_query($conn, $db_users_sql);
                         <td class="border-2 border-[#d9d9d9]">'.$row['email'].'</td>
                         <td class="border-2 border-[#d9d9d9] capitalize">'.$row['role'].'</td>
                         <td class="border-2 border-[#d9d9d9]  ">
+                        ';
+                if (!($_SESSION['auth-user']['user_id'] == $row['user_id']))
+                    echo '<div>
                             <form action="edit-user.php" method="post" class="inline">
                                 <input name="edit-id" type="text" value="'.$row['user_id'].'" hidden>
                                 <input name="first-name" type="text" value="'.$row['first_name'].'" hidden>
@@ -85,6 +88,8 @@ $result = mysqli_query($conn, $db_users_sql);
                                     </svg>
                                 </button>
                             </form>
+                        </div>';
+                echo '
                         </td>
                     </tr>
                 ';
