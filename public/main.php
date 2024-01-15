@@ -1,11 +1,27 @@
 <?php
 session_start();
+
+
+// initialize session variables
+if(!isset($_SESSION['screen-id'])){
+    $_SESSION['screen-id'] = "1";
+}
+if(!isset($_SESSION['watch-trailer'])){
+    $_SESSION['watch-trailer'] = false;
+}
+if(!isset($_SESSION['movie-info'])){
+    $_SESSION['movie-info'] = false;
+}
 $_SESSION['patron-view'] = true;
 $_SESSION['page'] = "main.php#on-today";
 
 
+
+
 require_once('dbConn.php');
 
+
+// set default timezone
 date_default_timezone_set('America/Jamaica');
 
 
