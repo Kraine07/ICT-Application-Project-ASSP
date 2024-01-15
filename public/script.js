@@ -1,6 +1,3 @@
-
-
-
 const loginFormButton = document.getElementById('login');
 const loginForm = document.getElementById('login-form');
 const loginCancel = document.getElementById('login-cancel');
@@ -17,6 +14,9 @@ const newScheduleButton = document.getElementById('new-schedule-btn');
 const scheduleForm = document.getElementById('schedule-form');
 const closeScheduleFormButton = document.getElementById('close-schedule-form');
 
+const newUserButton = document.getElementById('new-user-btn');
+const userForm = document.getElementById('user-form');
+const closeUserFormButton = document.getElementById('close-user-form');
 
 var slideIndex = 1;
 var timer;
@@ -70,7 +70,7 @@ else if(movieDetails != null){
     })
 
     window.onclick = function(event) {
-        if (event.target == movieDetails) {
+        if (event.target == movieDetails) {2
             movieDetails.classList.add("hidden");
         }
     }

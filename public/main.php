@@ -50,7 +50,6 @@ require_once('./partials/head.php');
 <div class=" h-full w-full bg-blue-950 overflow-y-auto  ">
 
 
-
     <?php
         require_once('./partials/navbar.php');
         require_once('./partials/movie-info-modal.php');
@@ -220,7 +219,10 @@ require_once('./partials/head.php');
     <!-- </div> -->
 
 
+
+
 <?php
+
 
 require_once('./partials/footer.php');
 
