@@ -1,10 +1,13 @@
 <?php
 if($_SESSION['patron-view']){
     echo '
-        <footer class="h-[50px] bg-black w-full relative">
-            <div class="text-white ">
-                <button id="login" class=" text-sm underline float-right mt-2 mr-8">Admin Panel</button>
-                <p class="text-xs w-screen text-center absolute bottom-2 left-0">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
+        <footer class="h-auto bg-black w-full bottom-0 flex flex-col justify-around">
+            <a href="main.php" class="h-[100px] flex justify-center">
+                <img src="./img/logo_light.png" alt="logo" class="h-[100px] pt-4  object-contain">
+            </a>
+            <div class="w-full text-white flex flex-col">
+                <button id="login" class=" text-sm underline mt-2 mr-8 self-end">Admin Panel</button>
+                <p class="text-xs w-screen text-center ">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
             </div>
         </footer>
     ';

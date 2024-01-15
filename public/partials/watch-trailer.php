@@ -10,6 +10,8 @@
     </button>
     <iframe class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" width="800" height="500" src="  <?php  echo $_SESSION['watch-trailer']? $_SESSION['trailer-link']:""   ?>  "></iframe>
 </div>
+
+
 <?php
 
 $_SESSION['watch-trailer'] = false;

@@ -1,8 +1,7 @@
 
 <?php
 session_start();
-$_SESSION['patron-view'] = false;
-$_SESSION['screen-id'] = "1";
+
 date_default_timezone_set('America/Jamaica');
 
 
@@ -29,12 +28,14 @@ if(!isset($_SESSION) || empty($_SESSION)){
 
     $_SESSION['schedule-edit'] = false;
 
-    
     $_SESSION['movie-info'] = false;
     $_SESSION['watch-trailer'] = false;
 
 
 }
+
+$_SESSION['patron-view'] = false;
+$_SESSION['screen-id'] = "1";
 
 
 

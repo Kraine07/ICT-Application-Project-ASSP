@@ -10,8 +10,6 @@ date_default_timezone_set('America/Jamaica');
 
 
 
-
-
 // get data to display in slideshow
 $schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY RAND() LIMIT 3";
 
@@ -27,8 +25,6 @@ $coming_soon_sql = "SELECT * FROM `{$database}`.`{$movie_table}` WHERE NOT EXIST
 
 
 
-
-
 require_once('./partials/head.php');
 
 ?>
@@ -38,7 +34,7 @@ require_once('./partials/head.php');
 <div class=" h-full w-full bg-blue-950 overflow-y-auto  ">
 
 
-    <!-- movie info modal -->
+
     <?php
         require_once('./partials/navbar.php');
         require_once('./partials/movie-info-modal.php');
@@ -127,10 +123,10 @@ require_once('./partials/head.php');
 
     <!-- On today -->
 
-    <div class="h-full w-full bg-slate-300 pt-10" id="on-today"  name="on-today">
-        <div class="flex  p-8 w-full">
-            <span class="text-4xl w-1/4 text-black mb-6  ">On Today</span>
-            <div class="flex justify-start w-1/2  ">
+    <div class="h-full w-full bg-slate-300 py-10" id="on-today" >
+        <div class="flex justify-start items-center mt-5 px-8 w-full">
+            <span class="text-6xl font-light w-1/3 text-black mb-14  ">On Today</span>
+            <div class="flex justify-start w-1/3  ">
                 <?php
 
                 // select screen buttons
@@ -151,7 +147,7 @@ require_once('./partials/head.php');
                         echo '
                             <form action="process-main.php" method="post" class="w-full">
                                 <input type="text" name="screen-id" value="'.$screen['screen_id'].'" hidden>
-                                <button class="'.$bg.' '.$text_col.' text-black text-md py-1 px-10 w-auto mx-4  focus:outline-none border border-blue-950 capitalize rounded-md">'.$screen['screen_name'].'</button>
+                                <button class="'.$bg.' '.$text_col.' text-black text-md py-1 px-10 w-auto mx-2  focus:outline-none border border-blue-950 capitalize rounded-md">'.$screen['screen_name'].'</button>
                             </form>
                             ';
 
@@ -187,9 +183,9 @@ require_once('./partials/head.php');
 
     <!-- Coming soon -->
     <!-- <div class="h-auto w-full bg-[url('https://images.pexels.com/photos/7234227/pexels-photo-7234227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]"> -->
-        <div class="h-auto w-full bg-blue-950 pb-8">
-            <div class="flex  p-8 w-full">
-                <span class="text-4xl w-1/4 text-white mb-4  ">Coming Soon</span>
+        <div class="h-auto w-full bg-blue-950 py-10" id="coming-soon">
+            <div class="flex pt-6  px-8 w-full mb-10">
+                <span class="text-6xl  text-white font-light  ">Coming Soon</span>
             </div>
 
 
@@ -206,7 +202,7 @@ require_once('./partials/head.php');
             </div>
         </div>
     <!-- </div> -->
-    
+
 
 <?php
 
