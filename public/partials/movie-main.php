@@ -71,7 +71,7 @@ require_once('search-api-modal.php');
                                 <td class="border-2 border-[#d9d9d9]">'.$duration.'</td>
                                 <td class="border-2 border-[#d9d9d9]">'.$row['movie_rating'].'</td>
                                 <td class="border-2 border-[#d9d9d9]  ">
-                                    <form action="edit-movie.php" method="post" class="inline">
+                                    <form action="manage-movie.php" method="post" class="inline">
                                         <input name="edit-id" type="text" value="'.$row['movie_id'].'" hidden>
                                         <input name="edit-option" type="text" value="edit" hidden>
                                         <button class="text-green-600">
@@ -80,7 +80,7 @@ require_once('search-api-modal.php');
                                             </svg>
                                         </button>
                                     </form>
-                                    <form action="edit-movie.php" method="post" class="inline">
+                                    <form action="manage-movie.php" method="post" class="inline">
                                         <input name="edit-id" type="text"  value="'.$row['movie_id'].'" hidden>
                                         <input name="edit-option" type="text" value="delete" hidden>
                                         <button class="text-red-600">

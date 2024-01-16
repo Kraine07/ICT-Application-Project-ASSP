@@ -1,4 +1,7 @@
 <?php
+if(!isset($_SESSION)){
+    session_start();
+}
 if($_SESSION['patron-view']){
     echo '
         <footer class="h-auto bg-black w-full bottom-0 flex flex-col justify-around">
