@@ -2,7 +2,8 @@
 require_once('dbConn.php');
 $db_users_sql = "SELECT `user_id`,`first_name`,`last_name`,`email`,`role` FROM `{$database}`.`{$user_table}`"; // TODO JOIN
 $result = mysqli_query($conn, $db_users_sql);
- require_once('user-form.php');
+
+require_once('user-form.php');
 ?>
 
 
@@ -19,12 +20,12 @@ $result = mysqli_query($conn, $db_users_sql);
             <button class=" bg-blue-950 text-white p-2 lg:px-6  rounded  new-schedule "  id="new-user-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg> <span class="hidden lg:inline">NEW USER</span> 
+                </svg> <span class="hidden lg:inline">CREATE USER</span>
             </button>
         </div>
 
         <!-- Search -->
-        <div class="flex    search-container">
+        <!-- <div class="flex    search-container">
             <select class= "bg-blue-950 text-white  p-1 px-2">
                 <option selected hidden>SEARCH BY</option>
                 <option class="bg-white text-blue-950" value="title">TITLE</option>
@@ -35,14 +36,14 @@ $result = mysqli_query($conn, $db_users_sql);
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
             </button>
-        </div>
+        </div> -->
 
     </div>
     <!-- Schedule Table -->
     <table class="table-fixed w-full bg-white border-2 border-[#d9d9d9]">
         <thead class="bg-blue-950 text-white">
             <tr>
-                <th class="py-4 border-2 border-[#d9d9d9] w-5/12" >USERNAME</th>
+                <th class="py-4 border-2 border-[#d9d9d9] w-5/12" >USER</th>
                 <th class="border-2 border-[#d9d9d9] ">EMAIL</th>
                 <th class="border-2 border-[#d9d9d9]">ROLE</th>
 

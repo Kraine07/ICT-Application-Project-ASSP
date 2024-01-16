@@ -27,6 +27,7 @@ if(!isset($_SESSION) || empty($_SESSION)){
     $_SESSION['movie-search-results']=[];
 
     $_SESSION['schedule-edit'] = false;
+    $_SESSION['user-edit'] = false;
 
 }
 

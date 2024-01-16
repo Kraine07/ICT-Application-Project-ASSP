@@ -1,7 +1,5 @@
 <?php
-if(!isset($_SESSION)){
-    session_start();
-}
+
 
 
 ?>
@@ -10,7 +8,7 @@ if(!isset($_SESSION)){
 <!--  User form modal window -->
 <div id="user-form" class="absolute top-0 left-0 bg-[#838383cc]  w-full h-full    <?php echo $_SESSION['user-edit'] ? "": "hidden" ?>   " >
     <div class="absolute flex flex-col items-center  left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[300px] border-2 border-blue-950 bg-slate-300" >
-        <h1 class="text-white text-lg text-left bg-blue-950 w-full px-[24px] py-2"><?php echo $_SESSION['user-edit']? "Edit": "New";?> User
+        <h1 class="text-white text-lg text-left bg-blue-950 w-full px-[24px] py-2"><?php echo $_SESSION['user-edit']? "Edit": "Create";?> User
             <button class="float-right inline-block" id="close-user-form">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -20,7 +18,7 @@ if(!isset($_SESSION)){
         <p class="text-xs  text-red-500 italic text-right w-full px-[24px]"><span class="text-lg">*</span> Required fields </p>
         <!-- user form -->
         <form action="index.php" method="post" class="flex flex-col justify-between items-start w-full h-full p-[24px]">
-        
+
             <input type="text" name="user-id" value=" <?php echo $_SESSION['user-edit'] ? $_SESSION['user-id']:"";  ?>  " hidden>
 
             <!-- first name -->
