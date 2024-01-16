@@ -66,7 +66,7 @@ require_once('schedule-form.php');
                         <td class="border-2 border-[#d9d9d9]">'.date("g:i A",$row['start']).'</td>
                         <td class="border-2 border-[#d9d9d9]">'.date("g:i A",$row['end']).'</td>
                         <td class="border-2 border-[#d9d9d9]  ">
-                            <form action="edit-schedule.php" method="post" class="inline">
+                            <form action="manage-schedule.php" method="post" class="inline">
                                 <input name="movie-title" type="text" value="'.$row['movie_title'].'" hidden>
                                 <input name="screen-name" type="text" value="'.$row['screen_name'].'" hidden>
                                 <input name="edit-id" type="text" value="'.$row['schedule_id'].'" hidden>
@@ -79,7 +79,7 @@ require_once('schedule-form.php');
                                     </svg>
                                 </button>
                             </form>
-                            <form action="edit-schedule.php" method="post" class="inline">
+                            <form action="manage-schedule.php" method="post" class="inline">
                                 <input name="edit-id" type="text" value="'.$row['schedule_id'].'" hidden>
                                 <input name="start-time" type="text" value="'.$row['start'].'" hidden>
                                 <input name="end-time" type="text" value="'.$row['end'].'" hidden>

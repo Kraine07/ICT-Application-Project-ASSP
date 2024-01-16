@@ -1,4 +1,5 @@
 <?php
+
 require_once('redirect.php');
 require_once('dbConn.php');
 require_once('message-display.php');
@@ -75,4 +76,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 }
 require_once('./partials/footer.php');
+
 ?>
