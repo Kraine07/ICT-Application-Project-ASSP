@@ -37,7 +37,7 @@ $start_day =  date('w', strtotime( $current_month . ' 01,' . date('Y'))); // num
 $selected_date = date('Y-m-d');
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-$selected_date = date('Y-m-'.$_POST['calendar-day']);
+    $selected_date = date('Y-m-'.$_POST['calendar-day']);
 }
 
 $selected_day = date_format(date_create($selected_date),'j');
@@ -107,14 +107,14 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     // display calendar days
                     for($i=1; $i<=$days_in_month+$start_day; $i++){
-                        $css_class = ( $selected_day == $month_day) ? "text-black rounded-full bg-yellow-500 " :"";
+                        $css_class = ( $selected_day == $month_day) ? "text-black rounded-full bg-white " :"";
                         if($i <= $start_day){
                             echo "<span></span>";
                         }else{
                             echo '
                             <form action="view-schedule.php" method="post" class="font-medium">
                                 <input type="text" name="calendar-day" value="'.sprintf("%02d",$month_day).'" hidden>
-                                <button class="text-sm aspect-square  w-6 p-0 '. $css_class .'  ">'.$month_day.'</button>
+                                <button class="text-sm aspect-square  w-auto px-2 '. $css_class .'  ">'.$month_day.'</button>
                             </form>
                         ';
                         $month_day ++;
