@@ -1,11 +1,27 @@
 <?php
 session_start();
+
+
+// initialize session variables
+if(!isset($_SESSION['screen-id'])){
+    $_SESSION['screen-id'] = "1";
+}
+if(!isset($_SESSION['watch-trailer'])){
+    $_SESSION['watch-trailer'] = false;
+}
+if(!isset($_SESSION['movie-info'])){
+    $_SESSION['movie-info'] = false;
+}
 $_SESSION['patron-view'] = true;
 $_SESSION['page'] = "main.php#on-today";
 
 
+
+
 require_once('dbConn.php');
 
+
+// set default timezone
 date_default_timezone_set('America/Jamaica');
 
 
@@ -32,7 +48,6 @@ require_once('./partials/head.php');
 
 
 <div class=" h-full w-full bg-blue-950 overflow-y-auto  ">
-
 
 
     <?php
@@ -204,7 +219,10 @@ require_once('./partials/head.php');
     <!-- </div> -->
 
 
+
+
 <?php
+
 
 require_once('./partials/footer.php');
 

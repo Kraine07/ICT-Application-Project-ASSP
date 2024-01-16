@@ -17,6 +17,10 @@ const newScheduleButton = document.getElementById('new-schedule-btn');
 const scheduleForm = document.getElementById('schedule-form');
 const closeScheduleFormButton = document.getElementById('close-schedule-form');
 
+const createUserButton = document.getElementById('new-user-btn');
+const userForm = document.getElementById('user-form');
+const closeUserFormButton = document.getElementById('close-user-form');
+
 
 var slideIndex = 1;
 var timer;
@@ -43,7 +47,7 @@ if(loginFormButton != null){
     }
 }
 
-// ADD MOVIE
+// MOVIE FORM
 else if(searchMovieButton != null){
     searchMovieButton.addEventListener('click',()=>{
         searchMovieForm.classList.remove('hidden');
@@ -76,7 +80,9 @@ else if(movieDetails != null){
     }
 }
 
-// NEW SCHEDULE
+
+
+// SCHEDULE FORM
 else if(newScheduleButton != null){
     newScheduleButton.addEventListener('click',()=>{
         scheduleForm.classList.remove('hidden')
@@ -91,6 +97,25 @@ else if(newScheduleButton != null){
         scheduleForm.classList.add('hidden');
         location.reload();
     })
+}
+
+
+// USER FORM
+else if(createUserButton != null){
+    createUserButton.addEventListener('click',()=>{
+        userForm.classList.remove('hidden');
+    })
+
+    closeUserFormButton.addEventListener('click', ()=>{
+        userForm.classList.add('hidden');
+    })
+
+    window.onclick = function(event) {
+        if (event.target == userForm) {
+            userForm.classList.add("hidden");
+            location.reload();
+        }
+    }
 }
 
 

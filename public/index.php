@@ -27,15 +27,13 @@ if(!isset($_SESSION) || empty($_SESSION)){
     $_SESSION['movie-search-results']=[];
 
     $_SESSION['schedule-edit'] = false;
-
-    $_SESSION['movie-info'] = false;
-    $_SESSION['watch-trailer'] = false;
-
+    $_SESSION['user-edit'] = false;
 
 }
 
+$_SESSION['watch-trailer'] = false;
 $_SESSION['patron-view'] = false;
-$_SESSION['screen-id'] = "1";
+
 
 
 
@@ -115,14 +113,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 }
 
-
-
-
 // handle page loading
 require_once('./partials/head.php');
 require_once('message-display.php');
 
-    if(isset($_SESSION['auth-user'] )){
+    if(isset($_SESSION['auth-user'])){
         require_once('./partials/admin-panel.php');
     }
     else{

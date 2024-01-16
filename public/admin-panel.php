@@ -1,5 +1,20 @@
 <?php
+session_start();
+require_once('dbConn.php');
 
+if (isset($_SESSION['fname']) && isset($_SESSION['lname']) ) {
+    $fname = $_SESSION['fname'];
+    $lname = $_SESSION['lname'];
+
+}
+
+$sql = "SELECT * FROM `movie`";
+if($conn){ // check for database connection
+    $result = mysqli_execute_query($conn,$sql);
+    if($result === false){ // check if query failed
+        showErrorMessage('Something went wrong. Please try again');
+    };
+}
 ?>
 
 
@@ -60,24 +75,20 @@
                     </tr>
                 </thead>
                 <tbody class="">
-                    <tr>
-                        <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td>123</td>
-                        <td>1961</td>
-                    <td><button><img class="edit-icon" src="./img/edit-icon.png" alt="edit icon"></button><button><img class="delete-icon" src="./img/delete-icon.png" alt="delete icon"></button></td>
-                    </tr>
-                    <tr>
-                        <td>Witchy Woman</td>
-                        <td>241</td>
-                        <td>1972</td>
-                        <td><button><img class="edit-icon" src="./img/edit-icon.png" alt="edit icon"></button><button><img class="delete-icon" src="./img/delete-icon.png" alt="delete icon"></button></td>
-                    </tr>
-                    <tr>
-                        <td>Shining Star</td>
-                        <td>143</td>
-                        <td>1975</td>
-                        <td><button><img class="edit-icon" src="./img/edit-icon.png" alt="edit icon"></button><button><img class="delete-icon" src="./img/delete-icon.png" alt="delete icon"></button></td> 
-                    </tr>
+                    <?php
+                    if ($result) {
+                        // Fetch the result row as an associative array
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            // Access data using array keys (column names)
+                            echo "<tr>
+                            <td>" . $row['movie_title'] ." </td>
+                            <td>" . $row['movie_duration'] ." </td>
+                            <td>" . $row['movie_rating'] ." </td>
+                            <td> <button><img class='edit-icon' src='./img/edit-icon.png' alt='edit icon'></button><button><img class='delete-icon' src='./img/delete-icon.png' alt='delete icon'></button></td>
+                            </tr>";
+                        }
+                    }
+                    ?> 
                 </tbody>
             </table>
         </div>

@@ -91,7 +91,7 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
                 break;
 
             case "user": // show user management screen
-                echo "User screen goes here";
+                require_once('user-main.php');
                 break;
             default:
                 require_once('movie-main.php'); // show movie management screen
