@@ -47,7 +47,7 @@ require_once('./partials/head.php');
 
 
 
-<div class=" h-full w-full bg-blue-950 overflow-y-auto  ">
+<div class=" h-full w-full bg-blue-950 overflow-y-auto overflow-x-hidden ">
 
 
     <?php
@@ -69,36 +69,32 @@ require_once('./partials/head.php');
                 while($row = mysqli_fetch_assoc($result)){
                     echo '
 
-                        <div  class="slides h-[360px] w-[700px] bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg  ">
-                            <div class="flex items-center justify-between h-full w-full p-6">
+                        <div  class="slides h-[340px] w-[560px] bg-app-tertiary left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg animate-fade-in ">
+
+                            <span class="absolute p-1 w-4/5 -translate-y-1/2 left-1/2 -translate-x-1/2 text-xl text-app-blue text-center font-bold bg-gray-200 rounded-md">Now Showing</span>
+
+                            <div class="flex items-center justify-between h-full w-full p-6 pt-10">
                                 <div class="w-1/3 h-full">
                                     <img class="object-cover h-full rounded-lg" src="'.$row['movie_poster'].' " alt="movie-poster">
                                 </div>
-                                <div class="flex flex-col justify-between w-3/5 h-full px-6 text-black">
+
+                                <div class="flex flex-col justify-between w-3/5 h-full px-6 text-gray-200">
+
                                     <div class="h-2/3 flex flex-col justify-start">
-                                        <h1 class="text-2xl h-1/3 leading-6 justify-self-center ">'.$row['movie_title'].'</h1>
-                                        <p class="text-xs h-2/3 overflow-clip  py-2">'.$row['movie_plot'].'</p>
+                                        <h1 class="text-2xl h-1/3 leading-6  ">'.$row['movie_title'].'</h1>
+                                        <p class="text-clip overflow-hidden text-sm h-2/3   py-2">'.$row['movie_plot'].'</p>
                                     </div>
+
                                     <div class="h-1/4 flex flex-col justify-end">
                                         <div class="flex justify-between items-end w-full my-2">
-                                            <div class="w-2/3">
+                                            <div class="w-1/2">
                                                 <span class="block text-2xl font-light">'.$row['screen_name'].'</span>
-                                                <span class="block text-4xl text-red-700 ">'.date("g:i A",$row['start']).'</span>
+                                                <span class="block text-3xl text-app-orange ">'.date("g:i A",$row['start']).'</span>
                                             </div>
-                                            <div class="flex justify-center items-end w-1/3  ">
-                                                <p class="text-2xl">'.$row['movie_rating'].'</p>
+                                            <div class="flex justify-end items-end w-1/2  ">
+                                                <p class="text-2xl text-end">'.$row['movie_rating'].'</p>
                                             </div>
                                         </div>
-                                        <form action="process-main.php" method="post">
-                                            <input type="text" name="trailer-link" value="'.$row['movie_trailer'].'" hidden>
-                                            <button class="bg-blue-950 text-white w-full text-2xl py-1 rounded-md flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-8 aspect-square inline">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
-                                                </svg>
-                                                Watch Trailer
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -136,12 +132,15 @@ require_once('./partials/head.php');
     </div>
 
 
+
+
+
     <!-- On today -->
 
-    <div class="h-full w-full bg-slate-300 py-10" id="on-today" >
-        <div class="flex justify-start items-center mt-5 px-8 w-full">
-            <span class="text-6xl font-light w-1/3 text-black mb-14  ">On Today</span>
-            <div class="flex justify-start w-1/3  ">
+    <div class="h-full w-full bg-app-secondary py-10" id="on-today" >
+        <div class="flex items-center my-12 mx-8 w-full">
+            <p class="text-4xl font-light w-1/3 text-gray-200 uppercase ">On Today</p>
+            <div class="flex justify-start w-1/3   bg-app-tertiary rounded-md">
                 <?php
 
                 // select screen buttons
@@ -149,12 +148,10 @@ require_once('./partials/head.php');
                     while($screen = mysqli_fetch_assoc($result)){
 
                         if($screen['screen_id'] == $_SESSION['screen-id']){
-                            $bg = "bg-blue-950";
-                            $text_col = "text-white";
+                            $css = "bg-app-orange text-white animate-fade-in";
                         }
                         else{
-                            $bg= "bg-white";
-                            $text_col = "text-blue-950";
+                            $css = "bg-app-tertiary text-gray-200";
                         }
 
 
@@ -162,7 +159,7 @@ require_once('./partials/head.php');
                         echo '
                             <form action="process-main.php" method="post" class="w-full">
                                 <input type="text" name="screen-id" value="'.$screen['screen_id'].'" hidden>
-                                <button class="'.$bg.' '.$text_col.' text-black text-md py-1 px-10 w-auto mx-2  focus:outline-none border border-blue-950 capitalize rounded-md">'.$screen['screen_name'].'</button>
+                                <button class="'.$css.' text-black text-md py-1 px-10 w-auto   focus:outline-none  capitalize rounded-md">'.$screen['screen_name'].'</button>
                             </form>
                             ';
 
@@ -182,7 +179,7 @@ require_once('./partials/head.php');
                 if($result = mysqli_query($conn, $today_sql)){
 
                     while($row = mysqli_fetch_assoc($result)){
-                        echo "<div class='h-auto w-auto shadow-custom'>";
+                        echo "<div class='h-auto w-4/5 shadow-custom'>";
                         require('./partials/movie-card.php');
                         echo "</div>";
                     }
@@ -198,9 +195,9 @@ require_once('./partials/head.php');
 
     <!-- Coming soon -->
     <!-- <div class="h-auto w-full bg-[url('https://images.pexels.com/photos/7234227/pexels-photo-7234227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]"> -->
-        <div class="h-auto w-full bg-blue-950 py-10" id="coming-soon">
+        <div class="h-auto w-full bg-app-tertiary py-12" id="coming-soon">
             <div class="flex pt-6  px-8 w-full mb-10">
-                <span class="text-6xl  text-white font-light  ">Coming Soon</span>
+                <span class="text-4xl  text-white font-light uppercase ">Coming Soon</span>
             </div>
 
 

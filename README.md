@@ -20,3 +20,7 @@ This application is a cinema management system designed for Backyard Cinema Ltd.
 
 ### Icons
 - [Heroicons](https://www.heroicons.com/)
+
+
+### Color Scheme
+- [Color Hunt](https://colorhunt.co/palette/0820322c394b334756ff4c29)

@@ -20,7 +20,7 @@ require_once('./partials/head.php');
 date_default_timezone_set('America/Jamaica');
 
 // opening div tag
-echo "<div class='h-full w-full bg-blue-950 overflow-y-auto'>";
+echo "<div class='h-full w-full bg-blue-950 overflow-y-auto overflow-x-hidden'>";
 
 require_once('./partials/navbar.php');
 require_once('./partials/login-form-modal.php');
