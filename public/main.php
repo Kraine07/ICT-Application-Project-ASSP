@@ -19,6 +19,7 @@ $_SESSION['page'] = "main.php#on-today";
 
 
 require_once('dbConn.php');
+require_once('redirect.php');
 
 
 // set default timezone
@@ -51,7 +52,7 @@ require_once('./partials/head.php');
 
 
     <?php
-        require_once('./partials/navbar.php');
+        // require_once('./partials/navbar.php');
         require_once('./partials/movie-info-modal.php');
         require_once('./partials/watch-trailer.php');
         require_once('./partials/login-form-modal.php');
@@ -60,7 +61,7 @@ require_once('./partials/head.php');
 
 
     <!-- slides -->
-    <div class="slideshow relative h-5/6 bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-contain ">
+    <div class="slideshow relative h-full bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-contain ">
         <!-- <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2> -->
         <div class="">
             <?php
@@ -71,7 +72,7 @@ require_once('./partials/head.php');
 
                         <div  class="slides h-[340px] w-[560px] bg-app-tertiary left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  absolute rounded-lg animate-fade-in ">
 
-                            <span class="absolute p-1 w-4/5 -translate-y-1/2 left-1/2 -translate-x-1/2 text-xl text-app-blue text-center font-bold bg-gray-200 rounded-md">Now Showing</span>
+                            <span class="absolute p-1 w-4/5 -translate-y-1/2 left-1/2 -translate-x-1/2 text-xl text-app-secondary text-center font-bold bg-gray-200 rounded-md">Now Showing</span>
 
                             <div class="flex items-center justify-between h-full w-full p-6 pt-10">
                                 <div class="w-1/3 h-full">
@@ -103,21 +104,24 @@ require_once('./partials/head.php');
                     ';
                 }
             }
+            else{
+                redirect('404.php');
+            }
 
 
             ?>
 
         </div>
 
-        <span class="absolute left-[17%]  top-1/2 text-2xl p-1 text-center  cursor-pointer text-black bg-[#ffffff77] font-semibold rounded-full" onclick="nextSlide(-1)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 ">
+        <span class="absolute left-[20%]  top-1/2 text-2xl p-1 text-center  cursor-pointer text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full w-6 h-6" onclick="nextSlide(-1)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-full ">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
 
         </span>
 
-        <span class="absolute right-[17%] p-1 top-1/2 text-2xl  text-center  cursor-pointer  text-black bg-[#ffffff77] font-semibold rounded-full " onclick="nextSlide(1)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+        <span class="absolute right-[20%] p-1 top-1/2 text-2xl  text-center  cursor-pointer  text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full h-6 w-6" onclick="nextSlide(1)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-full">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
 
@@ -137,10 +141,10 @@ require_once('./partials/head.php');
 
     <!-- On today -->
 
-    <div class="h-full w-full bg-app-secondary py-10" id="on-today" >
-        <div class="flex items-center my-12 mx-8 w-full">
+    <div class="h-full w-full bg-app-secondary py-8 " id="on-today" >
+        <div class="flex items-center  mx-8 w-full">
             <p class="text-4xl font-light w-1/3 text-gray-200 uppercase ">On Today</p>
-            <div class="flex justify-start w-1/3   bg-app-tertiary rounded-md">
+            <div class="flex justify-start w-1/3   bg-app-tertiary rounded-md ">
                 <?php
 
                 // select screen buttons
@@ -159,7 +163,7 @@ require_once('./partials/head.php');
                         echo '
                             <form action="process-main.php" method="post" class="w-full">
                                 <input type="text" name="screen-id" value="'.$screen['screen_id'].'" hidden>
-                                <button class="'.$css.' text-black text-md py-1 px-10 w-auto   focus:outline-none  capitalize rounded-md">'.$screen['screen_name'].'</button>
+                                <button class="'.$css.' text-black text-md py-1 px-10 w-[160px] truncate   focus:outline-none  capitalize rounded-md">'.$screen['screen_name'].'</button>
                             </form>
                             ';
 
@@ -174,7 +178,7 @@ require_once('./partials/head.php');
 
         <!-- today's movie cards -->
 
-        <div class=" h-auto w-full px-20  grid grid-cols-4 gap-12 text-black ">
+        <div class=" h-auto w-full p-20  grid grid-cols-4 gap-12 text-black ">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
@@ -194,9 +198,8 @@ require_once('./partials/head.php');
 
 
     <!-- Coming soon -->
-    <!-- <div class="h-auto w-full bg-[url('https://images.pexels.com/photos/7234227/pexels-photo-7234227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]"> -->
-        <div class="h-auto w-full bg-app-tertiary py-12" id="coming-soon">
-            <div class="flex pt-6  px-8 w-full mb-10">
+        <div class="h-auto w-full bg-app-tertiary py-8" id="coming-soon">
+            <div class="flex  px-8 w-full mb-10">
                 <span class="text-4xl  text-white font-light uppercase ">Coming Soon</span>
             </div>
 
@@ -213,7 +216,6 @@ require_once('./partials/head.php');
 
             </div>
         </div>
-    <!-- </div> -->
 
 
 

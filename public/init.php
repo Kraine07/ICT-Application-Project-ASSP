@@ -75,15 +75,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         CREATE TABLE IF NOT EXISTS `{$database}`.`{$has_genre_table}` (`movie` int(11) NOT null,`genre` int(11) NOT NULL, KEY `movie` (`movie`),  KEY `genre` (`genre`), CONSTRAINT `has_genre_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `has_genre_fk2` FOREIGN KEY (`genre`) REFERENCES `genre` (`genre_id`) ) ENGINE=INNODB;
 
-        CREATE TABLE IF NOT EXISTS `{$database}`.`{$schedule_table}` (`schedule_id` int(11) NOT NULL AUTO_INCREMENT, `movie` int(11) NOT null, `screen` int(11) NOT null,`start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), PRIMARY KEY (`schedule_id`))ENGINE=INNODB;
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$schedule_table}` (`schedule_id` int(11) NOT NULL AUTO_INCREMENT, `movie` int(11) NOT null, `screen` int(11) NOT null, `user` int(11) NOT null, `start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), KEY `user` (`user`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), CONSTRAINT `schedule_fk3` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`), PRIMARY KEY (`schedule_id`))ENGINE=INNODB;
 
     ";
 
 
     $admin_sql = "INSERT IGNORE INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
-
-
-
 
     // validate submitted data
     if(!empty_fields($form_data)){
@@ -114,7 +111,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                     else{
                                         // TODO display success message
                                         session_destroy();
-                                        showSuccessMessage("Database created successfully.");
+                                        showSuccessMessage("Setup process completed successfully.");
                                         // redirect('index.php');
                                     }
                                 }

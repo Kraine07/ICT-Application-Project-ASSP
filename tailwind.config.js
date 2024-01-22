@@ -23,13 +23,25 @@ module.exports = {
           '0%':{transform:'translateX(0)'},
           '50%':{transform:'translateX(8px)'},
           '100%':{transform:'translateX(0)'},
+        },
+        zoom:{
+          '0%':{
+            transform:'scale(0)',
+            opacity:'0'
+          },
+          '20%':{
+            transform:'scale(0)',
+            opacity:'1'
+          },
+          '100%':{transform:'scale(1)'},
         }
       },
 
       animation:{
-        'drop-down':'descend 0.2s linear',
-        'fade-in':'fade 0.6s ease',
-        'push':'bounce-right 0.8s infinite'
+        'drop-down':'descend 0.2s ease-in-out',
+        'fade-in':'fade 0.6s ease-in-out',
+        'push':'bounce-right 0.8s infinite',
+        'zoom-in':'zoom 0.3s ease-in-out',
       },
 
       boxShadow:{
@@ -38,12 +50,15 @@ module.exports = {
       },
 
 
+
+
       colors: {
         app:{
           blue:'#082032',
           orange:'#FF4C29',
           secondary:'#2C394B',
           tertiary:'#334756',
+          modal:'#0f0f0fdd',
         },
       }
 
