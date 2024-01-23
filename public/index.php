@@ -6,7 +6,8 @@ date_default_timezone_set('America/Jamaica');
 
 
 // initialize session variables
-if(!isset($_SESSION) || empty($_SESSION)){
+if(!isset($_SESSION['auth-user']) || !isset($_SESSION['movie-search-results'])){
+// if(!isset($_SESSION) || empty($_SESSION)){
     // user
 
     $_SESSION['screen'] = "main";

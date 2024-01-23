@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" class=" scroll-smooth ">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,4 +9,9 @@
     </head>
     <body >
 
-        <div class="  h-screen w-screen max-w-[1280px] mx-auto  flex flex-col justify-center relative overflow-hidden">
+        <div class="h-screen w-screen max-w-[1280px] mx-auto  flex flex-col justify-center relative overflow-hidden">
+
+        <?php
+         if($_SESSION['patron-view'])
+            require_once('navbar.php');
+        ?>

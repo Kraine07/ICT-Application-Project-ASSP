@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 // handle login process
 function login($credentials,$conn,$database,$user_table){
 
-    $sql = "SELECT * FROM `{$database}`.`{$user_table}` WHERE `email` = ? and `password` = ?";
+    $sql = "SELECT * FROM `{$database}`.`{$user_table}` WHERE `email` = ? and `password` = ? LIMIT 1";
 
     // check if query failed
     if(!$result = mysqli_execute_query($conn,$sql,$credentials)){
@@ -39,7 +39,7 @@ function login($credentials,$conn,$database,$user_table){
             return false;
         }
 
-        //USER LOGGED IN
+        // USER LOGGED IN
         else{
             $_SESSION['screen'] = "movie";
             redirect('index.php');

@@ -4,11 +4,11 @@ if(!isset($_SESSION)){
 }
 if($_SESSION['patron-view']){
     echo '
-        <footer class="h-auto bg-black w-full bottom-0 flex flex-col justify-around">
+        <footer class="h-auto bg-app-blue w-full bottom-0 flex flex-col justify-around">
             <a href="main.php" class="h-[100px] flex justify-center">
                 <img src="./img/logo_light.png" alt="logo" class="h-[100px] pt-4  object-contain">
             </a>
-            <div class="w-full text-white flex flex-col">
+            <div class="w-full text-gray-200 flex flex-col">
                 <button id="login" class=" text-sm underline mt-2 mr-8 self-end">Admin Panel</button>
                 <p class="text-xs w-screen text-center ">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
             </div>

@@ -22,6 +22,12 @@ const userForm = document.getElementById('user-form');
 const closeUserFormButton = document.getElementById('close-user-form');
 
 
+const smallScreenMenuButton = document.getElementById('small-screen-menu-btn');
+const smallScreenMenu = document.getElementById('small-screen-menu');
+const closeSmallScreenMenuButton = document.getElementById('close-small-screen-menu')
+
+const navBar = document.getElementById('navbar');
+
 var slideIndex = 1;
 var timer;
 
@@ -121,9 +127,8 @@ else if(createUserButton != null){
 
 
 
-/**
- * Below is the code that handles the slides on the main page
- */
+
+// SLIDESHOW
 
 autoSlideshow();
 function autoSlideshow() {
@@ -161,10 +166,4 @@ function nextSlide(n){
     clearTimeout(timer)
     autoSlideshow();
 }
-
-
-
-
-
-
 

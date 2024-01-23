@@ -49,6 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
             if(!$conflict){
+                // CHECK IF SCHEDULE IS SHORTER THAN MOVIE DURATION
                 $movie_duration_sql = "SELECT `movie_duration` FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = $movie";
                 if($result = mysqli_query($conn, $movie_duration_sql)){
                     while($row = mysqli_fetch_assoc($result)){
@@ -58,8 +59,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         }
                         else{
                             // add or update schedule
-                            $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?)";
-                            if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $start_date, $end_date])){
+                            $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?,?)";
+                            if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $_SESSION['auth-user']['user_id'], $start_date, $end_date])){
                                 $_SESSION['screen'] = 'schedule';
                                 showSuccessMessage("Action completed successfully.");
                             }
@@ -80,8 +81,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
     elseif(isset($_POST['edit-id'])){
-        // require_once('./partials/head.php');
-
         $_SESSION['movie-title'] = trim($_POST['movie-title']);
         $_SESSION['screen-name'] = trim($_POST['screen-name']);
         $_SESSION['schedule-id'] = trim($_POST['edit-id']);
