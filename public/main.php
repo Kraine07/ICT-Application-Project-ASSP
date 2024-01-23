@@ -61,7 +61,7 @@ require_once('./partials/head.php');
 
 
     <!-- slides -->
-    <div class="slideshow relative h-full bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-contain ">
+    <div class="hidden sm:block slideshow relative h-full bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center ">
         <!-- <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2> -->
         <div class="">
             <?php
@@ -113,14 +113,14 @@ require_once('./partials/head.php');
 
         </div>
 
-        <span class="absolute left-[20%]  top-1/2 text-2xl p-1 text-center  cursor-pointer text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full w-6 h-6" onclick="nextSlide(-1)">
+        <span class="absolute left-4 md:left-[10%] lg:left-[20%]  top-1/2 text-2xl p-1 text-center  cursor-pointer text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full w-6 h-6" onclick="nextSlide(-1)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-full ">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
 
         </span>
 
-        <span class="absolute right-[20%] p-1 top-1/2 text-2xl  text-center  cursor-pointer  text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full h-6 w-6" onclick="nextSlide(1)">
+        <span class="absolute right-4  md:right-[10%] lg:right-[20%] p-1 top-1/2 text-2xl  text-center  cursor-pointer  text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full h-6 w-6" onclick="nextSlide(1)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-full">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
@@ -137,14 +137,15 @@ require_once('./partials/head.php');
 
 
 
-
-
     <!-- On today -->
 
-    <div class="h-full w-full bg-app-secondary py-8 " id="on-today" >
-        <div class="flex items-center  mx-8 w-full">
-            <p class="text-4xl font-light w-1/3 text-gray-200 uppercase ">On Today</p>
-            <div class="flex justify-start w-1/3   bg-app-tertiary rounded-md ">
+    <div class="h-auto w-full bg-app-secondary py-8 " id="on-today" >
+        <div class="lg:flex lg:items-center mx-8 w-full ">
+
+            <p class="text-2xl md:text-4xl font-light w-full md:w-1/3 text-gray-200 uppercase">On Today</p>
+
+            <div class="  w-auto    lg:bg-app-tertiary rounded-md mt-6">
+            <!-- <div class="grid grid-cols-1 md:flex md:justify-start w-auto md:w-1/3   md:bg-app-tertiary rounded-md mt-6"> -->
                 <?php
 
                 // select screen buttons
@@ -161,9 +162,9 @@ require_once('./partials/head.php');
 
                         // screen buttons
                         echo '
-                            <form action="process-main.php" method="post" class="w-full">
+                            <form action="process-main.php" method="post" class="w-full inline">
                                 <input type="text" name="screen-id" value="'.$screen['screen_id'].'" hidden>
-                                <button class="'.$css.' text-black text-md py-1 px-10 w-[160px] truncate   focus:outline-none  capitalize rounded-md">'.$screen['screen_name'].'</button>
+                                <button class="'.$css.' text-black text-xs md:text-md py-1 px-4 md:px-10 w-[90px] md:w-[160px] truncate   focus:outline-none  capitalize rounded-md">'.$screen['screen_name'].'</button>
                             </form>
                             ';
 
@@ -178,12 +179,12 @@ require_once('./partials/head.php');
 
         <!-- today's movie cards -->
 
-        <div class=" h-auto w-full p-20  grid grid-cols-4 gap-12 text-black ">
+        <div class=" h-auto w-full  grid gap-y-4 grid-cols-2  lg:grid-cols-4 lg:gap-12 text-black p-8">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
                     while($row = mysqli_fetch_assoc($result)){
-                        echo "<div class='h-auto w-4/5 shadow-custom'>";
+                        echo "<div class='h-auto w-4/5  '>";
                         require('./partials/movie-card.php');
                         echo "</div>";
                     }
@@ -200,11 +201,11 @@ require_once('./partials/head.php');
     <!-- Coming soon -->
         <div class="h-auto w-full bg-app-tertiary py-8" id="coming-soon">
             <div class="flex  px-8 w-full mb-10">
-                <span class="text-4xl  text-white font-light uppercase ">Coming Soon</span>
+                <span class="text-2xl md:text-4xl  text-white font-light uppercase ">Coming Soon</span>
             </div>
 
 
-            <div class=" h-auto w-full px-20 grid grid-cols-6 gap-6 text-black ">
+            <div class=" h-auto w-full px-20 grid grid-cols-2 gap-6 md:grid-cols-5  text-black ">
                 <?php
                     if($result1 = mysqli_query($conn, $coming_soon_sql)){
                         while($row = mysqli_fetch_assoc($result1)){

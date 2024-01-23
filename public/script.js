@@ -125,25 +125,6 @@ else if(createUserButton != null){
 }
 
 
-// SMALL SCREEN MENU
-else if(navBar != null) {
-
-    smallScreenMenuButton.addEventListener('click',()=>{
-        smallScreenMenu.classList.remove('hidden');
-    });
-
-    closeSmallScreenMenuButton.addEventListener('click', ()=>{
-        smallScreenMenu.classList.add('hidden');
-    });
-
-    window.onclick = function(event) {
-        if (event.target == smallScreenMenu) {
-            smallScreenMenu.classList.add("hidden");
-            location.reload();
-        }
-    }
-}
-
 
 
 
