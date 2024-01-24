@@ -34,7 +34,7 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
             <div class="flex flex-col items-start w-full">
                 <label for="movie" class="text-md font-semibold mb-1">Movie <span class="text-red-600">*</span></label>
                 <select name="movie" id="movie" class="bg-white w-full py-1" required>
-                    <option  hidden>Choose movie</option>
+                    <option value="" hidden>Choose movie</option>
                     <?php
                     // print each movie title as an option
                     while($movie = mysqli_fetch_assoc($movie_result)){
@@ -52,7 +52,7 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
             <div class="flex flex-col items-start w-full">
                 <label for="screen" class="text-md font-semibold mb-1">Screen <span class="text-red-600">*</span></label>
                 <select name="screen" id="screen" class="bg-white w-full py-1 " required>
-                    <option  hidden>Choose screen</option>
+                    <option value="" hidden>Choose screen</option>
                     <?php
                     // print each screen name as an option
                     while($screen = mysqli_fetch_assoc($screen_result)){

@@ -83,7 +83,7 @@ require_once('./partials/head.php');
 
                                     <div class="h-2/3 flex flex-col justify-start">
                                         <h1 class="text-2xl h-1/3 leading-6  ">'.$row['movie_title'].'</h1>
-                                        <p class="text-clip overflow-hidden text-sm h-2/3   py-2">'.$row['movie_plot'].'</p>
+                                        <p class="text-clip overflow-hidden text-xs h-2/3   py-2">'.$row['movie_plot'].'</p>
                                     </div>
 
                                     <div class="h-1/4 flex flex-col justify-end">

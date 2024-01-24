@@ -1,5 +1,5 @@
 
-<div class="h-screen w-screen bg-[#000000] absolute top-0 left-0 z-50  <?php echo $_SESSION['watch-trailer']?"block":"hidden"  ?>">
+<div class="h-screen w-screen bg-app-secondary absolute top-0 left-0 z-50  <?php echo $_SESSION['watch-trailer']?"block":"hidden"  ?>">
     <form action="main.php" method="post" id="close-movie-info">
             <input type="text" name="close-movie-info" hidden>
     </form>
@@ -8,7 +8,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
         </svg>
     </button>
-    <iframe class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" width="800" height="500" src="  <?php  echo $_SESSION['watch-trailer']? $_SESSION['trailer-link']:""   ?>  "></iframe>
+    <iframe class="absolute h-3/4 w-4/5 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" src="  <?php  echo $_SESSION['watch-trailer']? $_SESSION['trailer-link']:""   ?>  "></iframe>
 </div>
 
 

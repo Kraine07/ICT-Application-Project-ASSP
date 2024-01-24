@@ -41,7 +41,8 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
 
                 <!-- show user management if user is administrator -->
                 <?php
-                    echo $_SESSION['auth-user']['role'] == "admin" ? "<button form='manage-users' id='users-menu-button' class=' w-full font-semibold text-lg py-2   {$_SESSION['screen']}=='user'? 'bg-white text-blue-950':'';  '>Manage Users</button>" :"";
+                $css = $_SESSION['screen'] == 'user'? 'bg-white text-blue-950':'';
+                    echo $_SESSION['auth-user']['role'] == "admin" ? "<button form='manage-users' id='users-menu-button' class=' w-full font-semibold text-lg py-2 {$css}    '>Manage Users</button>" :"";
                 ?>
 
             </div>

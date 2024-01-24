@@ -11,7 +11,7 @@ module.exports = {
 
         descend:{
           from:{top: '-100%'},
-          to:{top: '-25%'}
+          to:{top: '75%'}
         },
 
         fade:{

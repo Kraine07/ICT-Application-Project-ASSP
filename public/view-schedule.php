@@ -20,7 +20,7 @@ require_once('./partials/head.php');
 date_default_timezone_set('America/Jamaica');
 
 // opening div tag
-echo "<div class='h-full w-full bg-blue-950 overflow-y-auto overflow-x-hidden'>";
+echo "<div class='h-full w-full bg-app-tertiary overflow-y-auto overflow-x-hidden'>";
 
 // require_once('./partials/navbar.php');
 require_once('./partials/login-form-modal.php');
@@ -88,14 +88,14 @@ if($result = mysqli_query($conn, $schedule_sql)){
     <div class="flex items-center justify-between h-full w-full px-6">
 
         <!-- calendar -->
-        <div class="h-auto w-[360px]  bg-gray-600   left-4 ">
-            <div class="flex justify-around items-center text-white w-full py-2 mx-auto bg-gray-900">
+        <div class="h-auto w-[360px]  bg-app-tertiary  left-4  shadow-custom">
+            <div class="flex justify-around items-center text-gray-200 w-full py-2 mx-auto bg-app-blue">
                 <!-- <span>&#10094;</span> -->
                 <span class="text-2xl"><?php  echo $current_month;  ?></span>
                 <!-- <span>&#10095;</span> -->
 
             </div>
-            <div class="h-auto w-5/6 mx-auto py-4 text-white">
+            <div class="h-auto w-5/6 mx-auto py-4 text-gray-200">
                 <div class="grid grid-cols-7 gap-y-2 text-center justify-items-center">
                     <?php
                     // display day names
@@ -107,7 +107,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     // display calendar days
                     for($i=1; $i<=$days_in_month+$start_day; $i++){
-                        $css_class = ( $selected_day == $month_day) ? "text-black rounded-full bg-white " :"";
+                        $css_class = ( $selected_day == $month_day) ? "text-black rounded-full bg-app-orange " :"";
                         if($i <= $start_day){
                             echo "<span></span>";
                         }else{
@@ -133,25 +133,25 @@ if($result = mysqli_query($conn, $schedule_sql)){
         <div class="w-[840px] h-full   overflow-y-auto p-4">
 
             <div class="mx-auto h-full">
-                <span class='text-4xl font-light text-white block pb-4  text-right'> <?php echo $new_selected_date; ?> </span>
+                <span class='text-4xl font-light text-gray-200 block pb-4  text-right'> <?php echo $new_selected_date; ?> </span>
                 <div class=" mx-auto h-3/4">
 
                 <!-- Tabs (screen names) -->
                     <input type="radio" id="tab1" name="tab" class="hidden " checked>
-                    <label for="tab1" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block" > <?php  echo $screen_names[0];  ?> </label>
+                    <label for="tab1" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block" > <?php  echo $screen_names[0];  ?> </label>
 
                     <input type="radio" id="tab2" name="tab" class="hidden">
-                    <label for="tab2" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block"> <?php  echo $screen_names[1];  ?> </label>
+                    <label for="tab2" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[1];  ?> </label>
 
                     <input type="radio" id="tab3" name="tab" class="hidden">
-                    <label for="tab3" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block"> <?php  echo $screen_names[2];  ?> </label>
+                    <label for="tab3" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[2];  ?> </label>
 
                     <input type="radio" id="tab4" name="tab" class="hidden">
-                    <label for="tab4" class="cursor-pointer bg-slate-500 text-white  px-8 inline-block"> <?php  echo $screen_names[3];  ?> </label>
+                    <label for="tab4" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[3];  ?> </label>
 
 
                     <!-- Tab Content 1 -->
-                    <div id="tab-content-1" class="tab-content h-full  border-t-2 border-white py-12">
+                    <div id="tab-content-1" class="tab-content h-full  border-t-2 border-app-secondary py-12">
                         <div class=" grid grid-cols-4 gap-6 h-auto">
 
                         <?php
@@ -164,7 +164,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
 
                     <!-- Tab Content 2 -->
-                    <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-white py-12">
+                    <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
                         <div class="grid grid-cols-4 gap-6 h-auto">
 
                         <?php
@@ -177,7 +177,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
 
                     <!-- Tab Content 3 -->
-                    <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-white py-12">
+                    <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
                         <div class="grid grid-cols-4 gap-6 h-auto">
 
                         <?php
@@ -190,7 +190,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
 
                     <!-- Tab Content 4 -->
-                    <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-white py-12">
+                    <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
                         <div class="grid grid-cols-4 gap-6 h-auto">
 
                         <?php

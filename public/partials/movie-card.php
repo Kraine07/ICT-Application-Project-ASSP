@@ -12,6 +12,6 @@
     </div>
     <form action="process-main.php" method="post" class="">
         <input type="text" name="movie-id" value=" <?php echo $row['movie_id'] ?>" hidden>
-        <button class=" bg-app-orange  w-full h-full py-1 text-sm text-app-blue font-semibold  absolute -top-1/4  left-1/2  -translate-x-1/2 rounded-md hidden group-hover:block  animate-drop-down ">View details</button>
+        <button class=" bg-app-orange border-2  w-4/5 py-1 text-sm text-app-blue font-semibold  absolute top-3/4  left-1/2  -translate-x-1/2 rounded-md hidden group-hover:block  animate-drop-down ">View details</button>
     </form>
 </div>

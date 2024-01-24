@@ -8,7 +8,7 @@ if(!isset($_SESSION)){
 
 
 <div class="h-screen w-screen bg-[#0f0f0fdd] absolute top-0 left-0 z-50  <?php echo $_SESSION['movie-info']?"block":"hidden"  ?>">
-    <div class="flex justify-around absolute h-[360px] w-[800px] bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+    <div class="flex justify-around absolute h-[360px] w-[800px] bg-app-secondary text-gray-200 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6  rounded-md">
         <div class="w-1/3 ">
             <img src=" <?php  echo $_SESSION['movie-info'] ?  $_SESSION['patron-movie']['movie_poster']  :"";    ?>   " alt="poster img" class="h-full object-contain ">
         </div>
@@ -43,7 +43,7 @@ if(!isset($_SESSION)){
 
                 <form action="process-main.php" method="post">
                     <input type="text" name="trailer-link" value="<?php echo $_SESSION['patron-movie']['movie_trailer'];?>" hidden>
-                    <button class=" bg-blue-950 text-white py-1 px-8 rounded-full float-right">
+                    <button class=" bg-app-orange text-app-blue py-1 px-8 rounded-full float-right">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
