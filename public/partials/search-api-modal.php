@@ -1,7 +1,7 @@
 
 
 <!-- Search movie-api modal window -->
-<div id="search-movie-form" class="absolute top-0 left-0 bg-[#838383cc] hidden w-screen h-screen" >
+<div id="search-movie-form" class="absolute top-0 left-0 bg-app-modal hidden w-screen h-screen" >
         <div class="absolute flex flex-col items-center  top-1/3 left-1/3 h-[200px] w-[380px] border-2 border-blue-950 bg-white" >
             <div class="flex justify-between text-xl text-white text-left  w-full bg-blue-950 ">
                 <h1 class=" font-light px-4 py-1">Find Movie</h1>

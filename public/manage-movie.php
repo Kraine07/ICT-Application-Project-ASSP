@@ -69,7 +69,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
 
-
     elseif(isset($_POST['edit-id'])){
         require_once('./partials/head.php');
 
@@ -78,7 +77,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             // TODO handle edit
             case 'edit':
-                echo "<p class='text-2xl w-screen text-center'>Edit movie to be done here</p>";
+                $movie_id = $_POST['edit-id'];
+                $movie_sql = "SELECT * FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = {$movie_id} LIMIT 1";
+                if($movie_result = mysqli_query($conn, $movie_sql)){
+                    $_SESSION['movie_form'] = true;
+                    $_SESSION['form_movie'] = mysqli_fetch_array($movie_result);
+                }
+                redirect('index.php');
                 break;
 
             // handle delete
@@ -102,6 +107,43 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         showSuccessMessage("Movie deleted.");
 
+    }
+
+    // edit movie
+    elseif(isset($_POST['form-movie-id'])){
+        $movie_id = trim($_POST['form-movie-id']);
+        $movie = [
+            trim($_POST['title']),
+            trim($_POST['plot']),
+            trim($_POST['duration']),
+            trim($_POST['poster']),
+            trim($_POST['trailer']),
+            trim($_POST['rating']),
+            $movie_id
+        ];
+        $sql = "UPDATE `{$database}`.`{$movie_table}` SET `movie_title`= ?, `movie_plot`= ?, `movie_duration` = ?, `movie_poster` = ?, `movie_trailer` = ?, `movie_rating` = ?  WHERE `movie_id` = ? ";
+        if(mysqli_execute_query($conn, $sql, $movie)){
+
+            // delete old genres
+            $delete_genres = "DELETE FROM `{$database}`.`{$has_genre_table}` WHERE `movie` = {$movie_id}";
+            if(mysqli_query($conn, $delete_genres)){
+
+                // add updated genres
+                foreach($_POST['genres'] as $genre){
+                    $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
+                    if(!mysqli_execute_query($conn,$genre_sql, [$movie_id, $genre])){
+                        showErrorMessage("Error updating movie genres. Please try again or contact technical support.");
+                    }
+                }
+            }
+
+            // return to movies main screen
+            $_SESSION['screen'] = "movie";
+            showSuccessMessage("Movie updated successfully.");
+        }
+        else{
+            showErrorMessage('Error updating movie. Please try again or contact technical support.');
+        }
     }
 }
 

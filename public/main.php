@@ -61,7 +61,7 @@ require_once('./partials/head.php');
 
 
     <!-- slides -->
-    <div class="hidden sm:block slideshow relative h-full bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center ">
+    <div class="hidden sm:block slideshow relative h-full bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center " id="slideshow">
         <!-- <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2> -->
         <div class="">
             <?php

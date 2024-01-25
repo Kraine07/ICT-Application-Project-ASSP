@@ -22,12 +22,10 @@ const userForm = document.getElementById('user-form');
 const closeUserFormButton = document.getElementById('close-user-form');
 
 
-const smallScreenMenuButton = document.getElementById('small-screen-menu-btn');
-const smallScreenMenu = document.getElementById('small-screen-menu');
-const closeSmallScreenMenuButton = document.getElementById('close-small-screen-menu')
+const movieForm = document.getElementById('movie-form');
+const closeMovieFormButton = document.getElementById('close-movie-form');
 
-const navBar = document.getElementById('navbar');
-
+const slides = document.getElementById('slideshow');
 var slideIndex = 1;
 var timer;
 
@@ -49,21 +47,22 @@ if(loginFormButton != null){
     window.onclick = function(event) {
         if (event.target == loginForm) {
             loginForm.classList.add("hidden");
+            location.reload();
         }
     }
 }
 
-// MOVIE FORM
-else if(searchMovieButton != null){
+// FIND MOVIE FORM
+if(searchMovieForm != null){
     searchMovieButton.addEventListener('click',()=>{
         searchMovieForm.classList.remove('hidden');
-        searchMovieInput.focus()
     })
 
-//click outside the form to close the modal window
+    //click outside the form to close the modal window
     window.onclick = function(event) {
         if (event.target == searchMovieForm) {
             searchMovieForm.classList.add("hidden");
+            location.reload();
         }
     }
 
@@ -74,22 +73,36 @@ else if(searchMovieButton != null){
 }
 
 // MOVIE DETAILS
-else if(movieDetails != null){
+if(movieDetails != null){
     closeMovieDetailsButton.addEventListener('click',()=>{
-        movieDetails.classList.add('hidden')
+        movieDetails.classList.add('hidden');
     })
 
     window.onclick = function(event) {
         if (event.target == movieDetails) {
             movieDetails.classList.add("hidden");
+            location.reload();
+        }
+    }
+}
+
+// MOVIE FORM
+if(movieForm != null){
+    closeMovieFormButton.addEventListener('click', ()=>{
+        movieForm.classList.add('hidden');
+    })
+
+    window.onclick = function(event) {
+        if (event.target == movieForm) {
+            movieForm.classList.add("hidden");
+            location.reload();
         }
     }
 }
 
 
-
 // SCHEDULE FORM
-else if(newScheduleButton != null){
+if(newScheduleButton != null){
     newScheduleButton.addEventListener('click',()=>{
         scheduleForm.classList.remove('hidden')
     })
@@ -107,7 +120,7 @@ else if(newScheduleButton != null){
 
 
 // USER FORM
-else if(createUserButton != null){
+if(createUserButton != null){
     createUserButton.addEventListener('click',()=>{
         userForm.classList.remove('hidden');
     })
@@ -129,8 +142,10 @@ else if(createUserButton != null){
 
 
 // SLIDESHOW
+if(slides != null){
+    autoSlideshow();
+}
 
-autoSlideshow();
 function autoSlideshow() {
     var i;
     var slides = document.getElementsByClassName("slides");

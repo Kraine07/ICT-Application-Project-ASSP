@@ -29,6 +29,8 @@ if(!isset($_SESSION['auth-user']) || !isset($_SESSION['movie-search-results'])){
 
     $_SESSION['schedule-edit'] = false;
     $_SESSION['user-edit'] = false;
+    $_SESSION['movie_form'] = false;
+    $_SESSION['form_movie'] = [];
 
 }
 
