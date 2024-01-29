@@ -11,7 +11,7 @@ module.exports = {
 
         descend:{
           from:{top: '-100%'},
-          to:{top: '75%'}
+          to:{top: '0'}
         },
 
         fade:{
@@ -38,7 +38,7 @@ module.exports = {
       },
 
       animation:{
-        'drop-down':'descend 0.2s ease-in-out',
+        'drop-down':'descend 0.4s ease-in-out',
         'fade-in':'fade 0.6s ease-in-out',
         'push':'bounce-right 0.8s infinite',
         'zoom-in':'zoom 0.3s ease-in-out',
@@ -54,8 +54,8 @@ module.exports = {
 
       colors: {
         app:{
-          blue:'#082032',
-          orange:'#FF4C29',
+          blue:"#082032",
+          orange:"#FF4C29",
           secondary:'#2C394B',
           tertiary:'#334756',
           modal:'#0f0f0fdd',

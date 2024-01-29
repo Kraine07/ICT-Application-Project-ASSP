@@ -17,7 +17,7 @@ if($_SESSION['movie_form']){
 ?>
 
 
-<div class="w-screen h-screen absolute top-0 left-0 bg-app-modal <?php echo $_SESSION['movie_form'] ?'': 'hidden'; ?>  "  id="movie-form">
+<div class="w-screen h-screen absolute top-0 left-0 z-10 bg-app-modal <?php echo $_SESSION['movie_form'] ?'': 'hidden'; ?>  "  id="movie-form">
     <form action="manage-movie.php" method="post" class="flex flex-col items-center bg-app-tertiary h-4/5 w-3/5 pb-6 text-gray-200  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 
         <legend class="flex justify-between items-center bg-app-blue py-2 px-8 w-full text-2xl text-left">
@@ -101,7 +101,7 @@ if($_SESSION['movie_form']){
                     ?>
 
                 </div>
-                <button class="mt-4 py-1 bg-app-orange w-full rounded-full">Submit</button>
+                <button class="mt-4 py-1 bg-app-blue text-app-orange w-full rounded-full">Submit</button>
             </div>
         </div>
 

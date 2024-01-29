@@ -1,18 +1,18 @@
 
 
 <div id="login-form" class="bg-app-modal absolute top-0 left-30 z-50 hidden w-full h-screen">
-    <div id="" class=" bg-slate-200  w-[300px] p-8 top-12 right-12 absolute z-50">
+    <div id="" class=" bg-app-secondary  w-[300px] p-8 top-12 right-12 absolute z-50">
 
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm mb-4">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm mb-4 text-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 22 22" stroke-width="0.7" stroke="currentColor" class="w-16 h-16 mx-auto">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" class="text-gray-700 font-light" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" class="" />
             </svg>
-            <h2 class="text-3xl  text-gray-900  font-light">Sign in</h2>
-            <p class="text-xs  text-red-500 italic inline float-right"><span class="text-lg">*</span> Required fields </p>
+            <h2 class="text-3xl   font-light">Sign in</h2>
+            <p class="text-xs italic mt-4 w-full text-center">Required fields <span class="text-app-orange">*</span></p>
         </div>
 
 
-        <div class="sm:mx-auto sm:w-full sm:max-w-xs">
+        <div class="sm:mx-auto sm:w-full sm:max-w-xs text-gray-200">
             <form action="login.php" method="post">
                 <!-- Email input -->
                 <div class="mt-2">
@@ -31,11 +31,11 @@
                 </div>
 
                 <!-- Buttons -->
-                <div class="mt-4">
-                    <button type="submit" name="login" class="flex w-full justify-center rounded-full bg-blue-900 px-3 py-0.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-950">Sign in</button>
+                <div class="mt-4 bg-app-blue rounded-full">
+                    <button type="submit" name="login" class=" flex w-full justify-center rounded-full  px-3 py-0.5 text-sm font-semibold leading-6 text-app-orange">Sign in</button>
                 </div>
-                <div class="mt-2">
-                    <div  id="login-cancel" class="flex w-full justify-center rounded-full border border-gray-700 px-3 py-0.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-300 cursor-pointer">Cancel</div>
+                <div class="group mt-2">
+                    <div  id="login-cancel" class="flex w-full justify-center rounded-full border border-app-tertiary px-3 py-0.5 text-sm font-semibold leading-6 text-gray-200  cursor-pointer group-hover:bg-app-tertiary">Cancel</div>
                 </div>
             </form>
         </div>

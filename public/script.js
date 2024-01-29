@@ -7,7 +7,7 @@ const loginCancel = document.getElementById('login-cancel');
 
 const searchMovieButton = document.getElementById('search-movie-btn');
 const searchMovieForm = document.getElementById('search-movie-form');
-const searchMovieInput = document.getElementById('movie_search');
+const searchMovieInput = document.getElementById('movie_title');
 const closeSearchMovieForm = document.getElementById('close-search-movie-form');
 
 const movieDetails = document.getElementById('movie-details');
@@ -56,6 +56,8 @@ if(loginFormButton != null){
 if(searchMovieForm != null){
     searchMovieButton.addEventListener('click',()=>{
         searchMovieForm.classList.remove('hidden');
+        searchMovieInput.focus()
+
     })
 
     //click outside the form to close the modal window

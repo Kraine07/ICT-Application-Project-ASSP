@@ -83,7 +83,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $admin_sql = "INSERT IGNORE INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
 
     // validate submitted data
-    if(!empty_fields($form_data)){
+    if(!emptyFields($form_data)){
         if(validEmail($_SESSION['email'])){
             if(checkForDuplicates( ["eeee", "eeee"] )){
                 if(validPassword("Admin123")){

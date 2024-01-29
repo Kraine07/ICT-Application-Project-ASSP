@@ -18,22 +18,22 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
 
 
 <!--  Schedule form modal window -->
-<div id="schedule-form" class="absolute top-0 left-0 bg-[#838383cc]  w-full h-full    <?php echo $_SESSION['schedule-edit'] ? "": "hidden" ?>   " >
-    <div class="absolute flex flex-col items-center  left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[300px] border-2 border-blue-950 bg-slate-300" >
-        <h1 class="text-white text-lg text-left bg-blue-950 w-full px-[24px] py-2"><?php echo $_SESSION['schedule-edit']? "Edit": "New";?> Schedule
+<div id="schedule-form" class="absolute top-0 left-0 bg-app-modal  w-full h-full z-10    <?php echo $_SESSION['schedule-edit'] ? "": "hidden" ?>   " >
+    <div class="absolute flex flex-col items-center  left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[300px] border-2 border-app-blue bg-app-tertiary" >
+        <h1 class="text-gray-200 text-lg text-left bg-app-blue w-full px-[24px] py-2"><?php echo $_SESSION['schedule-edit']? "Edit": "New";?> Schedule
             <button class="float-right inline-block" id="close-schedule-form">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
             </button>
         </h1>
-        <p class="text-xs  text-red-500 italic text-right w-full px-[24px]"><span class="text-lg">*</span> Required fields </p>
+        <p class="text-xs   italic text-center w-full pt-2"> Required fields<span class="text-lg text-app-orange">*</span> </p>
         <!-- schedule form -->
-        <form action="manage-schedule.php" method="post" class="flex flex-col justify-between items-start w-full h-full p-[24px]">
+        <form action="manage-schedule.php" method="post" class="flex flex-col justify-between items-start w-full h-full px-6 pb-4">
             <input type="text" name="schedule-id" value=" <?php echo $_SESSION['schedule-edit'] ? $_SESSION['schedule-id']:"";  ?>  " hidden>
             <div class="flex flex-col items-start w-full">
-                <label for="movie" class="text-md font-semibold mb-1">Movie <span class="text-red-600">*</span></label>
-                <select name="movie" id="movie" class="bg-white w-full py-1" required>
+                <label for="movie" class="text-md font-semibold mb-1 mt-2">Movie <span class="text-app-orange">*</span></label>
+                <select name="movie" id="movie" class="bg-gray-200 text-app-blue rounded-md px-2 w-full py-1" required>
                     <option value="" hidden>Choose movie</option>
                     <?php
                     // print each movie title as an option
@@ -50,8 +50,8 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
                 </select>
             </div>
             <div class="flex flex-col items-start w-full">
-                <label for="screen" class="text-md font-semibold mb-1">Screen <span class="text-red-600">*</span></label>
-                <select name="screen" id="screen" class="bg-white w-full py-1 " required>
+                <label for="screen" class="text-md font-semibold mb-1 mt-2">Screen <span class="text-app-orange">*</span></label>
+                <select name="screen" id="screen" class="bg-gray-200 text-app-blue rounded-md px-2  w-full py-1 " required>
                     <option value="" hidden>Choose screen</option>
                     <?php
                     // print each screen name as an option
@@ -70,18 +70,18 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
 
             <!-- start time -->
             <div class="flex flex-col items-start">
-                <label for="start" class="text-md font-semibold mb-1">Start <span class="text-red-600">*</span></label>
-                <input id="start" type="datetime-local" name="start" class="py-1 border border-slate-200 w-full bg-white" value = "<?php  echo $_SESSION['schedule-edit']? date("Y-m-d H:i",$_SESSION['start-time']) :"";   ?>" required>
+                <label for="start" class="text-md font-semibold mb-1 mt-2">Start <span class="text-app-orange">*</span></label>
+                <input id="start" type="datetime-local" name="start" class="py-1 px-2 rounded-md w-full bg-gray-200 text-app-blue " value = "<?php  echo $_SESSION['schedule-edit']? date("Y-m-d H:i",$_SESSION['start-time']) :"";   ?>" required>
             </div>
 
             <!-- end time -->
             <div class="flex flex-col items-start">
-                <label for="end" class="text-md font-semibold mb-1">End <span class="text-red-600">*</span></label>
-                <input id="end" type="datetime-local" class="py-1 border border-slate-200 w-full bg-white" name="end" value="<?php  echo $_SESSION['schedule-edit']? date("Y-m-d H:i",$_SESSION['end-time']) :"";   ?>" required>
+                <label for="end" class="text-md font-semibold mb-1 mt-2">End <span class="text-app-orange">*</span></label>
+                <input id="end" type="datetime-local" class="py-1 px-2 rounded-md w-full bg-gray-200 text-app-blue " name="end" value="<?php  echo $_SESSION['schedule-edit']? date("Y-m-d H:i",$_SESSION['end-time']) :"";   ?>" required>
             </div>
 
             <!-- submit button -->
-            <button class="bg-blue-950 text-white w-full p-2">Submit</button>
+            <button class="bg-app-blue text-app-orange rounded-full  w-full mt-2 py-1">Submit</button>
         </form>
     </div>
 

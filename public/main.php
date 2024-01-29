@@ -25,10 +25,11 @@ require_once('redirect.php');
 // set default timezone
 date_default_timezone_set('America/Jamaica');
 
+$today = strtotime(date("F j, Y"));
 
 
-// get data to display in slideshow
-$schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY RAND() LIMIT 3";
+// get movie data to display in slideshow
+$schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` AND `start` >= $today ORDER BY RAND() LIMIT 3";
 
 //get screen data
 $screen_sql = "SELECT * FROM `{$database}`.{$screen_table}";
@@ -88,11 +89,12 @@ require_once('./partials/head.php');
 
                                     <div class="h-1/4 flex flex-col justify-end">
                                         <div class="flex justify-between items-end w-full my-2">
-                                            <div class="w-1/2">
-                                                <span class="block text-2xl font-light">'.$row['screen_name'].'</span>
-                                                <span class="block text-3xl text-app-orange ">'.date("g:i A",$row['start']).'</span>
+                                            <div class="w-2/3">
+                                                <span class=" text-3xl text-app-orange italic font-light pr-2">'.date("M d",$row['start']).'</span>
+                                                <span class=" text-xl text-app-orange italic ">'.date("g:i A",$row['start']).'</span>
+                                                <span class="block text-3xl ">'.$row['screen_name'].'</span>
                                             </div>
-                                            <div class="flex justify-end items-end w-1/2  ">
+                                            <div class="flex justify-end items-end w-1/3  ">
                                                 <p class="text-2xl text-end">'.$row['movie_rating'].'</p>
                                             </div>
                                         </div>

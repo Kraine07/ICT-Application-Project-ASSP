@@ -1,6 +1,6 @@
 <?php
 
-function empty_fields(array $list){
+function emptyFields(array $list){
     foreach($list as $item){
         if(empty($item)){
             return true;

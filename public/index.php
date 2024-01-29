@@ -7,8 +7,7 @@ date_default_timezone_set('America/Jamaica');
 
 // initialize session variables
 if(!isset($_SESSION['auth-user']) || !isset($_SESSION['movie-search-results'])){
-// if(!isset($_SESSION) || empty($_SESSION)){
-    // user
+
 
     $_SESSION['screen'] = "main";
     $_SESSION['first-name'] = "";
@@ -18,12 +17,12 @@ if(!isset($_SESSION['auth-user']) || !isset($_SESSION['movie-search-results'])){
     $_SESSION['c-password'] = "";
     $_SESSION['role'] = "";
 
-    // screen
     $_SESSION['screen-1'] = "";
     $_SESSION['screen-2'] = "";
     $_SESSION['screen-3'] = "";
     $_SESSION['screen-4'] = "";
     $_SESSION['screen-name'] = "";
+    $_SESSION['movie-title'] = "";
 
     $_SESSION['movie-search-results']=[];
 
