@@ -21,9 +21,14 @@ const createUserButton = document.getElementById('new-user-btn');
 const userForm = document.getElementById('user-form');
 const closeUserFormButton = document.getElementById('close-user-form');
 
+const updatePasswordForm = document.getElementById('update-password-modal');
+const updatePasswordFormButton = document.getElementById('update-password-btn');
+const updatePasswordFormCloseButton = document.getElementById('update-password-close');
+
 
 const movieForm = document.getElementById('movie-form');
 const closeMovieFormButton = document.getElementById('close-movie-form');
+
 
 const slides = document.getElementById('slideshow');
 var slideIndex = 1;
@@ -47,6 +52,26 @@ if(loginFormButton != null){
     window.onclick = function(event) {
         if (event.target == loginForm) {
             loginForm.classList.add("hidden");
+            location.reload();
+        }
+    }
+}
+
+// Update password
+if(updatePasswordForm != null){
+    updatePasswordFormButton.addEventListener('click',()=>{
+        updatePasswordForm.classList.remove('hidden');
+    });
+
+    // close button
+    updatePasswordFormCloseButton.addEventListener('click',()=>{
+        updatePasswordForm.classList.add('hidden');
+    });
+
+    //click outside form to close the modal window
+    window.onclick = function(event) {
+        if (event.target == updatePasswordForm) {
+            updatePasswordForm.classList.add("hidden");
             location.reload();
         }
     }
@@ -89,7 +114,7 @@ if(movieDetails != null){
 }
 
 // MOVIE FORM
-if(movieForm != null){
+if(closeMovieFormButton != null){
     closeMovieFormButton.addEventListener('click', ()=>{
         movieForm.classList.add('hidden');
     })
@@ -111,12 +136,10 @@ if(newScheduleButton != null){
     window.onclick = function(event) {
         if (event.target == scheduleForm) {
             scheduleForm.classList.add("hidden");
-            location.reload();
         }
     }
     closeScheduleFormButton.addEventListener('click',()=>{
         scheduleForm.classList.add('hidden');
-        location.reload();
     })
 }
 
@@ -134,7 +157,6 @@ if(createUserButton != null){
     window.onclick = function(event) {
         if (event.target == userForm) {
             userForm.classList.add("hidden");
-            location.reload();
         }
     }
 }

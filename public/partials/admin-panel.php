@@ -14,59 +14,101 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
 
 ?>
 
+<!-- update password form -->
+<div class="hidden absolute w-screen h-screen top-0 left-0 bg-app-modal text-gray-200  z-20" id="update-password-modal">
+    <div class="absolute w-1/3  bg-app-tertiary left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+        <span class="flex justify-between items-center px-4 py-2 bg-app-blue">
+            <span>Update Password</span>
+            <button class="" id="update-password-close">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </span>
+        <div class="w-full py-4 px-8">
+            <p class="text-xs italic mb-4">Required fields <span class="text-app-orange">*</span></p>
+            <form action="update-password.php" method="post" class="w-full text-sm flex flex-col">
+                <label for="old-password">Old Password<span class="text-app-orange"> *</span></label>
+                <input required id="old-password" type="password" name="old-password" class="text-app-blue px-2 py-1 block w-full my-1 rounded-sm" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase.">
+
+                <label for="new-password">New Password<span class="text-app-orange"> *</span></label>
+                <input required id="new-password" type="password" name="new-password" class="text-app-blue px-2 py-1 block w-full my-1 rounded-sm" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase.">
+
+                <label for="confirm-password">Confirm New Password<span class="text-app-orange"> *</span></label>
+                <input required id="confirm-password" type="password" name="confirm-password" class="text-app-blue px-2 py-1 block w-full my-1 rounded-sm" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase.">
+
+                <button class="mt-2 px-6 py-1 bg-app-blue text-app-orange self-end w-1/3 rounded-sm">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 <div class="flex items-center w-full h-full">
     <!-- Left panel -->
-    <div class="flex flex-col justify-between bg-app-blue text-gray-200 h-full w-1/4 min-w-[200px]   banner" >
-        <div class="flex flex-col items-center w-full  menu">
+    <div class="flex flex-col justify-between bg-app-blue text-gray-200 h-full w-1/4 min-w-[200px]   " >
+        <div class="flex flex-col justify-between items-center h-full w-full  ">
             <!-- Profile -->
             <div class="w-full text-center  my-8">
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-36 h-28 mx-auto">
-                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
-                </svg> -->
-                <img src="./img/logo_light_2.png" alt="logo" class="px-12 object-contain mb-12">
-                <p class="text-2xl font-light  username"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
+
+                <!-- logo -->
+                <img src="./img/logo_light_2.png" alt="logo" class="px-12 object-contain mb-8">
+                <p class="text-3xl font-light  username"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
                 <p class="font-light uppercase   role"> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
             </div >
 
 
             <!-- Menu -->
-            <div class="w-5/6 self-end my-8     menu-items  ">
+            <div class="w-2/3 self-end justify-self-end      menu-items  ">
                 <form id="manage-movies" action="index.php" method="post"><input type="text" name="manage-movies" hidden></form>
                 <form id="manage-schedules" action="index.php" method="post"><input type="text" name="manage-schedules" hidden></form>
                 <form id="manage-users" action="index.php" method="post"><input type="text" name="manage-users"  hidden></form>
 
-                <button form="manage-movies" id='movies-menu-button' class='w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6  py-2 <?php  echo $_SESSION['screen']=='movie'? 'bg-app-tertiary ':'';  ?>       selected' >Manage Movies</button>
-                <button form="manage-schedules" id='schedule-menu-button' class="w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6 py-2 <?php  echo $_SESSION['screen']=='schedule'? 'bg-app-tertiary':'';  ?>">Manage Schedules</button>
+                <button form="manage-movies" id='movies-menu-button' class='w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6  py-2 <?php  echo $_SESSION['screen']=='movie'? 'bg-app-tertiary text-app-orange ':'';  ?>       selected' >Manage Movies</button>
+                <button form="manage-schedules" id='schedule-menu-button' class="w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6 py-2 <?php  echo $_SESSION['screen']=='schedule'? 'bg-app-tertiary text-app-orange':'';  ?>">Manage Schedules</button>
 
                 <!-- show user management if user is administrator -->
                 <?php
-                $css = $_SESSION['screen'] == 'user'? 'bg-app-tertiary ':'';
+                $css = $_SESSION['screen'] == 'user'? 'bg-app-tertiary text-app-orange ':'';
                     echo $_SESSION['auth-user']['role'] == "admin" ? "<button form='manage-users' id='users-menu-button' class=' w-full hover:bg-app-secondary font-semibold text-lg text-right px-6 py-2 {$css}    '>Manage Users</button>" :"";
                 ?>
 
             </div>
+            <div class="flex w-4/5 items-center justify-around  mx-auto mt-2 ">
+
+                <!-- Update password button -->
+                <button id="update-password-btn" class="flex items-center justify-center text-xs bg-app-tertiary px-6 py-1 rounded-md ">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                    <span class="">Password</span>
+                </button>
+
+                <!-- Logout button -->
+                <form action="logout.php" method="post" class=" flex flex-col justify-center items-center  text-xs" >
+                    <button  class="px-6 py-1 bg-app-tertiary  rounded-md  ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                </form>
+
+            </div>
+            <div class="flex">
+                <p class=" text-center text-xs pb-2">&copy; Backyard Cinema 2023</p>
+            </div>
         </div>
 
-        <!-- Logout button -->
-        <div class="flex justify-center items-center my-8">
-            <form id="logout" action="logout.php" method="post"></form>
-            <button form="logout" class="w-3/4 py-1 border-2 border-app-secondary text-gray-200 font-bold rounded-full hover:bg-app-secondary ">Logout</button>
-        </div>
-        <p class="absolute bottom-1 w-1/4 mx-auto text-center text-xs">&copy; Backyard Cinema 2023</p>
     </div>
-
-
-
 
 
 
     <!-- Section on the right(Movie, Schedule and User Management) -->
     <div id='manage-movies' class=" bg-app-tertiary items-center justify-center h-full w-3/4 text-center text-sm text-gray-200 overflow-y-auto top-1/2">
-
-
-
 
 
         <?php

@@ -142,7 +142,7 @@ require_once('./partials/head.php');
     <!-- On today -->
 
     <div class="h-auto w-full bg-app-secondary py-8 " id="on-today" >
-        <div class="lg:flex lg:items-center mx-8 w-full ">
+        <div class="lg:flex lg:items-center mx-8 w-full h-auto">
 
             <p class="text-2xl md:text-4xl font-light w-full md:w-1/3 text-gray-200 uppercase">On Today</p>
 
@@ -164,9 +164,9 @@ require_once('./partials/head.php');
 
                         // screen buttons
                         echo '
-                            <form action="process-main.php" method="post" class="w-full inline">
+                            <form action="process-main.php" method="post" class="w-full p-0 inline">
                                 <input type="text" name="screen-id" value="'.$screen['screen_id'].'" hidden>
-                                <button class="'.$css.' text-black text-xs md:text-md py-1 px-4 md:px-10 w-[90px] md:w-[160px] truncate   focus:outline-none  capitalize rounded-md">'.$screen['screen_name'].'</button>
+                                <button class="'.$css.' text-black text-xs md:text-md py-2  md:px-10 w-[90px] md:w-[160px] truncate   focus:outline-none  uppercase rounded-md">'.$screen['screen_name'].'</button>
                             </form>
                             ';
 
