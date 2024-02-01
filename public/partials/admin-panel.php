@@ -56,13 +56,13 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
 
                 <!-- logo -->
                 <img src="./img/logo_light_2.png" alt="logo" class="px-12 object-contain mb-8">
-                <p class="text-3xl font-light  username"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
-                <p class="font-light uppercase   role"> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
+                <p class="text-3xl font-light  capitalize"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
+                <p class="font-light uppercase   "> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
             </div >
 
 
             <!-- Menu -->
-            <div class="w-2/3 self-end justify-self-end      menu-items  ">
+            <div class="w-2/3 self-end justify-self-end    ">
                 <form id="manage-movies" action="index.php" method="post"><input type="text" name="manage-movies" hidden></form>
                 <form id="manage-schedules" action="index.php" method="post"><input type="text" name="manage-schedules" hidden></form>
                 <form id="manage-users" action="index.php" method="post"><input type="text" name="manage-users"  hidden></form>
@@ -73,7 +73,7 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
                 <!-- show user management if user is administrator -->
                 <?php
                 $css = $_SESSION['screen'] == 'user'? 'bg-app-tertiary text-app-orange ':'';
-                    echo $_SESSION['auth-user']['role'] == "admin" ? "<button form='manage-users' id='users-menu-button' class=' w-full hover:bg-app-secondary font-semibold text-lg text-right px-6 py-2 {$css}    '>Manage Users</button>" :"";
+                    echo $_SESSION['auth-user']['role'] == "administrator" ? "<button form='manage-users' id='users-menu-button' class=' w-full hover:bg-app-secondary font-semibold text-lg text-right px-6 py-2 {$css}    '>Manage Users</button>" :"";
                 ?>
 
             </div>

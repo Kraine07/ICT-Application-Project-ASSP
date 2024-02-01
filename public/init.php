@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $_SESSION['last-name'],
         $_SESSION['email'],
         hash("sha256",$_SESSION['password']),
-        "admin"
+        "administrator"
     ];
 
 

@@ -66,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 showSuccessMessage("Action completed successfully.");
                             }
                             else{
-                                showErrorMessage("Error adding/updating schedule. Please try again or contact technical support.");
+                                showErrorMessage("Execution failed. Please try again or contact technical support.");
                             }
                         }
                     }
@@ -158,7 +158,6 @@ function handleDeleteSchedule(){
                     <button form="cancel" class=" bg-green-600  py-1 px-8 rounded-full">NO</button>
                 </div>
             </form>
-    
         </div>
         ';
 

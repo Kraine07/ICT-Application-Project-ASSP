@@ -18,11 +18,11 @@ require_once('schedule-form.php');
 
         <!-- New Schedule -->
         <div class="w-full  flex justify-start ">
-            <button class=" bg-app-blue text-app-orange px-4 py-1 lg:px-6  rounded  new-schedule flex items-center "  id="new-schedule-btn">
+            <button class=" bg-app-blue text-app-orange px-4 py-1 lg:px-6  rounded   flex items-center "  id="new-schedule-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span class="hidden lg:inline">NEW SCHEDULE</span>
+                <span class="hidden lg:inline pl-2">NEW SCHEDULE</span>
             </button>
         </div>
 

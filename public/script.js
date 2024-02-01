@@ -136,10 +136,12 @@ if(newScheduleButton != null){
     window.onclick = function(event) {
         if (event.target == scheduleForm) {
             scheduleForm.classList.add("hidden");
+            location.reload();
         }
     }
     closeScheduleFormButton.addEventListener('click',()=>{
         scheduleForm.classList.add('hidden');
+        location.reload();
     })
 }
 
@@ -152,11 +154,13 @@ if(createUserButton != null){
 
     closeUserFormButton.addEventListener('click', ()=>{
         userForm.classList.add('hidden');
+        location.reload();
     })
 
     window.onclick = function(event) {
         if (event.target == userForm) {
             userForm.classList.add("hidden");
+            location.reload();
         }
     }
 }
