@@ -181,65 +181,69 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
 
 ?>
 
-<div class="w-full h-full bg-blue-950">
-    <div class="h-4/5 w-4/5 min-h-[600px] min-w-[1000px] bg-slate-300 mx-auto">
-        <h1 class="text-3xl text-center text-white  font-light py-3 bg-blue-950">Initial Setup</h1>
-        <div class="flex  justify-around items-center w-4/5 h-4/5 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-h-[480px] p-4 ">
+<!-- Setup form -->
+<div class="w-screen h-screen bg-app-modal">
+    <div class="h-auto w-4/5 min-w-[1000px] bg-app-tertiary mx-auto text-gray-200 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 ">
+        <h1 class="text-3xl text-center font-light py-2 bg-app-blue">Initial Setup</h1>
+        <div class="flex  justify-around items-center w-full h-auto  p-3 ">
 
-            <div class="  flex flex-col justify-between h-full w-1/3">
-                <img class="h-full object-contain" src="./img/kisspng-clapperboard-animation-presentation-clapping-clip-movie-theatre-5ab8ef37f26f56.826720561522069303993.png" alt="">
+            <div class="h-full w-1/3">
+                <img class="w-full object-contain" src="./img/kisspng-clapperboard-animation-presentation-clapping-clip-movie-theatre-5ab8ef37f26f56.826720561522069303993.png" alt="setup_img">
             </div>
 
-            <div class="h-full w-2/3 font-light">
+            <div class="h-auto w-2/3 font-light  ">
 
-                <form class="flex flex-col justify-between items-center h-full w-full" action="init.php" method="post">
+                <form class="flex flex-col justify-between items-center h-full w-full overflow-y-auto" action="init.php" method="post">
+
                     <!-- Administrator details -->
                     <div class="w-4/5">
-                        <p class="text-xl font-semibold mt-2 ">Administrator's information</p>
-                        <p class="text-xs  text-red-500 italic inline float-right mb-2"><span class="text-lg">*</span> Required fields </p>
+                        <p class="text-xl font-semibold ">Administrator's information</p>
+                        <p class="text-xs  italic mb-2 w-2/3 inline float-right ">Required fields<span class="ml-1 text-lg text-app-orange">*</span> </p>
                         <div class="flex justify-end w-full">
-                            <label for="f-name">First Name <span class="text-lg text-red-500">*</span></label>
-                            <input type="text" name="f-name" id="f-name" class="w-2/3  rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo $_SESSION['db-setup'] ==0 ? $_SESSION['first-name'] : ""; ?>" required>
+                            <label for="f-name">First Name <span class="text-lg text-app-orange">*</span></label>
+                            <input type="text" name="f-name" id="f-name" class="w-2/3  rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo $_SESSION['db-setup'] ==0 ? $_SESSION['first-name'] : ""; ?>" placeholder="First Name" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="l-name">Last Name <span class="text-lg text-red-500">*</span></label>
-                            <input type="text" name="l-name" id="l-name" class=" w-2/3 rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['last-name'] : ""; ?>" required>
+                            <label for="l-name">Last Name <span class="text-lg text-app-orange">*</span></label>
+                            <input type="text" name="l-name" id="l-name" class=" w-2/3 rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['last-name'] : ""; ?>" placeholder="Last Name" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="email">Email <span class="text-lg text-red-500">*</span></label>
-                            <input type="email" name="email" id="email"  class=" w-2/3 rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['email'] : ""; ?>" required>
+                            <label for="email">Email <span class="text-lg text-app-orange">*</span></label>
+                            <input type="email" name="email" id="email"  class=" w-2/3 rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['email'] : ""; ?>" placeholder="Email" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="password">Password <span class="text-lg text-red-500">*</span></label>
-                            <input type="password" name="password" id="password" class=" w-2/3 rounded-sm block ml-4 mb-2 px-[8px]"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase."  required>
+                            <label for="password">Password <span class="text-lg text-app-orange">*</span></label>
+                            <input type="password" name="password" id="password" class=" w-2/3 rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase."  placeholder="Password" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="c-password">Confirm Password <span class="text-lg text-red-500">*</span></label>
-                            <input type="password" name="c-password" id="c-password" class=" w-2/3 rounded-sm block  ml-4 mb-2 px-[8px]"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." required>
+                            <label for="c-password">Confirm Password <span class="text-lg text-app-orange">*</span></label>
+                            <input type="password" name="c-password" id="c-password" class=" w-2/3 rounded-sm py-[2px] text-app-blue font-semibold  ml-4 mb-2 px-2"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder="Confirm Password" required>
                         </div>
                     </div>
 
                     <!-- Screen names -->
                     <div class="w-4/5">
-                        <p class="text-xl font-semibold  my-4">Cinema/Screen Names<span class="italic text-red-500 text-lg font-normal"> (must be unique)</span></p>
+                        <p class="text-xl font-semibold mt-3 mb-2">Cinema/Screen Names</p>
 
                         <div class="flex justify-end w-full">
-                            <label for="screen-1">First screen <span class="text-lg text-red-500">*</span></label>
-                            <input type="text" name="screen-1" id="screen-1"  class="w-2/3  rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-1'] : ""; ?>" required>
+                            <label for="screen-1">First screen <span class="text-lg text-app-orange">*</span></label>
+                            <input type="text" name="screen-1" id="screen-1"  class="w-2/3  rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-1'] : ""; ?>" placeholder="First Screen Name" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="screen-2">Second screen <span class="text-lg text-red-500">*</span></label>
-                            <input type="text" name="screen-2" id="screen-2" class="w-2/3  rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-2'] : ""; ?>" required>
+                            <label for="screen-2">Second screen <span class="text-lg text-app-orange">*</span></label>
+                            <input type="text" name="screen-2" id="screen-2" class="w-2/3  rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-2'] : ""; ?>" placeholder="Second Screen Name" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="screen-3">Third Screen <span class="text-lg text-red-500">*</span></label>
-                            <input type="text" name="screen-3" id="screen-3" class="w-2/3  rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-3'] : ""; ?>" required>
+                            <label for="screen-3">Third Screen <span class="text-lg text-app-orange">*</span></label>
+                            <input type="text" name="screen-3" id="screen-3" class="w-2/3  rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-3'] : ""; ?>" placeholder="Third Screen Name" required>
                         </div>
                         <div class="flex justify-end w-full">
-                            <label for="screen-4">Fourth Screen <span class="text-lg text-red-500">*</span></label>
-                            <input type="text" name="screen-4"id="screen-4"  class="w-2/3 rounded-sm block ml-4 mb-2 px-[8px]"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-4'] : ""; ?>" required>
+                            <label for="screen-4">Fourth Screen <span class="text-lg text-app-orange">*</span></label>
+                            <input type="text" name="screen-4"id="screen-4"  class="w-2/3 rounded-sm py-[2px] text-app-blue font-semibold ml-4 mb-2 px-2"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-4'] : ""; ?>" placeholder="Fourth Screen Name" required>
                         </div>
-                        <button class="bg-amber-600 text-white font-semibold rounded-full w-2/3 py-1 float-right mt-2">Submit</button>
+                        <div class="flex justify-end w-full">
+                            <button class=" bg-app-blue text-app-orange font-semibold rounded-md w-2/3 py-1 mt-2">Submit</button>
+                        </div>
                     </div>
 
                 </form>
