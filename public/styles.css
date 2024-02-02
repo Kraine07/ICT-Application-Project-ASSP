@@ -896,14 +896,6 @@ video {
   height: 100vh;
 }
 
-.max-h-\[480px\] {
-  max-height: 480px;
-}
-
-.min-h-\[600px\] {
-  min-height: 600px;
-}
-
 .w-1\/2 {
   width: 50%;
 }
@@ -1363,11 +1355,6 @@ video {
   background-color: #ffffff77;
 }
 
-.bg-amber-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(217 119 6 / var(--tw-bg-opacity));
-}
-
 .bg-app-blue {
   --tw-bg-opacity: 1;
   background-color: rgb(8 32 50 / var(--tw-bg-opacity));
@@ -1470,6 +1457,10 @@ video {
   padding: 0.5rem;
 }
 
+.p-3 {
+  padding: 0.75rem;
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -1531,11 +1522,6 @@ video {
   padding-right: 24px;
 }
 
-.px-\[8px\] {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
 .py-0 {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -1564,11 +1550,6 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
 }
 
 .py-4 {
@@ -1642,10 +1623,6 @@ video {
   padding-top: 2rem;
 }
 
-.pr-1 {
-  padding-right: 0.25rem;
-}
-
 .text-left {
   text-align: left;
 }
@@ -1717,10 +1694,6 @@ video {
 
 .font-medium {
   font-weight: 500;
-}
-
-.font-normal {
-  font-weight: 400;
 }
 
 .font-semibold {
@@ -1968,14 +1941,6 @@ video {
   --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
 }
 
-.disabled\:h-3:disabled {
-  height: 0.75rem;
-}
-
-.disabled\:w-3:disabled {
-  width: 0.75rem;
-}
-
 .group:hover .group-hover\:mr-1 {
   margin-right: 0.25rem;
 }
@@ -1993,27 +1958,17 @@ video {
   background-color: rgb(51 71 86 / var(--tw-bg-opacity));
 }
 
+.group:hover .group-hover\:bg-app-secondary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(44 57 75 / var(--tw-bg-opacity));
+}
+
 .group:hover .group-hover\:p-0 {
   padding: 0px;
 }
 
 .peer:disabled ~ .peer-disabled\:italic {
   font-style: italic;
-}
-
-.peer:disabled ~ .peer-disabled\:text-app-secondary {
-  --tw-text-opacity: 1;
-  color: rgb(44 57 75 / var(--tw-text-opacity));
-}
-
-.peer:disabled ~ .peer-disabled\:text-app-blue {
-  --tw-text-opacity: 1;
-  color: rgb(8 32 50 / var(--tw-text-opacity));
-}
-
-.peer:disabled ~ .peer-disabled\:text-gray-400 {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .peer:disabled ~ .peer-disabled\:line-through {
