@@ -22,15 +22,7 @@ $_SESSION['page'] = "main.php";
 require_once('dbConn.php');
 require_once('redirect.php');
 
-// show 404 page if database is not yet created
-if($conn){
-    // $sql = "SHOW DATABASES WHERE `database` = '{$database}'";
-    // $result = mysqli_query($conn,$sql);
 
-    // if(mysqli_num_rows($result) < 1){
-    //     redirect("404.php");
-    // }
-}
 
 // set default timezone
 date_default_timezone_set('America/Jamaica');
