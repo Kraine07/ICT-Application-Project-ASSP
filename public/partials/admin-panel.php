@@ -6,11 +6,75 @@ if(!isset($_SESSION)){
 
 require_once('message-display.php');
 
+// prevents user from accessing via the address bar
 if(!isset($_SESSION['auth-user'])){
     showErrorMessage('Please login to access this page.','index');
 }
 
 $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-results']:[];
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    // get movie data from api
+    if(isset($_POST['movie-id'])){
+        $movie_id = $_POST['movie-id'];
+        $movie_url = "https://api.themoviedb.org/3/movie/{$movie_id}?append_to_response=release_dates,videos,credits&language=en-US";
+        $response = fetchData($movie_url);
+        $release_dates = $response->{'release_dates'}->{'results'};
+        $videos = $response->{'videos'}->{'results'};
+
+
+        $title = $response->{'original_title'};
+        $plot = $response->{'overview'};
+        $duration = $response->{'runtime'};
+        $poster = 'https://image.tmdb.org/t/p/original'.$response->{'poster_path'};
+        $rating='';
+        $trailer ='';
+        $release_date = date_format(date_create($response->{'release_date'}),'U'); // convert to unix time
+        $genres = $response->{'genres'};
+        $cast_details = $response->{'credits'}->{'cast'};
+        $cast=[];
+
+
+        // rating
+        foreach($release_dates as $rd){
+            if($rd->{'iso_3166_1'} == 'US'){
+                $rating = $rd->{'release_dates'}[0]->{'certification'};
+            }
+        }
+
+        // trailer link
+        foreach($videos as $video){
+            $key = $video->{'key'};
+
+            if($video->{'type'} == 'Trailer'){
+                $trailer = 'https://www.youtube.com/embed/'.$key.'?autoplay=1&mute=0&controls=1';
+                break;
+            }
+
+        }
+
+        // if no cast details is returned
+        if(empty($cast_details)){
+            array_push($cast,"Not available");
+        }
+        else{
+
+            // populate cast array with the max 3 main actors/actresses
+
+            foreach($cast_details as $cd){
+                if($cd->{'order'} <3){
+                    array_push($cast,  $cd->{'name'} );
+                }
+            }
+        }
+
+
+
+        // display movie details
+        require_once('./partials/movie-details.php');
+    }
+
+}
 
 ?>
 
@@ -55,7 +119,7 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
             <div class="w-full text-center  my-8">
 
                 <!-- logo -->
-                <img src="./img/logo_light_2.png" alt="logo" class="px-12 object-contain mb-8">
+                <img src="./img/logo_new_light.png" alt="logo" class="px-12 object-contain mb-8">
                 <p class="text-3xl font-light  capitalize"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
                 <p class="font-light uppercase   "> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
             </div >
@@ -63,11 +127,12 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
 
             <!-- Menu -->
             <div class="w-2/3 self-end justify-self-end    ">
+
                 <form id="manage-movies" action="index.php" method="post"><input type="text" name="manage-movies" hidden></form>
                 <form id="manage-schedules" action="index.php" method="post"><input type="text" name="manage-schedules" hidden></form>
                 <form id="manage-users" action="index.php" method="post"><input type="text" name="manage-users"  hidden></form>
 
-                <button form="manage-movies" id='movies-menu-button' class='w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6  py-2 <?php  echo $_SESSION['screen']=='movie'? 'bg-app-tertiary text-app-orange ':'';  ?>       selected' >Manage Movies</button>
+                <button form="manage-movies" id='movies-menu-button' class='w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6  py-2 <?php  echo $_SESSION['screen'] != 'schedule' && $_SESSION['screen'] !='user'? 'bg-app-tertiary text-app-orange ':'';  ?>       selected' >Manage Movies</button>
                 <button form="manage-schedules" id='schedule-menu-button' class="w-full hover:bg-app-secondary font-semibold text-lg text-right pr-6 py-2 <?php  echo $_SESSION['screen']=='schedule'? 'bg-app-tertiary text-app-orange':'';  ?>">Manage Schedules</button>
 
                 <!-- show user management if user is administrator -->
@@ -77,28 +142,29 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
                 ?>
 
             </div>
-            <div class="flex w-4/5 items-center justify-around  mx-auto mt-2 ">
 
-                <!-- Update password button -->
-                <button id="update-password-btn" class="flex items-center justify-center text-xs bg-app-tertiary px-6 py-1 rounded-md ">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                    </svg>
-                    <span class="">Password</span>
-                </button>
+            <div class="flex flex-col w-full">
+                <div class="flex w-4/5 items-center justify-around  mx-auto mb-12   ">
 
-                <!-- Logout button -->
-                <form action="logout.php" method="post" class=" flex flex-col justify-center items-center  text-xs" >
-                    <button  class="px-6 py-1 bg-app-tertiary  rounded-md  ">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    <!-- Update password button -->
+                    <button id="update-password-btn" class="flex items-center justify-center text-xs bg-app-tertiary px-4 py-1 rounded-md ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                         </svg>
-                        <span>Logout</span>
+                        <span class="">Password</span>
                     </button>
-                </form>
 
-            </div>
-            <div class="flex">
+                    <!-- Logout button -->
+                    <form action="logout.php" method="post" class=" flex flex-col justify-center items-center  text-xs" >
+                        <button  class="px-4 py-1 bg-app-tertiary  rounded-md  ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                            </svg>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+
+                </div>
                 <p class=" text-center text-xs pb-2">&copy; Backyard Cinema 2023</p>
             </div>
         </div>
@@ -107,7 +173,7 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
 
 
 
-    <!-- Section on the right(Movie, Schedule and User Management) -->
+    <!-- Section on the right(Movie, Schedule and User Tables) -->
     <div id='manage-movies' class=" bg-app-tertiary items-center justify-center h-full w-3/4 text-center text-sm text-gray-200 overflow-y-auto top-1/2">
 
 
@@ -118,7 +184,7 @@ $results = isset($_SESSION['movie-search-results'])?$_SESSION['movie-search-resu
             case "movie-result-list": // show results from api
                 echo
                 '
-                    <div class="bg-app-tertiary text-xl text-gray-200 w-full shadow-custom-sm sticky top-0 py-2 mb-4 z-30">
+                    <div class="bg-app-tertiary text-xl text-gray-200 w-full border-b border-app-blue sticky top-0 py-2 mb-4 z-30">
                         <span class="">Select a movie from the list below</span>
                     </div>
                 ';

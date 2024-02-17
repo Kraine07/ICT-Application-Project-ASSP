@@ -58,7 +58,7 @@ module.exports = {
           orange:"#FF4C29",
           secondary:'#2C394B',
           tertiary:'#334756',
-          modal:'#0f0f0fdd',
+          modal:'#0f0f0fef',
         },
       }
 

@@ -2,13 +2,13 @@
 
 
 
-// fetch data from given url
-function fetchData($url){
+// fetch data from given endpoint
+function fetchData($endpoint){
 
     $curl = curl_init();
 
     curl_setopt_array($curl, [
-        CURLOPT_URL => $url,
+        CURLOPT_URL => $endpoint,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,

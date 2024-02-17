@@ -154,8 +154,8 @@ function handleDeleteSchedule(){
                 <input name="end" type="text" value="'.$_POST['end-time'].'" hidden>
                 <p class="my-8"> Are you sure you want to delete schedule? This action is irreversible. </p>
                 <div class="flex justify-around items-center">
-                    <button form="delete-form" class=" bg-red-600 py-1 px-8 rounded-full">YES</button>
-                    <button form="cancel" class=" bg-green-600  py-1 px-8 rounded-full">NO</button>
+                    <button form="delete-form" class=" bg-red-600 py-1 px-8 rounded-md">YES</button>
+                    <button form="cancel" class=" bg-green-600  py-1 px-8 rounded-md">NO</button>
                 </div>
             </form>
         </div>

@@ -9,6 +9,7 @@ require_once('dbConn.php');
         // handle select cinema button clicks
         if(isset($_POST['screen-id'])){
             $_SESSION['screen-id'] = $_POST['screen-id'];
+            $_SESSION['page'] = "main.php#on-today";
             redirect($_SESSION['page']);
         }
 

@@ -108,7 +108,7 @@ if(movieDetails != null){
     window.onclick = function(event) {
         if (event.target == movieDetails) {
             movieDetails.classList.add("hidden");
-            location.reload();
+            // location.reload();
         }
     }
 }

@@ -71,7 +71,7 @@ if(!$screen_result = mysqli_query($conn, $screen_sql)){
             <!-- start time -->
             <div class="flex flex-col items-start">
                 <label for="start" class="text-md font-semibold mb-1 mt-2">Start <span class="text-app-orange">*</span></label>
-                <input id="start" type="datetime-local" name="start" class="py-1 px-2 rounded-md w-full bg-gray-200 text-app-blue " value = "<?php  echo $_SESSION['schedule-edit']? date("Y-m-d H:i",$_SESSION['start-time']) :"";   ?>" min="<?php echo $_SESSION['schedule-edit']?'': date('Y-m-d\TH:i'); ?>" required>
+                <input id="start" type="datetime-local" name="start" class="py-1 px-2 rounded-md w-full bg-gray-200 text-app-blue " value = "<?php  echo $_SESSION['schedule-edit']? date("Y-m-d H:i",$_SESSION['start-time']) :"";   ?>" min="<?php echo date('Y-m-d\TH:i') ?>" required>
             </div>
 
             <!-- end time -->

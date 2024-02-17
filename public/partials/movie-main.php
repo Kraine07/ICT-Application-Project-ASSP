@@ -89,6 +89,7 @@ require_once('movie-form.php');
                                     </form>
                                     <form action="manage-movie.php" method="post" class="inline">
                                         <input name="edit-id" type="text"  value="'.$row['movie_id'].'" hidden>
+                                        <input name="del-movie-title" type="text"  value="'.$row['movie_title'].'" hidden>
                                         <input name="edit-option" type="text" value="delete" hidden>
                                         <button class="text-red-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">

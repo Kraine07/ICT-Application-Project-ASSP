@@ -12,8 +12,9 @@ if(!isset($_SESSION['watch-trailer'])){
 if(!isset($_SESSION['movie-info'])){
     $_SESSION['movie-info'] = false;
 }
+
 $_SESSION['patron-view'] = true;
-$_SESSION['page'] = "main.php#on-today";
+$_SESSION['page'] = "main.php";
 
 
 
@@ -21,24 +22,37 @@ $_SESSION['page'] = "main.php#on-today";
 require_once('dbConn.php');
 require_once('redirect.php');
 
+// show 404 page if database is not yet created
+if($conn){
+    // $sql = "SHOW DATABASES WHERE `database` = '{$database}'";
+    // $result = mysqli_query($conn,$sql);
+
+    // if(mysqli_num_rows($result) < 1){
+    //     redirect("404.php");
+    // }
+}
 
 // set default timezone
 date_default_timezone_set('America/Jamaica');
 
+// store today's date
 $today = strtotime(date("F j, Y"));
 
 
-// get movie data to display in slideshow
+// sql to get movie data to display in slideshow
 $schedule_info_sql = "SELECT * FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` AND `start` >= $today ORDER BY RAND() LIMIT 3";
 
-//get screen data
+// sql to get screen data
 $screen_sql = "SELECT * FROM `{$database}`.{$screen_table}";
 
-// get movies scheduled for toady
+// sql to get movies scheduled for toady
 $today_sql = "SELECT `movie_poster`, `movie_id`, `movie_title`, `movie_plot`, `movie_duration`,`movie_trailer`, `start`, `end`, `movie`, `screen` FROM `{$database}`.`{$schedule_table}`, `{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie` = `movie_id` AND `screen` = {$_SESSION['screen-id']} AND `screen` = `screen_id` AND FROM_UNIXTIME(`start`,'%Y-%m-%d') = CURDATE() ORDER BY `start`";
 
-// get unscheduled movies
+// sql to get unscheduled movies
 $coming_soon_sql = "SELECT * FROM `{$database}`.`{$movie_table}` WHERE NOT EXISTS (SELECT * FROM `{$database}`.`{$schedule_table}` WHERE `movie` = `movie_id`) ORDER BY `movie_title`";
+
+
+
 
 
 
@@ -48,12 +62,11 @@ require_once('./partials/head.php');
 ?>
 
 
-
+<!-- Main page content -->
 <div class=" h-full w-full bg-blue-950 overflow-y-auto overflow-x-hidden ">
 
 
     <?php
-        // require_once('./partials/navbar.php');
         require_once('./partials/movie-info-modal.php');
         require_once('./partials/watch-trailer.php');
         require_once('./partials/login-form-modal.php');
@@ -63,7 +76,6 @@ require_once('./partials/head.php');
 
     <!-- slides -->
     <div class="hidden sm:block slideshow relative h-full bg-[url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center " id="slideshow">
-        <!-- <h2 class="text-white text-2xl text-center text-light mt-4">Now showing</h2> -->
         <div class="">
             <?php
             if($result = mysqli_query($conn, $schedule_info_sql)){
@@ -90,7 +102,7 @@ require_once('./partials/head.php');
                                     <div class="h-1/4 flex flex-col justify-end">
                                         <div class="flex justify-between items-end w-full my-2">
                                             <div class="w-2/3">
-                                                <span class=" text-3xl text-app-orange italic font-light pr-2">'.date("M d",$row['start']).'</span>
+                                                <span class=" text-2xl text-app-orange italic font-light pr-2">'.date("M d",$row['start']).'</span>
                                                 <span class=" text-xl text-app-orange italic ">'.date("g:i A",$row['start']).'</span>
                                                 <span class="block text-3xl ">'.$row['screen_name'].'</span>
                                             </div>
@@ -106,15 +118,14 @@ require_once('./partials/head.php');
                     ';
                 }
             }
-            else{
-                redirect('404.php');
-            }
 
 
             ?>
 
         </div>
 
+
+        <!-- Left scroll button -->
         <span class="absolute left-4 md:left-[10%] lg:left-[20%]  top-1/2 text-2xl p-1 text-center  cursor-pointer text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full w-6 h-6" onclick="nextSlide(-1)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-full ">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -122,6 +133,8 @@ require_once('./partials/head.php');
 
         </span>
 
+
+        <!-- Right scroll button -->
         <span class="absolute right-4  md:right-[10%] lg:right-[20%] p-1 top-1/2 text-2xl  text-center  cursor-pointer  text-black bg-[#ffffff77] hover:bg-white font-semibold rounded-full h-6 w-6" onclick="nextSlide(1)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-full">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -129,6 +142,7 @@ require_once('./partials/head.php');
 
         </span>
 
+        <!-- Indicators -->
         <div class="circles z-30 text-center absolute bottom-[6%] right-1/2 translate-x-1/2">
             <span class="dot bg-white h-4 aspect-square rounded-full relative inline-block cursor-pointer" onclick="currentSlide(1)"></span>
             <span class="dot bg-white h-4 aspect-square rounded-full relative inline-block cursor-pointer" onclick="currentSlide(2)"></span>
@@ -141,13 +155,12 @@ require_once('./partials/head.php');
 
     <!-- On today -->
 
-    <div class="h-auto w-full bg-app-secondary py-8 " id="on-today" >
+    <div class="min-h-full h-auto w-full bg-app-secondary py-8 " id="on-today" >
         <div class="lg:flex lg:items-center mx-8 w-full h-auto">
 
             <p class="text-2xl md:text-4xl font-light w-full md:w-1/3 text-gray-200 uppercase">On Today</p>
 
             <div class="  w-auto    lg:bg-app-tertiary rounded-md mt-6">
-            <!-- <div class="grid grid-cols-1 md:flex md:justify-start w-auto md:w-1/3   md:bg-app-tertiary rounded-md mt-6"> -->
                 <?php
 
                 // select screen buttons
@@ -162,11 +175,10 @@ require_once('./partials/head.php');
                         }
 
 
-                        // screen buttons
                         echo '
                             <form action="process-main.php" method="post" class="w-full p-0 inline">
                                 <input type="text" name="screen-id" value="'.$screen['screen_id'].'" hidden>
-                                <button class="'.$css.' text-black text-xs md:text-md py-2  md:px-10 w-[90px] md:w-[160px] truncate   focus:outline-none  uppercase rounded-md">'.$screen['screen_name'].'</button>
+                                <button class="'.$css.' text-black text-xs md:text-md font-semibold py-2  md:px-10 w-[90px] md:w-[160px] truncate   focus:outline-none  uppercase rounded-md">'.$screen['screen_name'].'</button>
                             </form>
                             ';
 
@@ -181,14 +193,17 @@ require_once('./partials/head.php');
 
         <!-- today's movie cards -->
 
-        <div class=" h-auto w-full  grid gap-y-4 grid-cols-2  lg:grid-cols-4 lg:gap-12 text-black p-8">
+        <div class="relative h-auto w-full  grid gap-y-4 grid-cols-2  lg:grid-cols-4 lg:gap-12 text-black p-8">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
-                    while($row = mysqli_fetch_assoc($result)){
-                        echo "<div class='h-auto w-4/5  '>";
-                        require('./partials/movie-card.php');
-                        echo "</div>";
+                    if(mysqli_num_rows($result)>0){
+                        while($row = mysqli_fetch_assoc($result)){
+                            require('./partials/movie-card.php');
+                        }
+                    }
+                    else{
+                        echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
                     }
                 }
             ?>
@@ -207,7 +222,7 @@ require_once('./partials/head.php');
             </div>
 
 
-            <div class=" h-auto w-full px-20 grid grid-cols-2 gap-6 md:grid-cols-5  text-black ">
+            <div class=" h-auto w-full px-20 grid grid-cols-2 gap-6 md:grid-cols-6  text-black ">
                 <?php
                     if($result1 = mysqli_query($conn, $coming_soon_sql)){
                         while($row = mysqli_fetch_assoc($result1)){

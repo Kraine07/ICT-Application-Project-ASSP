@@ -10,9 +10,9 @@
 <div class="relative overflow-hidden  h-full w-full">
     <div class="flex  h-full w-full">
         <div class="w-full h-full">
-            <img src="./img/cinema-4398725_1280.png" alt="" class="h-full sm:w-full object-cover grayscale-[80%]">
+            <img src="./img/cinema-4398725_1280.png" alt="" class="h-full sm:w-full lg:w-2/3 object-cover grayscale-[80%]">
             <div>
-                <img src="./img/kisspng-cinema-film-movie-theatre-5ac068632302c2.1016541515225590751434.png" alt="" class="w-2/3 lg:w-[700px] object-contain absolute -bottom-20  z-20 grayscale-[80%] ">
+                <img src="./img/kisspng-cinema-film-movie-theatre-5ac068632302c2.1016541515225590751434.png" alt="" class="w-3/5 lg:w-[600px] object-contain absolute -bottom-24 left  z-20 grayscale-[80%] ">
             </div>
         </div>
 
@@ -27,7 +27,7 @@
             </button>
             <div class=" w-[200px] md:w-3/4 flex flex-col items-end mr-12 justify-between">
                 <!-- <h1 class="text-8xl text-gray-300 font-light text-right w-3/5">Backyard Cinema</h1> -->
-                <img src="./img/logo_light_2.png" alt="logo" class="w-full object-contain">
+                <img src="./img/logo_new_light.png" alt="logo" class="w-full object-contain">
                 <a href="main.php" class="bg-app-orange text-gray-200 text-center text-xl font-semibold py-1 w-full rounded-full my-8  ">Enter
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline animate-push">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />

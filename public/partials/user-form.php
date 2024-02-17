@@ -15,11 +15,11 @@
                 </svg>
             </button>
         </h1>
-        
-        <!-- user form -->
-        <form action="manage-user.php" method="post" class="flex flex-col  items-start w-full h-full p-[24px]">
 
-            <p class="text-xs  italic text-right w-full"> Required fields<span class="text-lg text-app-orange ml-1">*</span> </p>
+        <!-- user form -->
+        <form action="manage-user.php" method="post" class="flex flex-col  items-start w-full h-full px-[24px] pb-4">
+
+            <p class="text-xs  italic text-left mb-4 w-full"> Required fields<span class="text-lg text-app-orange ml-1">*</span> </p>
 
             <input type="text" name="user-id" value=" <?php echo $_SESSION['user-edit'] ? $_SESSION['user-id']:"";  ?>  " hidden>
 
@@ -81,7 +81,7 @@
             </div>
 
             <!-- submit button -->
-            <button class="bg-app-blue text-app-orange w-full py-1 my-3 uppercase rounded-md">Submit</button>
+            <button class="bg-app-blue text-app-orange w-full py-2 my-3 uppercase rounded-md">Submit</button>
         </form>
     </div>
 

@@ -20,15 +20,15 @@ require_once('./partials/head.php');
 date_default_timezone_set('America/Jamaica');
 
 // opening div tag
-echo "<div class='h-full w-full bg-app-tertiary overflow-y-auto overflow-x-hidden'>";
+echo "<div class='h-auto w-full bg-app-tertiary overflow-y-auto overflow-x-hidden'>";
 
 // require_once('./partials/navbar.php');
 require_once('./partials/login-form-modal.php');
 
-
+// days to be displayed in calendar
 $day_names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-$month_day = 1;  // day number to be displayed in calendar
+$month_day = 1;  // day of the month
 $current_month = date('F'); // full text representation of a month
 $days_in_month = date('t',strtotime($current_month)); // number of days in current month
 $start_day =  date('w', strtotime( $current_month . ' 01,' . date('Y'))); // number representing the day that starts the month
@@ -37,6 +37,7 @@ $start_day =  date('w', strtotime( $current_month . ' 01,' . date('Y'))); // num
 $selected_date = date('Y-m-d');
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    // get the date the user selected from the calendar
     $selected_date = date('Y-m-'.$_POST['calendar-day']);
 }
 
@@ -88,8 +89,8 @@ if($result = mysqli_query($conn, $schedule_sql)){
     <div class="flex items-center justify-between h-full w-full px-6">
 
         <!-- calendar -->
-        <div class="h-auto w-[360px]  bg-app-tertiary  left-4  shadow-custom">
-            <div class="flex justify-around items-center text-gray-200 w-full py-2 mx-auto bg-app-blue">
+        <div class="h-auto w-[360px]  bg-app-tertiary  left-4  shadow-custom rounded-md  ">
+            <div class="flex justify-around items-center text-gray-200 w-full py-2 mx-auto bg-app-blue rounded-t-md">
                 <!-- <span>&#10094;</span> -->
                 <span class="text-2xl"><?php  echo $current_month;  ?></span>
                 <!-- <span>&#10095;</span> -->
@@ -101,14 +102,19 @@ if($result = mysqli_query($conn, $schedule_sql)){
                     // display day names
                     foreach($day_names as $day_name){
                         echo '
-                        <span class=" aspect-square text-bold ">'.$day_name.'</span>
+                        <span class=" aspect-square font-bold ">'.$day_name.'</span>
                         ';
                     }
 
                     // display calendar days
                     for($i=1; $i<=$days_in_month+$start_day; $i++){
-                        $css_class = ( $selected_day == $month_day) ? "text-black rounded-full bg-app-orange " :"";
+
+                        // create a style for selected day on the calendar
+                        $css_class = ( $selected_day == $month_day) ? "text-app-blue rounded-full bg-app-orange " :"";
                         if($i <= $start_day){
+
+                            // insert a black space until it reaches the 1st of the month
+                            // this makes the 1st day of the month fall on the correct day
                             echo "<span></span>";
                         }else{
                             echo '
@@ -150,53 +156,73 @@ if($result = mysqli_query($conn, $schedule_sql)){
                     <label for="tab4" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[3];  ?> </label>
 
 
-                    <!-- Tab Content 1 -->
+                    <!-- Tab For Screen 1 -->
                     <div id="tab-content-1" class="tab-content h-full  border-t-2 border-app-secondary py-12">
                         <div class=" grid grid-cols-4 gap-6 h-auto">
 
                         <?php
+                        if(!empty($cinema_1)){
                             foreach($cinema_1 as $row){
                                 require('./partials/movie-card.php');
                             }
+                        }
+                        else{
+                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                        }
                         ?>
                         </div>
                     </div>
 
 
-                    <!-- Tab Content 2 -->
+                    <!-- Tab For Screen 2 -->
                     <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
                         <div class="grid grid-cols-4 gap-6 h-auto">
 
                         <?php
+                        if(!empty($cinema_2)){
                             foreach($cinema_2 as $row){
                                 require('./partials/movie-card.php');
                             }
+                        }
+                        else{
+                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                        }
                         ?>
                         </div>
                     </div>
 
 
-                    <!-- Tab Content 3 -->
+                    <!-- Tab For Screen 3 -->
                     <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
                         <div class="grid grid-cols-4 gap-6 h-auto">
 
                         <?php
+                        if(!empty($cinema_3)){
                             foreach($cinema_3 as $row){
                                 require('./partials/movie-card.php');
                             }
+                        }
+                        else{
+                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                        }
                         ?>
                         </div>
                     </div>
 
 
-                    <!-- Tab Content 4 -->
+                    <!-- Tab For Screen 4 -->
                     <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
                         <div class="grid grid-cols-4 gap-6 h-auto">
 
                         <?php
+                        if(!empty($cinema_4)){
                             foreach($cinema_4 as $row){
                                 require('./partials/movie-card.php');
                             }
+                        }
+                        else{
+                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                        }
                         ?>
                         </div>
                     </div>
