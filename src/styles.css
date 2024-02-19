@@ -5,7 +5,9 @@
 
 
 
-
+*,html{
+    scroll-behavior:smooth !important;
+}
 
 .tab-content {
     display: none;
@@ -16,7 +18,7 @@
 #tab3:checked + label,
 #tab4:checked + label
 {
-    background-color: #ffffff;
+    background-color: #FF4C29;
     color:#000000;
 }
 

@@ -1,17 +1,25 @@
 
 
 
-<div class=" group  h-full w-full     relative  overflow-hidden  " >
-    <img class="object-contain w-full " src=" <?php echo $row['movie_poster'];  ?>" alt="movie-poster">
-    <div>
-        <?php
-            echo isset($row['start']) ? '<p class="bg-[#ffffffcc] w-full py-1 text-center text-blue-950 text-sm leading-5 font-semibold absolute bottom-0">  '.date("g:i A",$row['start']).' </p>':'';
-            echo isset($row['start']) ? '<p class="bg-[#ffffffcc] w-full py-1 text-center text-blue-950 text-sm font-semibold leading-5 absolute top-0">  '.$row['movie_title'].' </p>':'';
-        ?>
+<div class=" group  h-full w-full     relative   " >
+    <div class=" h-full w-full overflow-hidden relative">
 
+        <!-- Poster image -->
+        <img class="object-contain w-full " src=" <?php echo $row['movie_poster'];  ?>" alt="movie-poster">
+
+        <form action="process-main.php" method="post" class="">
+            <input type="text" name="movie-id" value=" <?php echo $row['movie_id'] ?>" hidden>
+
+            <!-- Slide down panel with view details button -->
+            <div class="bg-app-blue  text-gray-200 absolute h-1/2 w-full py-4  left-1/2 top-0   -translate-x-1/2 rounded-b-md hidden group-hover:flex flex-col items-center justify-between animate-drop-down  ">
+                <span class="w-4/5 text-sm font-semi-bold"> <?php echo $row['movie_title']; ?> </span>
+                <button class="px-4 py-2 bg-app-tertiary text-app-orange text-sm font-semibold rounded-md hover:scale-125 duration-300 ">View Details</button>
+            </div>
+        </form>
     </div>
-    <form action="process-main.php" method="post" class="">
-        <input type="text" name="movie-id" value=" <?php echo $row['movie_id'] ?>" hidden>
-        <button class=" bg-app-orange  w-full h-full py-1 text-sm text-app-blue font-semibold  absolute -top-1/4  left-1/2  -translate-x-1/2 rounded-md hidden group-hover:block  animate-drop-down ">View details</button>
-    </form>
+
+    <!-- Display time when it is set -->
+        <?php
+            echo isset($row['start']) ? '<p class="bg-app-blue w-4/5  py-2 text-center text-app-orange text-md font-semibold absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 rounded-md z-20">  '.date("g:i A",$row['start']).' </p>':'';
+        ?>
 </div>

@@ -2,15 +2,17 @@
 if(!isset($_SESSION)){
     session_start();
 }
+
+// show only in patron's views
 if($_SESSION['patron-view']){
     echo '
-        <footer class="h-auto bg-app-blue w-full bottom-0 flex flex-col justify-around">
-            <a href="main.php" class="h-[100px] flex justify-center">
-                <img src="./img/logo_light.png" alt="logo" class="h-[100px] pt-4  object-contain">
+        <footer class="h-auto w-full bottom-0 flex flex-col justify-around   bg-app-blue">
+            <a href="main.php" class="h-[130px] flex justify-center">
+                <img src="./img/logo_new_orange.png" alt="logo" class="h-[120px] pt-4  object-contain">
             </a>
             <div class="w-full text-gray-200 flex flex-col">
-                <button id="login" class=" text-sm underline mt-2 mr-8 self-end">Admin Panel</button>
-                <p class="text-xs w-screen text-center ">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
+                <button id="login" class=" italic text-sm bg-app-tertiary my-4 inline py-1 px-4 rounded-md self-center  ">Admin Panel</button>
+                <p class="text-xs w-screen text-center pb-1 ">Copyright &copy; 2023 Backyard Cinema Ltd. All rights reserved.</p>
             </div>
         </footer>
     ';
