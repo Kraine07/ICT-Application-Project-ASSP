@@ -29,7 +29,7 @@
                     <div class="w-full flex justify-between">
                         <div class="mr-12 ">
                             <span class="text-sm italic text-app-orange block ">Title</span>
-                            <span class="text-xs font-light "> <?php echo $title;?> </span>
+                            <span class="text-xs  "> <?php echo $title;?> </span>
                         </div>
 
                         <!-- Release date -->
@@ -109,7 +109,7 @@
                         <!-- Submit button -->
                         <form action="manage-movie.php" method="post" class="w-full   m-0">
                             <input type="text" name="movie-details" value="000" hidden>
-                            <button class="block bg-app-blue w-full py-1 text-app-orange text-lg rounded-md">Add Movie</button>
+                            <button class="block bg-app-blue w-full py-1 text-app-orange text-lg rounded-md hover:bg-blue-950">Add Movie</button>
                         </form>
                     </div>
                 </div>

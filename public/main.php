@@ -87,7 +87,7 @@ require_once('./partials/head.php');
                                 <div class="flex flex-col justify-between w-3/5 h-full px-6 text-gray-200">
 
                                     <div class="h-2/3 flex flex-col justify-start">
-                                        <h1 class="text-2xl h-1/3 leading-6  ">'.$row['movie_title'].'</h1>
+                                        <h1 class="text-2xl max-h-1/3 leading-6 mb-2 ">'.$row['movie_title'].'</h1>
                                         <p class="text-clip overflow-hidden text-xs h-2/3   py-2">'.$row['movie_plot'].'</p>
                                     </div>
 
@@ -152,7 +152,7 @@ require_once('./partials/head.php');
 
             <p class="text-2xl md:text-4xl font-light w-full md:w-1/3 text-gray-200 uppercase">On Today</p>
 
-            <div class="  w-auto    lg:bg-app-tertiary rounded-md mt-6">
+            <div class="  w-auto    lg:bg-app-tertiary rounded-md">
                 <?php
 
                 // select screen buttons
@@ -185,13 +185,13 @@ require_once('./partials/head.php');
 
         <!-- today's movie cards -->
 
-        <div class="relative h-auto w-full  grid gap-y-4 grid-cols-2  lg:grid-cols-4 lg:gap-12 text-black p-8">
+        <div class="relative h-auto w-full  grid gap-y-4 grid-cols-2  lg:grid-cols-4 lg:gap-32 text-black p-8">
             <?php
                 if($result = mysqli_query($conn, $today_sql)){
 
                     if(mysqli_num_rows($result)>0){
                         while($row = mysqli_fetch_assoc($result)){
-                            require('./partials/movie-card.php');
+                            require("./partials/movie-card.php");
                         }
                     }
                     else{

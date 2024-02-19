@@ -16,6 +16,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
 
+
+
         // validation
         if(emptyFields([$email,$password])){
             showErrorMessage('Empty fields now allowed. Please try again.');

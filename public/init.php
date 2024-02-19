@@ -1,8 +1,11 @@
 <?php
 
-require_once('redirect.php');
-
 session_start();
+
+
+require_once('redirect.php');
+require_once('dbConn.php');
+
 
 
 $_SESSION['patron-view'] = false;
@@ -15,7 +18,6 @@ if($_SESSION['db-setup'] == 1){
 
 require_once('form-validation.php');
 require_once('./partials/head.php');
-require_once('dbConn.php');
 require_once('redirect.php');
 
 require_once('message-display.php');
@@ -88,7 +90,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $admin_sql = "INSERT IGNORE INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
 
-    // validate submitted data
+
+
+    // validation
     if(!emptyFields($form_data)){
         if(validEmail($_SESSION['email'])){
             if(checkForDuplicates( [ $_SESSION['password'], $_SESSION['c-password'] ] )){
@@ -151,6 +155,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 }
 
+
+
 // retrieve a list of all genres from the API then add them to the genre table
 function populateGenreTable($conn, $database, $genre_table){
     require_once('api-handler.php');
@@ -192,80 +198,100 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
 
 <!-- Setup form -->
 <div class="w-screen h-screen bg-app-modal">
-    <div class="h-auto w-2/5  bg-app-tertiary mx-auto text-gray-200 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-md">
+    <div class="h-auto w-[680px]  bg-app-tertiary mx-auto text-gray-200 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-md">
         <h1 class="text-2xl text-left px-8  py-1 bg-app-blue rounded-t-md">Initial Setup</h1>
-        <div class="flex  justify-around items-center w-full h-auto py-4 px-8 ">
+        <div class="flex flex-col justify-start w-full h-auto">
 
+            <span class="text-xs  italic mt-4 px-8 ">Required fields<span class="ml-1 text-sm text-app-orange">*</span> </span>
 
-            <div class="h-auto w-full font-light  ">
+            <form class="   group" action="init.php" method="post" novalidate>
 
-                <form class="flex flex-col justify-between items-center h-full w-full overflow-y-auto   group" action="init.php" method="post" novalidate>
+                <div class="flex  justify-between items-start w-full ">
+
 
                     <!-- Administrator details -->
-                    <div class="w-full">
-                        <p class="text-xl font-normal ">Administrator's information</p>
+                    <div class="w-1/2 pl-8 pr-4 ">
+                        <p class="text-xl font-normal my-3">Administrator's information</p>
 
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <span class="text-xs  italic  w-2/3  float-right ">Required fields<span class="ml-1 text-sm text-app-orange">*</span> </span>
+
+                        <!-- First name -->
+                        <div class="flex flex-col w-full  mb-2">
+                            <label for="f-name" class="text-sm font-normal mb-1">First Name <span class=" text-app-orange">*</span></label>
+                            <input type="text" name="f-name" id="f-name" class="w-full   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo $_SESSION['db-setup'] ==0 ? $_SESSION['first-name'] : ""; ?>" placeholder="First Name" required>
                         </div>
 
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="f-name" class="text-sm font-normal">First Name <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="f-name" id="f-name" class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo $_SESSION['db-setup'] ==0 ? $_SESSION['first-name'] : ""; ?>" placeholder="First Name" required>
+                        <!-- Last name -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="l-name" class="text-sm font-normal mb-1">Last Name <span class=" text-app-orange">*</span></label>
+                            <input type="text" name="l-name" id="l-name" class="w-full   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['last-name'] : ""; ?>" placeholder="Last Name" required>
                         </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="l-name" class="text-sm font-normal">Last Name <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="l-name" id="l-name" class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['last-name'] : ""; ?>" placeholder="Last Name" required>
+
+                        <!-- Email -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="email" class="text-sm font-normal mb-1">Email <span class=" text-app-orange">*</span></label>
+                            <div class="flex flex-col w-full ">
+                                <input type="email" name="email" id="email"  class="w-full  rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['email'] : ""; ?>" placeholder="Email" required>
+                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Enter a valid email</span>
+                            </div>
                         </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="email" class="text-sm font-normal">Email <span class=" text-app-orange">*</span></label>
-                            <input type="email" name="email" id="email"  class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['email'] : ""; ?>" placeholder="Email" required>
+
+                        <!-- Password -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="password" class="text-sm font-normal mb-1 ">Password <span class=" text-app-orange">*</span></label>
+                            <div class="flex flex-col w-full">
+                                <input type="password" name="password" id="password" class=" rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least 1 number and 1 uppercase."  placeholder="Password" required>
+                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Enter a valid password</span>
+                            </div>
                         </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="password" class="text-sm font-normal">Password <span class=" text-app-orange">*</span></label>
-                            <input type="password" name="password" id="password" class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase."  placeholder="Password" required>
-                        </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="c-password" class="text-sm font-normal">Confirm Password <span class=" text-app-orange">*</span></label>
-                            <input type="password" name="c-password" id="c-password" class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder="Confirm Password" required>
+
+                        <!-- Confirm password -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="c-password" class="text-sm font-normal mb-1">Confirm Password <span class=" text-app-orange">*</span></label>
+                            <div class="flex flex-col w-full ">
+                                <input type="password" name="c-password" id="c-password" class="w-full   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least 1 number 1 and uppercase." placeholder="Confirm Password" required>
+                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Enter a valid password</span>
+                            </div>
                         </div>
                     </div>
+
 
                     <!-- Screen names -->
-                    <div class="w-full">
-                        <p class="text-xl font-normal mt-3 mb-2">Cinema/Screen Names</p>
+                    <div class="w-1/2 pl-4 pr-8 ">
+                        <p class="text-xl font-normal my-3 ">Cinema/Screen Names</p>
 
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="screen-1" class="text-sm font-normal">First screen <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="screen-1" id="screen-1"  class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-1'] : ""; ?>" placeholder="First Screen Name" required>
+                        <!-- Screen 1 -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="screen-1" class="text-sm font-normal mb-1">First screen <span class=" text-app-orange">*</span></label>
+                            <input type="text" name="screen-1" id="screen-1"  class="w-full  rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-1'] : ""; ?>" placeholder="First Screen Name" required>
                         </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="screen-2" class="text-sm font-normal">Second screen <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="screen-2" id="screen-2" class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-2'] : ""; ?>" placeholder="Second Screen Name" required>
+
+                        <!-- Screen 2 -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="screen-2" class="text-sm font-normal mb-1">Second screen <span class=" text-app-orange">*</span></label>
+                            <input type="text" name="screen-2" id="screen-2" class="w-full  rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-2'] : ""; ?>" placeholder="Second Screen Name" required>
                         </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="screen-3" class="text-sm font-normal">Third Screen <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="screen-3" id="screen-3" class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-3'] : ""; ?>" placeholder="Third Screen Name" required>
+
+                        <!-- Screen 3 -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="screen-3" class="text-sm font-normal mb-1">Third Screen <span class=" text-app-orange">*</span></label>
+                            <input type="text" name="screen-3" id="screen-3" class="w-2/3   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-3'] : ""; ?>" placeholder="Third Screen Name" required>
                         </div>
-                        <div class="flex justify-end w-full px-4 mb-2">
-                            <label for="screen-4" class="text-sm font-normal">Fourth Screen <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="screen-4"id="screen-4"  class="w-2/3   rounded-sm text-app-blue text-xs  font-semibold border-none outline-none ring-0 ml-4 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-4'] : ""; ?>" placeholder="Fourth Screen Name" required>
-                        </div>
-                        <div class="flex justify-end w-full px-4">
-                            <button class=" bg-app-blue text-app-orange font-semibold rounded w-2/3  py-1 mt-2   group-invalid:pointer-events-none group-invalid:opacity-30">Submit</button>
+
+                        <!-- Screen 4 -->
+                        <div class="flex flex-col  w-full  mb-2">
+                            <label for="screen-4" class="text-sm font-normal mb-1">Fourth Screen <span class=" text-app-orange">*</span></label>
+                            <input type="text" name="screen-4"id="screen-4"  class="w-full  rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-4'] : ""; ?>" placeholder="Fourth Screen Name" required>
                         </div>
                     </div>
-
-                </form>
-            </div>
+                </div>
+                <div class="flex justify-end w-full px-8 mt-4 mb-6">
+                    <button class=" bg-app-blue text-app-orange font-semibold rounded w-full py-2  group-invalid:pointer-events-none group-invalid:opacity-30">Initialize System</button>
+                </div>
+            </form>
         </div>
 
     </div>
 </div>
-
-
-
-
 
 
 <?php

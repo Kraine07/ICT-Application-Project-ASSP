@@ -6,7 +6,7 @@
         <div class="sm:mx-auto sm:w-full sm:max-w-sm mb-4 text-gray-200">
             <!-- Logo -->
             <img src="./img/logo_new_light.png" alt="" class=" object-contain h-16 mx-auto mb-8">
-            <!-- <p class="text-xs italic mt-4 w-full text-left">Required fields <span class="text-app-orange ml-1">*</span></p> -->
+            <p class="text-xs text-gray-400 italic mt-4 w-full text-left">Required fields <span class="text-app-orange text-md ml-1">*</span></p>
         </div>
 
 
@@ -15,8 +15,8 @@
                 <!-- Email input -->
                 <div class="mt-2">
                     <div class="">
-                        <label for="email" class="">Email <span class="text-[10px] uppercase ml-2 text-app-orange">Required</span></label>
-                        <input required id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-sm text-app-blue  font-semibold border-none outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                        <label for="email" class="">Email <span class="text-lg  ml-1 text-app-orange">*</span></label>
+                        <input required id="email" name="email" type="email" autocomplete="email" class="block w-full border-2 border-gray-200 bg-gray-200 rounded-sm text-app-blue  font-semibold  outline-none ring-0 py-1 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                         <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                             Please enter a valid email address
                         </span>
@@ -26,8 +26,8 @@
                 <!-- Password input -->
                 <div class="mt-3">
                     <div class="">
-                    <label for="password" class="">Password <span class="text-[10px] uppercase ml-2 text-app-orange">Required</span></label>
-                        <input required  id="password" name="password" type="password" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase."  class="block w-full rounded-sm text-app-blue  font-semibold border-none outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" placeholder="Password">
+                    <label for="password" class="">Password <span class="text-lg  ml-1 text-app-orange">*</span></label>
+                        <input required  id="password" name="password" type="password" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least 1 uppercase and 1 number."  class="block w-full rounded-sm text-app-blue  font-semibold border-2 border-gray-200 bg-gray-200 outline-none ring-0 py-1 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" placeholder="Enter password">
                         <span class=" leading-tight  mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                             Password must be 8 characters minimum with at least 1 uppercase and 1 number.
                         </span>
@@ -36,10 +36,10 @@
 
                 <!-- Buttons -->
                 <div class="mt-6 bg-app-blue rounded">
-                    <button type="submit" name="login" class=" flex w-full justify-center rounded  px-3  text-sm font-semibold leading-6 text-app-orange hover:bg-app-secondary      group-invalid:pointer-events-none group-invalid:opacity-30">Sign in</button>
+                    <button type="submit" name="login" class=" flex w-full justify-center rounded  px-3 py-1  text-sm font-semibold leading-6 text-app-orange border-2 border-app-blue hover:bg-blue-950 hover:border-blue-950      group-invalid:pointer-events-none group-invalid:opacity-30">Sign in</button>
                 </div>
-                <div class="group mt-2">
-                    <div  id="login-cancel" class="flex w-full justify-center rounded border-2 border-app-secondary px-3  text-sm font-semibold leading-6 text-gray-200  cursor-pointer group-hover:bg-app-secondary">Cancel</div>
+                <div class=" mt-2">
+                    <div  id="login-cancel" class="flex w-full justify-center rounded border-2 border-gray-600 px-3 py-1 text-sm font-semibold leading-6 text-gray-200  cursor-pointer hover:bg-gray-600">Cancel</div>
                 </div>
             </form>
         </div>

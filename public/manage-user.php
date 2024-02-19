@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // POST FROM ADD FORM
     if(isset($_POST['first-name'])){
 
-        $user_id = $_POST['user-id'];
+        // $user_id = $_POST['user-id'];
         $fist_name = trim($_POST['first-name']);
         $last_name = trim($_POST['last-name']);
         $email = trim($_POST['email']);
@@ -22,10 +22,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $role = $_POST['role'];
 
         $hash_password = hash("sha256",$password);
-        $user = [$user_id, $fist_name, $last_name, $email, $hash_password, $role];
+        $user_to_validate = [$fist_name, $last_name, $email, $password,$confirm_password];
+        $user = ["", $fist_name, $last_name, $email, $hash_password, $role];
 
         // validate form
-        if(emptyFields($user)){
+        if(emptyFields($user_to_validate)){
             showErrorMessage("Empty fields not allowed. Please try again.");
         }
         else if(!validEmail($email)){
@@ -69,6 +70,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         else{
             $sql = "UPDATE `{$database}`.`{$user_table}` SET `first_name` = ?, `last_name` = ?, `email` = ?, `role` = ? WHERE `user_id` = ?";
             if(mysqli_execute_query($conn, $sql, $user)){
+                $_SESSION['auth-user']['first_name']=trim($_POST['edit-fname']);
+                $_SESSION['auth-user']['last_name']=trim($_POST['last-name']);
+                $_SESSION['auth-user']['email']=trim($_POST['email']);
+                $_SESSION['auth-user']['role']=trim($_POST['role']);
                 showSuccessMessage("User updated successfully.");
             }
             else{

@@ -158,7 +158,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 1 -->
                     <div id="tab-content-1" class="tab-content h-full  border-t-2 border-app-secondary py-12">
-                        <div class=" grid grid-cols-4 gap-6 h-auto">
+                        <div class="relative grid grid-cols-4 gap-6 h-auto ">
 
                         <?php
                         if(!empty($cinema_1)){
@@ -167,7 +167,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
                             }
                         }
                         else{
-                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4  block  absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
                         }
                         ?>
                         </div>
@@ -176,7 +176,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 2 -->
                     <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
-                        <div class="grid grid-cols-4 gap-6 h-auto">
+                        <div class="grid grid-cols-4 gap-6 h-auto relative">
 
                         <?php
                         if(!empty($cinema_2)){
@@ -194,7 +194,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 3 -->
                     <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
-                        <div class="grid grid-cols-4 gap-6 h-auto">
+                        <div class="grid grid-cols-4 gap-6 h-auto relative">
 
                         <?php
                         if(!empty($cinema_3)){
@@ -212,7 +212,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 4 -->
                     <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
-                        <div class="grid grid-cols-4 gap-6 h-auto">
+                        <div class="grid grid-cols-4 gap-6 h-auto relative">
 
                         <?php
                         if(!empty($cinema_4)){

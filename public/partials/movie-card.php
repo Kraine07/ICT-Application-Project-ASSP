@@ -12,14 +12,14 @@
 
             <!-- Slide down panel with view details button -->
             <div class="bg-app-blue  text-gray-200 absolute h-1/2 w-full py-4  left-1/2 top-0   -translate-x-1/2 rounded-b-md hidden group-hover:flex flex-col items-center justify-between animate-drop-down  ">
-                <span class="w-4/5 text-sm font-light"> <?php echo $row['movie_title']; ?> </span>
-                <button class="px-6 py-1 bg-app-tertiary text-app-orange text-xs font-semibold rounded-md  ">View details</button>
+                <span class="w-4/5 text-sm font-semi-bold"> <?php echo $row['movie_title']; ?> </span>
+                <button class="px-4 py-2 bg-app-tertiary text-app-orange text-sm font-semibold rounded-md hover:scale-125 duration-300 ">View Details</button>
             </div>
         </form>
     </div>
 
     <!-- Display time when it is set -->
         <?php
-            echo isset($row['start']) ? '<p class="bg-app-blue w-4/5  py-1 text-center text-app-orange text-sm leading-5 font-semibold absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 rounded-sm z-20">  '.date("g:i A",$row['start']).' </p>':'';
+            echo isset($row['start']) ? '<p class="bg-app-blue w-4/5  py-2 text-center text-app-orange text-md font-semibold absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 rounded-md z-20">  '.date("g:i A",$row['start']).' </p>':'';
         ?>
 </div>

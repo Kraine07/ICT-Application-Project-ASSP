@@ -116,17 +116,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <div class="flex flex-col justify-between bg-app-blue text-gray-200 h-full w-1/4 min-w-[200px]   " >
         <div class="flex flex-col justify-between items-center h-full w-full  ">
             <!-- Profile -->
-            <div class="w-full text-center  my-8">
+            <div class="w-full text-center  mt-8">
 
                 <!-- logo -->
-                <img src="./img/logo_new_light.png" alt="logo" class="px-12 object-contain mb-8">
-                <p class="text-3xl font-light  capitalize"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
+                <img src="./img/logo_new_light.png" alt="logo" class="px-12 object-contain">
+                <p class="text-3xl font-light mt-6 capitalize"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
                 <p class="font-light uppercase   "> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
+
+                <div class="flex w-4/5 items-end justify-center  mx-auto  mt-2 ">
+
+                    <!-- Update password button -->
+                    <button id="update-password-btn" class="flex items-center justify-center text-xs  p-2 mx-1 hover:px-4 rounded-md  group duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="aspect-square h-5 inline">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                        </svg>
+                        <span class="ml-1 hidden group-hover:inline">Update Password</span>
+                    </button>
+
+                    <!-- Logout button -->
+                    <form action="logout.php" method="post" class="  text-xs m-0 p-0" >
+                        <button  class="flex  justify-center items-center p-2 mx-1 hover:px-4  rounded-md  group duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="aspect-square h-5 inline">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                            </svg>
+                            <span class="ml-1 hidden group-hover:inline">Logout</span>
+                        </button>
+                    </form>
+
+                </div>
             </div >
 
 
             <!-- Menu -->
-            <div class="w-2/3 self-end justify-self-end    ">
+            <div class="w-2/3 self-end pb-8   ">
 
                 <form id="manage-movies" action="index.php" method="post"><input type="text" name="manage-movies" hidden></form>
                 <form id="manage-schedules" action="index.php" method="post"><input type="text" name="manage-schedules" hidden></form>
@@ -144,27 +166,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             </div>
 
             <div class="flex flex-col w-full">
-                <div class="flex w-4/5 items-center justify-around  mx-auto mb-12   ">
-
-                    <!-- Update password button -->
-                    <button id="update-password-btn" class="flex items-center justify-center text-xs bg-app-tertiary px-4 py-1 rounded-md ">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-1">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                        </svg>
-                        <span class="">Password</span>
-                    </button>
-
-                    <!-- Logout button -->
-                    <form action="logout.php" method="post" class=" flex flex-col justify-center items-center  text-xs" >
-                        <button  class="px-4 py-1 bg-app-tertiary  rounded-md  ">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                            </svg>
-                            <span>Logout</span>
-                        </button>
-                    </form>
-
-                </div>
                 <p class=" text-center text-xs pb-2">&copy; Backyard Cinema 2023</p>
             </div>
         </div>

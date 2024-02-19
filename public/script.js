@@ -16,6 +16,8 @@ const closeMovieDetailsButton = document.getElementById('close-movie-details');
 const newScheduleButton = document.getElementById('new-schedule-btn');
 const scheduleForm = document.getElementById('schedule-form');
 const closeScheduleFormButton = document.getElementById('close-schedule-form');
+const scheduleStart = document.getElementById('schedule-start');
+const scheduleEnd = document.getElementById('schedule-end');
 
 const createUserButton = document.getElementById('new-user-btn');
 const userForm = document.getElementById('user-form');
@@ -143,7 +145,21 @@ if(newScheduleButton != null){
         scheduleForm.classList.add('hidden');
         location.reload();
     })
+
+
+    // Start time Input
+    scheduleStart.onfocus = (event)=>{
+        scheduleStart.type = 'datetime-local';
+        scheduleStart.showPicker();
+    }
+
+    // Ent time Input
+    scheduleEnd.onfocus = (event)=>{
+        scheduleEnd.type = 'datetime-local';
+        scheduleEnd.showPicker();
+    }
 }
+
 
 
 // USER FORM

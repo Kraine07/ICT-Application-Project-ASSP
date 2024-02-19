@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $response = fetchData($search_movie);
 
         if($response == null){
-            showErrorMessage('No connection to source. Please try again or contact technical support.');
+            showErrorMessage('No connection to movie source. Please try again or contact technical support.');
         }
         else{
             if(!isset($response->{'success'})){  // check if api call was successful
@@ -106,23 +106,30 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         redirect("index.php");
     }
 
-    // delete all genres associated with the movie
+
+
+    // DELETE MOVIE
     elseif(isset($_POST['delete-id'])){
-        $delete_genres_sql = "DELETE FROM `{$database}`.`{$has_genre_table}` WHERE `movie` = {$_POST['delete-id']};
-        DELETE FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = {$_POST['delete-id']};";
-        mysqli_multi_query($conn,$delete_genres_sql);
-        while(mysqli_next_result($conn));
+        $delete_movie_sql = "
+            DELETE FROM `{$database}`.`{$has_genre_table}` WHERE `movie` = {$_POST['delete-id']};
+            DELETE FROM `{$database}`.`{$cast_table}` WHERE `movie` = {$_POST['delete-id']};
+            DELETE FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = {$_POST['delete-id']};
+        ";
 
-        $delete_cast_sql = "DELETE FROM `{$database}`.`{$cast_table}` WHERE `movie` = {$_POST['delete-id']};
-        DELETE FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = {$_POST['delete-id']};";
-        mysqli_multi_query($conn,$delete_cast_sql);
-        while(mysqli_next_result($conn));
-
-        showSuccessMessage("Movie deleted.");
+        if(mysqli_multi_query($conn,$delete_movie_sql)){
+            showErrorMessage("Error deleting movie. Please try again or contact technical support.");
+        }
+        else{
+            while(mysqli_next_result($conn));
+            mysqli_close($conn);
+            showSuccessMessage("Movie deleted.");
+        }
 
     }
 
-    // edit movie
+
+
+    // EDIT MOVIE
     elseif(isset($_POST['form-movie-id'])){
         $movie_id = trim($_POST['form-movie-id']);
         $released_date = date_format(date_create(trim($_POST['release'])),'U');
@@ -170,6 +177,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 }
             }
 
+            mysqli_close($conn);
+
             // return to movies main screen
             $_SESSION['screen'] = "movie";
             showSuccessMessage("Movie updated successfully.");
@@ -192,6 +201,7 @@ function handleDeleteMovie($movie_id,$schedule_table,$conn,$database){
     if(mysqli_num_rows($result) > 0){
         showErrorMessage("Cannot delete movie because it is linked to a schedule. Please resolve scheduling issue then try again.");
         mysqli_free_result($result);
+        mysqli_close($conn);
     }
     else{
         // display confirmation popup
