@@ -80,8 +80,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <!-- update password form -->
 <div class="hidden absolute w-screen h-screen top-0 left-0 bg-app-modal text-gray-200  z-20" id="update-password-modal">
-    <div class="absolute w-1/3  bg-app-tertiary left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
-        <span class="flex justify-between items-center px-4 py-2 bg-app-blue">
+    <div class="absolute w-1/3  bg-app-tertiary left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 ">
+        <span class="flex justify-between items-center pl-8 pr-4 py-2 bg-app-blue text-lg">
             <span>Update Password</span>
             <button class="" id="update-password-close">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
@@ -89,19 +89,40 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 </svg>
             </button>
         </span>
-        <div class="w-full py-4 px-8">
+        <div class="w-full py-6 px-8">
             <p class="text-xs italic mb-4">Required fields <span class="text-app-orange">*</span></p>
-            <form action="update-password.php" method="post" class="w-full text-sm flex flex-col">
-                <label for="old-password">Old Password<span class="text-app-orange"> *</span></label>
-                <input required id="old-password" type="password" name="old-password" class="text-app-blue px-2 py-1 block w-full my-1 rounded-sm" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase.">
+            <form action="update-password.php" method="post" class="w-full text-sm flex flex-col  group" novalidate>
 
-                <label for="new-password">New Password<span class="text-app-orange"> *</span></label>
-                <input required id="new-password" type="password" name="new-password" class="text-app-blue px-2 py-1 block w-full my-1 rounded-sm" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase.">
+            <!-- Old Password -->
+            <div class="mt-1 w-full flex flex-col">
+                <label for="old-password" class="">Old Password<span class="text-app-orange"> *</span></label>
+                <input required id="old-password" type="password" name="old-password" class="text-app-blue font-semibold  outline-none ring-0 py-1 px-2 mt-1  rounded-sm focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder=" ">
+                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                    Please enter a valid email address
+                </span>
+            </div>
 
-                <label for="confirm-password">Confirm New Password<span class="text-app-orange"> *</span></label>
-                <input required id="confirm-password" type="password" name="confirm-password" class="text-app-blue px-2 py-1 block w-full my-1 rounded-sm" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase.">
 
-                <button class="mt-2 px-6 py-1 bg-app-blue text-app-orange self-end w-1/3 rounded-sm">Submit</button>
+            <!-- New password -->
+            <div class="mt-1 w-full flex flex-col">
+                <label for="new-password" class="">New Password<span class="text-app-orange"> *</span></label>
+                <input required id="new-password" type="password" name="new-password" class="text-app-blue font-semibold  outline-none ring-0 py-1 px-2 mt-1  rounded-sm focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder=" ">
+                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                    Please enter a valid email address
+                </span>
+            </div>
+
+
+            <!-- Confirm password -->
+            <div class="mt-1 w-full flex flex-col">
+                <label for="confirm-password" class="">Confirm New Password<span class="text-app-orange"> *</span></label>
+                <input required id="confirm-password" type="password" name="confirm-password" class="text-app-blue font-semibold  outline-none ring-0 py-1 px-2 mt-1  rounded-sm focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder=" ">
+                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                    Please enter a valid email address
+                </span>
+            </div>
+
+                <button class="mt-4 px-6 py-2 bg-app-blue text-app-orange w-full rounded-md   group-invalid:pointer-events-none group-invalid:opacity-30">Update Password</button>
             </form>
         </div>
     </div>
@@ -120,7 +141,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                 <!-- logo -->
                 <img src="./img/logo_new_light.png" alt="logo" class="px-12 object-contain">
-                <p class="text-3xl font-light mt-6 capitalize"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
+
+                <!-- user info -->
+                <p class="text-3xl font-light mt-6 mb-1 capitalize"> <?php  echo $_SESSION['auth-user']['first_name']." ".$_SESSION['auth-user']['last_name'] ?> </p>
                 <p class="font-light uppercase   "> <?php  echo$_SESSION['auth-user']['role']  ?> </p>
 
                 <div class="flex w-4/5 items-end justify-center  mx-auto  mt-2 ">

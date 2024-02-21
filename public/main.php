@@ -195,7 +195,7 @@ require_once('./partials/head.php');
                         }
                     }
                     else{
-                        echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                        echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">We apologize, but currently, there are no schedules for this screen. Please check back later or try another screen.</span></div>';
                     }
                 }
             ?>
@@ -217,8 +217,13 @@ require_once('./partials/head.php');
             <div class=" h-auto w-full px-20 grid grid-cols-2 gap-6 md:grid-cols-6  text-black ">
                 <?php
                     if($result1 = mysqli_query($conn, $coming_soon_sql)){
-                        while($row = mysqli_fetch_assoc($result1)){
-                            require('./partials/movie-card.php');
+                        if(mysqli_num_rows($result1)>0){
+                            while($row = mysqli_fetch_assoc($result1)){
+                                require("./partials/movie-card.php");
+                            }
+                        }
+                        else{
+                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">We apologize, but currently, there are no upcoming movies to display. Please check back later for exciting new releases!.</span></div>';
                         }
                     }
 

@@ -17,7 +17,7 @@
         </h1>
 
         <!-- user form -->
-        <form action="manage-user.php" method="post" class="flex flex-col text-sm items-start w-full h-full px-6 pb-4">
+        <form action="manage-user.php" method="post" class="flex flex-col text-sm items-start w-full h-full px-6 pb-4 group" novalidate>
 
             <p class="text-xs  italic text-left my-2 w-full"> Required fields<span class="text-lg text-app-orange ml-1">*</span> </p>
 
@@ -39,6 +39,7 @@
             <div class="flex flex-col items-start w-full mb-2">
                 <label for="email" class="text-md font-semibold ">Email <span class="text-red-600">*</span></label>
                 <input id="email" type="email" name="email" class="py-1 rounded-sm w-full bg-gray-200 text-app-blue   outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" value = "<?php  echo $_SESSION['user-edit']? $_SESSION['email'] :"";   ?>" placeholder="Enter email" required>
+                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Please enter a valid email</span>
             </div>
             <?php
 
@@ -49,12 +50,14 @@
                     <div class="flex flex-col items-start w-full mb-2">
                         <label for="password" class="text-md font-semibold ">Password <span class="text-red-600">*</span></label>
                         <input id="password" type="password" name="password" class="py-1 rounded-sm w-full bg-gray-200 text-app-blue   outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"   pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase."  placeholder="Enter password" required>
+                        <span class="leading-tight mt-2 hidden text-xs text-left text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"> Password must be 8 characters minimum with at least 1 uppercase and 1 number.</span>
                     </div>
 
 
                     <div class="flex flex-col items-start w-full mb-2">
                         <label for="c-password" class="text-md font-semibold ">Confirm Password <span class="text-red-600">*</span></label>
                         <input id="c-password" type="password" name="c-password" class="py-1 rounded-sm w-full bg-gray-200 text-app-blue   outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase."  placeholder="Confirm password" required>
+                        <span class="leading-tight mt-2 hidden text-xs text-left text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"> Password must be 8 characters minimum with at least 1 uppercase and 1 number.</span>
                     </div>
                     ';
                 }
@@ -81,7 +84,7 @@
             </div>
 
             <!-- submit button -->
-            <button class="bg-app-blue text-app-orange w-full py-2 my-3  rounded-md">Create User</button>
+            <button class="bg-app-blue text-app-orange w-full py-2 my-2  rounded-md group-invalid:pointer-events-none group-invalid:opacity-30">Create User</button>
         </form>
     </div>
 

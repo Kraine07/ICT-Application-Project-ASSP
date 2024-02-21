@@ -116,13 +116,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             DELETE FROM `{$database}`.`{$movie_table}` WHERE `movie_id` = {$_POST['delete-id']};
         ";
 
-        if(mysqli_multi_query($conn,$delete_movie_sql)){
+        if(!mysqli_multi_query($conn,$delete_movie_sql)){
             showErrorMessage("Error deleting movie. Please try again or contact technical support.");
         }
         else{
             while(mysqli_next_result($conn));
             mysqli_close($conn);
-            showSuccessMessage("Movie deleted.");
+            showSuccessMessage("Movie deleted successfully.");
         }
 
     }

@@ -85,24 +85,24 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
 
 ?>
-
-    <div class="flex items-center justify-between h-full w-full px-6">
+    <span class='text-4xl font-light text-gray-200 block pt-6 pb-12 px-12  text-right'>Schedule for <span class="font-semibold"><?php echo $new_selected_date; ?> </span> </span>
+    <div class="flex items-start justify-between h-full w-full px-12">
 
         <!-- calendar -->
-        <div class="h-auto w-[360px]  bg-app-tertiary  left-4  shadow-custom rounded-md  ">
+        <div class="h-auto w-[320px]  bg-app-tertiary  shadow-custom rounded-md ">
             <div class="flex justify-around items-center text-gray-200 w-full py-2 mx-auto bg-app-blue rounded-t-md">
                 <!-- <span>&#10094;</span> -->
                 <span class="text-2xl"><?php  echo $current_month;  ?></span>
                 <!-- <span>&#10095;</span> -->
 
             </div>
-            <div class="h-auto w-5/6 mx-auto py-4 text-gray-200">
-                <div class="grid grid-cols-7 gap-y-2 text-center justify-items-center">
+            <div class="h-auto w-5/6 mx-auto py-2 text-gray-200">
+                <div class="grid grid-cols-7 gap-y-1 text-center justify-items-center">
                     <?php
                     // display day names
                     foreach($day_names as $day_name){
                         echo '
-                        <span class=" aspect-square font-bold ">'.$day_name.'</span>
+                        <span class="text-sm aspect-square ">'.$day_name.'</span>
                         ';
                     }
 
@@ -113,7 +113,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
                         $css_class = ( $selected_day == $month_day) ? "text-app-blue rounded-full bg-app-orange " :"";
                         if($i <= $start_day){
 
-                            // insert a black space until it reaches the 1st of the month
+                            // insert a blank space until it reaches the 1st of the month
                             // this makes the 1st day of the month fall on the correct day
                             echo "<span></span>";
                         }else{
@@ -136,29 +136,29 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
 
         <!-- display schedules -->
-        <div class="w-[840px] h-full   overflow-y-auto p-4">
+        <div class="w-[700px] h-full   overflow-y-auto">
 
             <div class="mx-auto h-full">
-                <span class='text-4xl font-light text-gray-200 block pb-4  text-right'> <?php echo $new_selected_date; ?> </span>
+
                 <div class=" mx-auto h-3/4">
 
                 <!-- Tabs (screen names) -->
                     <input type="radio" id="tab1" name="tab" class="hidden " checked>
-                    <label for="tab1" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block" > <?php  echo $screen_names[0];  ?> </label>
+                    <label for="tab1" class="cursor-pointer bg-app-secondary text-gray-200 py-1 px-8 inline-block hover:scale-125 duration-300" > <?php  echo $screen_names[0];  ?> </label>
 
                     <input type="radio" id="tab2" name="tab" class="hidden">
-                    <label for="tab2" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[1];  ?> </label>
+                    <label for="tab2" class="cursor-pointer bg-app-secondary text-gray-200 py-1 px-8 inline-block hover:scale-125 duration-300"> <?php  echo $screen_names[1];  ?> </label>
 
                     <input type="radio" id="tab3" name="tab" class="hidden">
-                    <label for="tab3" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[2];  ?> </label>
+                    <label for="tab3" class="cursor-pointer bg-app-secondary text-gray-200 py-1 px-8 inline-block hover:scale-125 duration-300"> <?php  echo $screen_names[2];  ?> </label>
 
                     <input type="radio" id="tab4" name="tab" class="hidden">
-                    <label for="tab4" class="cursor-pointer bg-app-secondary text-gray-200  px-8 inline-block"> <?php  echo $screen_names[3];  ?> </label>
+                    <label for="tab4" class="cursor-pointer bg-app-secondary text-gray-200 py-1 px-8 inline-block hover:scale-125 duration-300"> <?php  echo $screen_names[3];  ?> </label>
 
 
                     <!-- Tab For Screen 1 -->
                     <div id="tab-content-1" class="tab-content h-full  border-t-2 border-app-secondary py-12">
-                        <div class="relative grid grid-cols-4 gap-6 h-auto ">
+                        <div class="relative grid grid-cols-4 gap-6 h-auto  animate-fade-in ">
 
                         <?php
                         if(!empty($cinema_1)){
@@ -167,7 +167,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
                             }
                         }
                         else{
-                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4  block  absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                            echo '<span class="text-lg text-gray-200 font-light italic col-span-2 lg:col-span-3  block px-8 ">We apologize, but currently, there are no schedules for this screen. Please select another date or try another screen.</span>';
                         }
                         ?>
                         </div>
@@ -176,7 +176,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 2 -->
                     <div id="tab-content-2" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
-                        <div class="grid grid-cols-4 gap-6 h-auto relative">
+                        <div class="grid grid-cols-4 gap-6 h-auto relative animate-fade-in ">
 
                         <?php
                         if(!empty($cinema_2)){
@@ -185,7 +185,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
                             }
                         }
                         else{
-                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                            echo '<span class="text-lg text-gray-200 font-light italic col-span-2 lg:col-span-3  block px-8 ">We apologize, but currently, there are no schedules for this screen. Please select another date or try another screen.</span>';
                         }
                         ?>
                         </div>
@@ -194,7 +194,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 3 -->
                     <div id="tab-content-3" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
-                        <div class="grid grid-cols-4 gap-6 h-auto relative">
+                        <div class="grid grid-cols-4 gap-6 h-auto relative animate-fade-in ">
 
                         <?php
                         if(!empty($cinema_3)){
@@ -203,7 +203,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
                             }
                         }
                         else{
-                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                            echo '<span class="text-lg text-gray-200 font-light italic col-span-2 lg:col-span-3  block px-8 ">We apologize, but currently, there are no schedules for this screen. Please select another date or try another screen.</span>';
                         }
                         ?>
                         </div>
@@ -212,7 +212,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
 
                     <!-- Tab For Screen 4 -->
                     <div id="tab-content-4" class="hidden tab-content h-full border-t-2 border-app-secondary py-12">
-                        <div class="grid grid-cols-4 gap-6 h-auto relative">
+                        <div class="grid grid-cols-4 gap-6 h-auto relative animate-fade-in ">
 
                         <?php
                         if(!empty($cinema_4)){
@@ -221,7 +221,7 @@ if($result = mysqli_query($conn, $schedule_sql)){
                             }
                         }
                         else{
-                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">No Schedule for today.</span></div>';
+                            echo '<span class="text-lg text-gray-200 font-light italic col-span-2 lg:col-span-3  block px-8 ">We apologize, but currently, there are no schedules for this screen. Please select another date or try another screen.</span>';
                         }
                         ?>
                         </div>
