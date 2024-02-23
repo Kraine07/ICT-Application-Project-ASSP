@@ -1,9 +1,7 @@
 <?php
 require_once('dbConn.php');
 $sql = "SELECT `movie`,`screen`,`movie_title`,`schedule_id`,`screen_name`,`start`,`end` FROM `{$database}`.`{$schedule_table}`,`{$database}`.`{$movie_table}`, `{$database}`.`{$screen_table}` WHERE `movie_id` = `movie` and `screen_id` = `screen` ORDER BY `start` DESC";
-if(!$result = mysqli_query($conn, $sql)){
-    showErrorMessage("Error obtaining schedules. Please try again or contact technical support.");
-}
+$result = mysqli_query($conn, $sql);
 
 require_once('schedule-form.php');
 ?>

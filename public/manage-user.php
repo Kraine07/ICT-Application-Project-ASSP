@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // POST FROM ADD FORM
     if(isset($_POST['first-name'])){
 
-        // $user_id = $_POST['user-id'];
+
         $fist_name = trim($_POST['first-name']);
         $last_name = trim($_POST['last-name']);
         $email = trim($_POST['email']);
@@ -40,6 +40,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
 
         else{
+
+            
             $user_sql = "INSERT INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
             if(mysqli_execute_query($conn,$user_sql,$user)){
                 showSuccessMessage('User added successfully.');

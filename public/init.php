@@ -81,7 +81,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         CREATE TABLE IF NOT EXISTS `{$database}`.`{$has_genre_table}` (`movie` int(11) NOT null,`genre` int(11) NOT NULL, KEY `movie` (`movie`),  KEY `genre` (`genre`), CONSTRAINT `has_genre_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `has_genre_fk2` FOREIGN KEY (`genre`) REFERENCES `genre` (`genre_id`) ) ENGINE=INNODB;
 
-        CREATE TABLE IF NOT EXISTS `{$database}`.`{$schedule_table}` (`schedule_id` int(11) NOT NULL AUTO_INCREMENT, `movie` int(11) NOT null, `screen` int(11) NOT null, `user` int(11) NOT null, `start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), KEY `user` (`user`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), CONSTRAINT `schedule_fk3` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`), PRIMARY KEY (`schedule_id`))ENGINE=INNODB;
+        CREATE TABLE IF NOT EXISTS `{$database}`.`{$schedule_table}` (`schedule_id` int(11) NOT NULL AUTO_INCREMENT, `movie` int(11) NOT null, `screen` int(11) NOT null, `start` int(11) NOT null, `end` int(11) NOT null,  KEY `movie` (`movie`), KEY `screen` (`screen`), CONSTRAINT `schedule_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`), CONSTRAINT `schedule_fk2` FOREIGN KEY (`screen`) REFERENCES `screen` (`screen_id`), PRIMARY KEY (`schedule_id`))ENGINE=INNODB;
 
         CREATE TABLE IF NOT EXISTS `{$database}`.`{$cast_table}` (`movie` INT(11) NOT NULL , `cast_name` VARCHAR(100) NOT NULL , KEY (`movie`), CONSTRAINT `cast_fk1` FOREIGN KEY (`movie`) REFERENCES `movie` (`movie_id`)) ENGINE = InnoDB;
 
@@ -274,7 +274,7 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
                         <!-- Screen 3 -->
                         <div class="flex flex-col  w-full  mb-2">
                             <label for="screen-3" class="text-sm font-normal mb-1">Third Screen <span class=" text-app-orange">*</span></label>
-                            <input type="text" name="screen-3" id="screen-3" class="w-2/3   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-3'] : ""; ?>" placeholder="Third Screen Name" required>
+                            <input type="text" name="screen-3" id="screen-3" class="w-full   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value="<?php  echo ($_SESSION['db-setup']==0) ? $_SESSION['screen-3'] : ""; ?>" placeholder="Third Screen Name" required>
                         </div>
 
                         <!-- Screen 4 -->

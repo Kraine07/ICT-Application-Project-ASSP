@@ -60,8 +60,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         }
                         else{
                             // add or update schedule
-                            $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?,?)";
-                            if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $_SESSION['auth-user']['user_id'], $start_date, $end_date])){
+                            $sql = "REPLACE INTO `{$database}`.`{$schedule_table}` VALUES(?,?,?,?,?)";
+                            if(mysqli_execute_query($conn, $sql, [$schedule_id, $movie, $screen, $start_date, $end_date])){
                                 $_SESSION['screen'] = 'schedule';
                                 showSuccessMessage("Action completed successfully.");
                             }

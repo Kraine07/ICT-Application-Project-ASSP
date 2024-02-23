@@ -1,7 +1,7 @@
 
 # Backyard Cinema
 
-This application is a cinema management system designed for Backyard Cinema Ltd. It enables authorized users to manage movies, schedules and users. Patrons are able to view daily and monthly schedules as well as information about the movies.
+This application is a cinema management system designed for Backyard Cinemas Ltd. It enables authorized users to manage movies, schedules and users in a secured environment. At the same time, patrons are able to view daily and monthly schedules, view information about the movies as well as watch trailers.
 
 
 # Authors
