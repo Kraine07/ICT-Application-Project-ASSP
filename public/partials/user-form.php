@@ -84,7 +84,7 @@
             </div>
 
             <!-- submit button -->
-            <button class="bg-app-blue text-app-orange w-full py-2 my-2  rounded-md group-invalid:pointer-events-none group-invalid:opacity-30">Create User</button>
+            <button class="bg-app-blue text-app-orange w-full py-2 my-2  rounded-md group-invalid:pointer-events-none group-invalid:opacity-30">  <?php echo $_SESSION['user-edit']? "Edit": "Create";?> User</button>
         </form>
     </div>
 

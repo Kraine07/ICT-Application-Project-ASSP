@@ -98,7 +98,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <label for="old-password" class="">Old Password<span class="text-app-orange"> *</span></label>
                 <input required id="old-password" type="password" name="old-password" class="text-app-blue font-semibold  outline-none ring-0 py-1 px-2 mt-1  rounded-sm focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder=" ">
                 <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                    Please enter a valid email address
+                    Password must be 8 characters minimum with at least 1 uppercase and 1 number.
                 </span>
             </div>
 
@@ -108,7 +108,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <label for="new-password" class="">New Password<span class="text-app-orange"> *</span></label>
                 <input required id="new-password" type="password" name="new-password" class="text-app-blue font-semibold  outline-none ring-0 py-1 px-2 mt-1  rounded-sm focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder=" ">
                 <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                    Please enter a valid email address
+                    Password must be 8 characters minimum with at least 1 uppercase and 1 number.
                 </span>
             </div>
 
@@ -118,7 +118,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <label for="confirm-password" class="">Confirm New Password<span class="text-app-orange"> *</span></label>
                 <input required id="confirm-password" type="password" name="confirm-password" class="text-app-blue font-semibold  outline-none ring-0 py-1 px-2 mt-1  rounded-sm focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least one number and uppercase." placeholder=" ">
                 <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                    Please enter a valid email address
+                    Password must be 8 characters minimum with at least 1 uppercase and 1 number.
                 </span>
             </div>
 

@@ -208,7 +208,7 @@ require_once('./partials/head.php');
 
 
     <!-- Coming soon -->
-        <div class="h-auto w-full bg-app-tertiary py-8" id="coming-soon">
+        <div class="min-h-full w-full bg-app-tertiary py-12" id="coming-soon">
             <div class="flex  px-8 w-full mb-10">
                 <span class="text-2xl md:text-4xl  text-white font-light uppercase ">Coming Soon</span>
             </div>
