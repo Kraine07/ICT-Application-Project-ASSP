@@ -195,7 +195,7 @@ require_once('./partials/head.php');
                         }
                     }
                     else{
-                        echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">We apologize, but currently, there are no schedules for this screen. Please check back later or try another screen.</span></div>';
+                        echo '<div><span class="text-xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">We apologize, but currently, there are no schedules for this screen. Please try another screen.</span></div>';
                     }
                 }
             ?>
@@ -208,22 +208,22 @@ require_once('./partials/head.php');
 
 
     <!-- Coming soon -->
-        <div class="min-h-full w-full bg-app-tertiary py-12" id="coming-soon">
+        <div class="min-h-full w-full bg-app-tertiary py-8" id="coming-soon">
             <div class="flex  px-8 w-full mb-10">
                 <span class="text-2xl md:text-4xl  text-white font-light uppercase ">Coming Soon</span>
             </div>
 
 
-            <div class=" h-auto w-full px-20 grid grid-cols-2 gap-6 md:grid-cols-6  text-black ">
+            <div class="min-h-full w-full px-20 grid grid-cols-2 gap-6 md:grid-cols-6  text-black relative">
                 <?php
                     if($result1 = mysqli_query($conn, $coming_soon_sql)){
-                        if(mysqli_num_rows($result1)>0){
-                            while($row = mysqli_fetch_assoc($result1)){
-                                require("./partials/movie-card.php");
-                            }
+                        if(mysqli_num_rows($result1)< 1){
+                            echo '
+                            <div><span class="absolute left-1/2 -translate-x-1/2 text-gray-200 text-xl font-light italic col-span-2 md:col-span-6 align-middle self-center">We apologize, but currently, there are no upcoming movies available. Kindly, check back later to see our exciting line up.</span></div>
+                            ';
                         }
-                        else{
-                            echo '<div><span class="text-2xl text-gray-200 font-light italic col-span-2 lg:col-span-4   absolute left-1/2 -translate-x-1/2">We apologize, but currently, there are no upcoming movies to display. Please check back later for exciting new releases!.</span></div>';
+                        while($row = mysqli_fetch_assoc($result1)){
+                            require('./partials/movie-card.php');
                         }
                     }
 

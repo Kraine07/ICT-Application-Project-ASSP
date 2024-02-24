@@ -14,9 +14,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $confirm_password = $_POST['confirm-password'];
     $hash_password = hash("sha256",$new_password);
 
-    // verify old and new passwords are different
-    if(checkForDuplicates([$old_password,$new_password])){
-        showErrorMessage('New password is similar to old password. Please try again.');
+
+    // check for correct current password
+    if(hash('sha256',$old_password) != $_SESSION['auth-user']['password']){
+        showErrorMessage('Old password is not correct. Please try again.');
     }
 
     // verify new passwords match
@@ -24,6 +25,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         showErrorMessage('New passwords do not match. Please try again.');
 
     }
+    // verify old and new passwords are different
+    else if(checkForDuplicates([$old_password,$new_password])){
+        showErrorMessage('New password is similar to old password. Please try again.');
+    }
+
 
     else{
         $sql = "UPDATE `{$database}`.`{$user_table}` SET `password` = ? WHERE `user_id` = {$_SESSION['auth-user']['user_id']}";

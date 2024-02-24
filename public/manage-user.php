@@ -72,10 +72,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         else{
             $sql = "UPDATE `{$database}`.`{$user_table}` SET `first_name` = ?, `last_name` = ?, `email` = ?, `role` = ? WHERE `user_id` = ?";
             if(mysqli_execute_query($conn, $sql, $user)){
-                $_SESSION['auth-user']['first_name']=trim($_POST['edit-fname']);
-                $_SESSION['auth-user']['last_name']=trim($_POST['last-name']);
-                $_SESSION['auth-user']['email']=trim($_POST['email']);
-                $_SESSION['auth-user']['role']=trim($_POST['role']);
+                if($_POST['user-id'] == $_SESSION['auth-user']['user_id']){
+                    $_SESSION['auth-user']['first_name']=trim($_POST['edit-fname']);
+                    $_SESSION['auth-user']['last_name']=trim($_POST['last-name']);
+                    $_SESSION['auth-user']['email']=trim($_POST['email']);
+                    $_SESSION['auth-user']['role']=trim($_POST['role']);
+                }
+                
                 showSuccessMessage("User updated successfully.");
             }
             else{
