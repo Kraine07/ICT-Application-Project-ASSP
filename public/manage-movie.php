@@ -55,6 +55,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if(!mysqli_execute_query($conn,$sql,$movie)){
             showErrorMessage("Error adding movie. Please try again or contact technical support.");
         }
+        else if(mysqli_affected_rows($conn) < 1){
+            showErrorMessage("Duplicate entry. Movie already in the database.");
+        }
         else{
             // add genres to database
             foreach($_SESSION['genres'] as $genre){

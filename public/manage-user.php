@@ -78,7 +78,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $_SESSION['auth-user']['email']=trim($_POST['email']);
                     $_SESSION['auth-user']['role']=trim($_POST['role']);
                 }
-                
                 showSuccessMessage("User updated successfully.");
             }
             else{
