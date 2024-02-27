@@ -41,7 +41,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         else{
 
-            
             $user_sql = "INSERT INTO `{$database}`.`{$user_table}` VALUES (?,?,?,?,?,?)";
             if(mysqli_execute_query($conn,$user_sql,$user)){
                 showSuccessMessage('User added successfully.');

@@ -239,8 +239,8 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
                         <div class="flex flex-col  w-full  mb-2">
                             <label for="password" class="text-sm font-normal mb-1 ">Password <span class=" text-app-orange">*</span></label>
                             <div class="flex flex-col w-full">
-                                <input type="password" name="password" id="password" class=" rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least 1 number and 1 uppercase."  placeholder="Password" required>
-                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Enter a valid password</span>
+                                <input type="password" name="password" id="password" class=" rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with uppercase, lowercase and number."  placeholder="Password" required>
+                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Password must be 8 characters minimum with uppercase, lowercase and number.</span>
                             </div>
                         </div>
 
@@ -248,8 +248,8 @@ function populateScreenTable($conn, $database, $screen_table, $screens){
                         <div class="flex flex-col  w-full  mb-2">
                             <label for="c-password" class="text-sm font-normal mb-1">Confirm Password <span class=" text-app-orange">*</span></label>
                             <div class="flex flex-col w-full ">
-                                <input type="password" name="c-password" id="c-password" class="w-full   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least 1 number 1 and uppercase." placeholder="Confirm Password" required>
-                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Enter a valid password</span>
+                                <input type="password" name="c-password" id="c-password" class="w-full   rounded-sm text-app-blue text-sm  font-semibold border-none outline-none ring-0  py-1 px-2  focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with uppercase, lowercase and number." placeholder="Confirm Password" required>
+                                <span class="leading-tight mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Password must be 8 characters minimum with uppercase, lowercase and number.</span>
                             </div>
                         </div>
                     </div>

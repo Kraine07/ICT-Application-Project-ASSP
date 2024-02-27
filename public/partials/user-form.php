@@ -27,12 +27,18 @@
             <div class="flex flex-col items-start w-full mb-2">
                 <label for="first-name" class="text-md font-semibold ">First Name <span class="text-red-600">*</span></label>
                 <input id="first-name" type="text" name="<?php   echo $_SESSION['user-edit'] ? "edit-fname" : "first-name";   ?>" class="py-1 rounded-sm w-full bg-gray-200 text-app-blue   outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange"  value = "<?php  echo $_SESSION['user-edit']? $_SESSION['first-name'] :"";   ?>" placeholder="Enter first name" required>
+                <span class=" leading-tight  mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                    Empty fields are not allowed.
+                </span>
             </div>
 
             <!-- last name -->
             <div class="flex flex-col items-start w-full mb-2">
                 <label for="last-name" class="text-md font-semibold ">Last Name <span class="text-red-600">*</span></label>
                 <input id="last-name" type="text" class="py-1 rounded-sm w-full bg-gray-200 text-app-blue   outline-none ring-0 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" name="last-name" value="<?php  echo $_SESSION['user-edit']? $_SESSION['last-name'] :"";   ?>" placeholder="Enter last name" required>
+                <span class=" leading-tight  mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                    Empty fields are not allowed.
+                </span>
             </div>
 
             <!-- email -->

@@ -27,9 +27,9 @@
                 <div class="mt-3">
                     <div class="">
                     <label for="password" class="">Password <span class="text-lg  ml-1 text-app-orange">*</span></label>
-                        <input required  id="password" name="password" type="password" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with at least 1 uppercase and 1 number."  class="block w-full rounded-sm text-app-blue  font-semibold border-2 border-gray-200 bg-gray-200 outline-none ring-0 py-1 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" placeholder="Enter password">
+                        <input required  id="password" name="password" type="password" pattern="^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{8,}$" title="Minimum 8 characters with uppercase, lowercase and number."  class="block w-full rounded-sm text-app-blue  font-semibold border-2 border-gray-200 bg-gray-200 outline-none ring-0 py-1 px-2 mt-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    peer  invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange" placeholder="Enter password">
                         <span class=" leading-tight  mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                            Password must be 8 characters minimum with at least 1 uppercase and 1 number.
+                            Password must be 8 characters minimum with uppercase, lowercase and number.
                         </span>
                     </div>
                 </div>
