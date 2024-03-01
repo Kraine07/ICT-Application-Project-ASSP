@@ -134,60 +134,65 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     // EDIT MOVIE
     elseif(isset($_POST['form-movie-id'])){
-        $movie_id = trim($_POST['form-movie-id']);
-        $released_date = date_format(date_create(trim($_POST['release'])),'U');
-        $cast = [
-            trim($_POST['cast1']),
-            isset($_POST['cast2'])? trim($_POST['cast2']): null,
-            isset($_POST['cast3'])? trim($_POST['cast3']): null,
-        ];
-        $movie = [
-            trim($_POST['title']),
-            trim($_POST['plot']),
-            trim($_POST['duration']),
-            trim($_POST['poster']),
-            trim($_POST['trailer']),
-            trim($_POST['rating']),
-            $released_date,
-            $movie_id
-        ];
-        $sql = "UPDATE `{$database}`.`{$movie_table}` SET `movie_title`= ?, `movie_plot`= ?, `movie_duration` = ?, `movie_poster` = ?, `movie_trailer` = ?, `movie_rating` = ?, `movie_release_date` = ?  WHERE `movie_id` = ? ";
-        if(mysqli_execute_query($conn, $sql, $movie)){
-
-            // delete old genres
-            $delete_genres = "DELETE FROM `{$database}`.`{$has_genre_table}` WHERE `movie` = {$movie_id}";
-            if(mysqli_query($conn, $delete_genres)){
-
-                // add genres from form
-                foreach($_POST['genres'] as $genre){
-                    $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
-                    if(!mysqli_execute_query($conn,$genre_sql, [$movie_id, $genre])){
-                        showErrorMessage("Error updating movie genres. Please try again or contact technical support.");
-                    }
-                }
-            }
-
-            // delete old cast
-            $delete_cast = "DELETE FROM `{$database}`.`{$cast_table}` WHERE `movie` = {$movie_id}";
-            if(mysqli_query($conn, $delete_cast)){
-
-                // add genres from form
-                foreach($cast as $c){
-                    $cast_sql = "INSERT INTO `{$database}`.`{$cast_table}` VALUES (?,?)";
-                    if(!mysqli_execute_query($conn,$cast_sql, [$movie_id, $c])){
-                        showErrorMessage("Error updating movie cast. Please try again or contact technical support.");
-                    }
-                }
-            }
-
-            mysqli_close($conn);
-
-            // return to movies main screen
-            $_SESSION['screen'] = "movie";
-            showSuccessMessage("Movie updated successfully.");
+        if($_POST['genres'] == null){
+            showErrorMessage("Please select at least 1 genre.");
         }
         else{
-            showErrorMessage('Error updating movie. Please try again or contact technical support.');
+            $movie_id = trim($_POST['form-movie-id']);
+            $released_date = date_format(date_create(trim($_POST['release'])),'U');
+            $cast = [
+                trim($_POST['cast1']),
+                isset($_POST['cast2'])? trim($_POST['cast2']): null,
+                isset($_POST['cast3'])? trim($_POST['cast3']): null,
+            ];
+            $movie = [
+                trim($_POST['title']),
+                trim($_POST['plot']),
+                trim($_POST['duration']),
+                trim($_POST['poster']),
+                trim($_POST['trailer']),
+                trim($_POST['rating']),
+                $released_date,
+                $movie_id
+            ];
+            $sql = "UPDATE `{$database}`.`{$movie_table}` SET `movie_title`= ?, `movie_plot`= ?, `movie_duration` = ?, `movie_poster` = ?, `movie_trailer` = ?, `movie_rating` = ?, `movie_release_date` = ?  WHERE `movie_id` = ? ";
+            if(mysqli_execute_query($conn, $sql, $movie)){
+
+                // delete old genres
+                $delete_genres = "DELETE FROM `{$database}`.`{$has_genre_table}` WHERE `movie` = {$movie_id}";
+                if(mysqli_query($conn, $delete_genres)){
+
+                    // add genres from form
+                    foreach($_POST['genres'] as $genre){
+                        $genre_sql = "INSERT INTO `{$database}`.`{$has_genre_table}` VALUES (?,?)";
+                        if(!mysqli_execute_query($conn,$genre_sql, [$movie_id, $genre])){
+                            showErrorMessage("Error updating movie genres. Please try again or contact technical support.");
+                        }
+                    }
+                }
+
+                // delete old cast
+                $delete_cast = "DELETE FROM `{$database}`.`{$cast_table}` WHERE `movie` = {$movie_id}";
+                if(mysqli_query($conn, $delete_cast)){
+
+                    // add genres from form
+                    foreach($cast as $c){
+                        $cast_sql = "INSERT INTO `{$database}`.`{$cast_table}` VALUES (?,?)";
+                        if(!mysqli_execute_query($conn,$cast_sql, [$movie_id, $c])){
+                            showErrorMessage("Error updating movie cast. Please try again or contact technical support.");
+                        }
+                    }
+                }
+
+                mysqli_close($conn);
+
+                // return to movies main screen
+                $_SESSION['screen'] = "movie";
+                showSuccessMessage("Movie updated successfully.");
+            }
+            else{
+                showErrorMessage('Error updating movie. Please try again or contact technical support.');
+            }
         }
     }
 }

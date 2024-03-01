@@ -10,7 +10,7 @@ require_once('message-display.php');
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database = "backyard_cinema_v02";
+    $database = "backyard_cinema_";
 
 
     // tables

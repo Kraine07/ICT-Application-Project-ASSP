@@ -63,10 +63,12 @@ if($_SESSION['movie_form']){
                     <?php
                         $index = 1;
                         foreach($cast as $c){
+                            $attr = $index==1?'required':'';
+                            $style = $index!=1?"hidden":"";
                             echo '
                             <div class="flex flex-col items-start">
-                                <label for="cast1" class="mb-1 ">Cast #'.$index.'<span class="text-app-orange ml-1">*</span></label>
-                                <input type="text" name="cast'.$index.'" id="cast1" class=" w-full rounded-sm text-app-blue  font-semibold  outline-none ring-0 px-2 py-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    border-2 border-gray-200 bg-gray-200 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange peer" value="'.$c.'"  required>
+                                <label for="cast1" class="mb-1 ">Cast #'.$index.'<span class="'.$style.' text-app-orange ml-1">*</span></label>
+                                <input type="text" name="cast'.$index.'" id="cast1" class=" w-full rounded-sm text-app-blue  font-semibold  outline-none ring-0 px-2 py-1 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500    border-2 border-gray-200 bg-gray-200 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-app-orange invalid:[&:not(:placeholder-shown):not(:focus)]:outline-app-orange peer" value="'.$c.'" '.$attr.' >
                                 <span class=" leading-tight  mt-2 hidden text-xs text-app-orange peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                 Empty fields not allowed.
                                 </span>
